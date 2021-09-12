@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 //Material UI
 import { makeStyles, ThemeProvider } from "@material-ui/styles";
@@ -9,17 +9,17 @@ import { Wall, Board, Salon, Bar } from ".";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
-    width: "1536px",
-    height: "864px",
+    width: "80%",
+    height: "80%",
     border: "1px solid black",
   },
   topRow: {
     display: "flex",
-    height: '25%'
+    height: '20%'
   },
   bottomRow: {
     display: "flex",
-    height: '75%'
+    height: '80%'
   }
 
 
@@ -45,5 +45,7 @@ const Screen: FC = () => {
     </ThemeProvider>
   );
 };
+
+
 
 export default Screen;
