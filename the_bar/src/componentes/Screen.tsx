@@ -38,6 +38,7 @@ const Screen: FC = () => {
         </div>
 
         <div className={bottomRow}>
+          <Entrance />
           <Salon />
           <Bar />
         </div>

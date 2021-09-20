@@ -1,0 +1,6 @@
+
+
+
+Voy a hacer un tamaño fijo a los 1200px.
+porque tengo que añadir un tamaño fijo al canvas para evitar las lineas borrosas.
+así que el tamaño integro del bar oscilara con breakpoints.

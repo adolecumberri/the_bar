@@ -1,6 +1,10 @@
 import {ITheme} from './ITheme';
-
+import ICoord from './ICoord';
+import {ISalon, ITable} from './ISalon';
 
 export type {
-    ITheme
+    ITheme,
+    ICoord,
+    ISalon,
+    ITable
 }
