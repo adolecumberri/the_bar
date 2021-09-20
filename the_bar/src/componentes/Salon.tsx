@@ -29,7 +29,9 @@ const Salon: FC = () => {
 
   let canvasWidth = 936;
   let canvasHeight = 480;
-  const [salonGrid, setSalonGrid] = useState<ISalon>();
+  const [salonGrid, setSalonGrid] = useState<ISalon>({
+    tables: [],
+  });
 
   useEffect(() => {
     //saco el canvas y el contexto 2d
@@ -102,7 +104,7 @@ const Salon: FC = () => {
         try {
           let x = i.x + coord.x;
           let y = i.y + coord.y;
-          
+
           //Adding new Chair in the grid.
           gameGrid[y][x].type = CELL_CHAIR;
 
@@ -121,7 +123,6 @@ const Salon: FC = () => {
         }
       });
 
-
       tableLocation.forEach((coord, tableId) => {
         try {
           let x = i.x + coord.x;
@@ -130,8 +131,7 @@ const Salon: FC = () => {
           gameGrid[y][x].type = CELL_TABLE;
 
           //adding table coordinates to logical Table
-          newLogicalTable.tables.push( { x, y });
-
+          newLogicalTable.tables.push({ x, y });
         } catch (e) {
           console.log(
             `table creation out of bounds  X:${i.x + coord.x} - Y:${
@@ -140,8 +140,14 @@ const Salon: FC = () => {
           );
         }
       });
+
+
+      //El salon lógico, una vez cargado se convertira en el SalonGrid
+      salonLogicalgrid.tables.push(newLogicalTable);
     };
 
+
+    //Creo Grid
     createGrid(canvas, ctx);
     let tablesLocation: ICoord[] = [
       { x: 4, y: 6 },
@@ -155,10 +161,18 @@ const Salon: FC = () => {
       { x: 22, y: 11 },
       { x: 28, y: 11 },
     ];
+    //Crep Mesas
     tablesLocation.forEach((coord, i) => {
       loadTables(coord, i);
     });
+    //Pinto el grid.
     handleGameGrid();
+
+    //Actualizo el hook del salon grid
+    setSalonGrid(({ tables }) => ({
+      tables: [...salonLogicalgrid.tables],
+    }));
+    
     console.log(gameGrid);
     render();
   }, []);
