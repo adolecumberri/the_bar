@@ -18,7 +18,11 @@ const useStyles = makeStyles((theme: ITheme) => ({
       },
 }));
 
-const Board: FC = () => {
+interface IBoardProps {
+  setBoardCtx: React.Dispatch<React.SetStateAction<CanvasRenderingContext2D | undefined>>
+}
+
+const Board: FC<IBoardProps> = ({setBoardCtx}) => {
   const { container } = useStyles();
 
   return (

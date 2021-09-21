@@ -22,7 +22,11 @@ let cellSize = 0;
 
 let gameGrid: Cell[][] = [];
 
-const Salon: FC = () => {
+interface ISalonProps {
+  setSalonCtx: React.Dispatch<React.SetStateAction<CanvasRenderingContext2D | undefined>>
+}
+
+const Salon: FC<ISalonProps> = ({setSalonCtx}) => {
   const { container, counter } = useStyles();
   const [count] = useRenderCounter();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,6 +37,9 @@ const Salon: FC = () => {
     tables: [],
   });
 
+  useEffect( () => {
+    setSalonCtx(canvasRef.current?.getContext('2d') as CanvasRenderingContext2D );
+  }, [setSalonCtx])
   useEffect(() => {
     //saco el canvas y el contexto 2d
     const canvas = canvasRef.current as HTMLCanvasElement;
@@ -172,7 +179,7 @@ const Salon: FC = () => {
     setSalonGrid(({ tables }) => ({
       tables: [...salonLogicalgrid.tables],
     }));
-    
+
     console.log(gameGrid);
     render();
   }, []);

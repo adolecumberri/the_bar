@@ -1,5 +1,7 @@
 import React from 'react';
 
-const CanvasContext = React.createContext(null);
+export const SalonContext = React.createContext<CanvasRenderingContext2D | undefined>(undefined);
 
-export default CanvasContext;
+export const BoardContext = React.createContext<CanvasRenderingContext2D | undefined>(undefined);
+
+ 
