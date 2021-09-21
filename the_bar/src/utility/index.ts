@@ -1,4 +1,4 @@
 import { Counter } from "./utility";
-import { BoardContext, SalonContext } from "./context";
+import { BarContext } from "./context";
 
-export { Counter, BoardContext, SalonContext };
+export { Counter, BarContext };

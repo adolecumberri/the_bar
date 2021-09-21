@@ -1,6 +1,6 @@
 //Barra del bar
 
-import React, { FC } from "react";
+import React, { FC, useRef, Dispatch, SetStateAction } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
@@ -12,14 +12,30 @@ const useStyles = makeStyles((theme: ITheme) => ({
   container: {
     width: "20%",
     height: "100%",
-    backgroundColor: "wheat"
+    backgroundColor: "wheat",
+    
   },
 }));
 
-const Bar: FC = () => {
+interface IBarProps {
+  setBarCtx: Dispatch<SetStateAction<CanvasRenderingContext2D | undefined>>
+}
+
+const Bar: FC<IBarProps> = () => {
   const { container } = useStyles();
 
-  return <div className={container}></div>;
+  const canvasRef = useRef(null);
+
+  return  <>
+  <canvas
+    id="canvas"
+    ref={canvasRef}
+    className={container}
+    width={canvasWidth}
+    height={canvasHeight}
+  />
+  <span className={counter}>{count}</span>
+</>;
 };
 
 export default Bar;

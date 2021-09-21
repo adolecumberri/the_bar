@@ -1,11 +1,8 @@
 import { createTheme } from '@material-ui/core/styles';
 
 const baseTheme = {
-  color: {},
-  anim: {},
-  shadows: {},
-  spacing: 8,
-  typography: {}
+    pixelSize: '2px',
+    backgroundColor: `@media`,
 };
 
 export const theme = createTheme(baseTheme);
