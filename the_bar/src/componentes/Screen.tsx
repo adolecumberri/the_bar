@@ -5,7 +5,7 @@ import { makeStyles, ThemeProvider } from "@material-ui/styles";
 
 import { theme } from "../theme";
 import { ITheme } from "../interfaces";
-import { Wall, Board, Salon, Bar } from ".";
+import { Wall, Board, Salon, Bar, Entrance } from ".";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
