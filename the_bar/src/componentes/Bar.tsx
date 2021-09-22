@@ -3,15 +3,15 @@
 import React, { FC, useRef, Dispatch, SetStateAction } from "react";
 
 //Material UI
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/styles";
 
-import theme from "../theme";
+import {THEME} from "../constants";
 import { ITheme } from "../interfaces";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants";
 import { useRenderCounter } from "../hooks";
 
-const useStyles = makeStyles((theme: ITheme) => {
-  console.log(theme);
+const useStyles = makeStyles((tema: ITheme) => {
+  console.log(tema);
   return {
     container: {
       backgroundColor: "burlywood",
@@ -26,7 +26,8 @@ interface IBarProps {
   setBarCtx: Dispatch<SetStateAction<CanvasRenderingContext2D | undefined>>;
 }
 
-const Bar: FC<IBarProps> = () => {
+const Bar: FC<IBarProps> = (props) => {
+  console.log(useTheme());
   const { container, counter } = useStyles();
 
   const canvasRef = useRef(null);

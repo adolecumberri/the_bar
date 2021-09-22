@@ -6,7 +6,7 @@ export class Counter {
       this.clear(label);
     }
     this.data[label]++;
-    console.log(`${label}.renders: ${this.data[label]}`);
+    // console.log(`${label}.renders: ${this.data[label]}`);
   }
 
   public get(label: string = "default"): number | undefined {

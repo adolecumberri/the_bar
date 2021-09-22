@@ -7,7 +7,7 @@ import { createTheme } from '@material-ui/core/styles';
 import { useWindowSize } from "../hooks";
 
 import { ITheme } from "../interfaces";
-import theme from "../theme";
+import {THEME} from '../constants';
 import { Wall, Board, Salon, Bar, Entrance } from ".";
 import { BarContext } from "../utility";
 import { pixelSize } from "../utility/context";
@@ -36,10 +36,9 @@ const Screen: FC = () => {
   // const pixelSize = pixelSizeQuery(windowSizes);
 
   const [pixelSize, setPixelSize] = useState(pixelSizeQuery(windowWidth));
-  const [themeState, setThemeState] = useState(createTheme(theme));
-  
+  const [themeState, setThemeState] = useState(createTheme(THEME));
+
   useEffect(() => {
-    console.log("1º useEffect");
     let newPixelSize = pixelSizeQuery(windowWidth);
     if(newPixelSize !== pixelSize){
       setPixelSize(newPixelSize);
@@ -47,17 +46,16 @@ const Screen: FC = () => {
   }, [windowWidth]);
 
   useEffect(() => {
-    createTheme({...theme, pixelSize} as any);
+    setThemeState( createTheme({...themeState, pixelSize} as any) );
   }, [pixelSize]);
 
   return (
     <>
-      {console.log(pixelSize)}
-      {/* <ThemeProvider theme={{ ...theme, pixelSize }}> */}
-      <BarContext.Provider value={barCtx}>
-        <Bar setBarCtx={setBarCtx} />
-      </BarContext.Provider>
-      {/* </ThemeProvider> */}
+      <ThemeProvider theme={themeState}>
+        <BarContext.Provider value={barCtx}>
+          <Bar setBarCtx={setBarCtx} />
+        </BarContext.Provider>
+      </ThemeProvider>
     </>
   );
 };

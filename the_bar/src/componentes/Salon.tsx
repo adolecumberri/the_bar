@@ -5,7 +5,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 //Material UI
 import { makeStyles } from "@material-ui/styles";
 
-import Theme from "../theme";
+import {THEME} from '../constants';
 import { ITheme, ICoord, ISalon, ITable } from "../interfaces";
 import { useRenderCounter } from "../hooks/useRenderCounter";
 
