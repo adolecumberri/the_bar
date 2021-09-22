@@ -2,9 +2,12 @@ import React, { FC, useEffect, useState } from "react";
 
 //Material UI
 import { makeStyles, ThemeProvider } from "@material-ui/styles";
-import {useWindowSize} from '../hooks';
-import { theme } from "../theme";
+import { createTheme } from '@material-ui/core/styles';
+
+import { useWindowSize } from "../hooks";
+
 import { ITheme } from "../interfaces";
+import theme from "../theme";
 import { Wall, Board, Salon, Bar, Entrance } from ".";
 import { BarContext } from "../utility";
 import { pixelSize } from "../utility/context";
@@ -28,29 +31,44 @@ const useStyles = makeStyles((theme: ITheme) => ({
 const Screen: FC = () => {
   const { screen, topRow, bottomRow } = useStyles();
 
-
   const [barCtx, setBarCtx] = useState<CanvasRenderingContext2D>();
+  const [windowWidth, windowHeight] = useWindowSize();
+  // const pixelSize = pixelSizeQuery(windowSizes);
 
-  const windowSizes = useWindowSize();
-  const pixelSize = pixelSizeQuery(windowSizes);
+  const [pixelSize, setPixelSize] = useState(pixelSizeQuery(windowWidth));
+  const [themeState, setThemeState] = useState(createTheme(theme));
   
-  return (<>
-    {console.log(pixelSize)}
-    <ThemeProvider theme={{ ...theme, pixelSize }}>
+  useEffect(() => {
+    console.log("1º useEffect");
+    let newPixelSize = pixelSizeQuery(windowWidth);
+    if(newPixelSize !== pixelSize){
+      setPixelSize(newPixelSize);
+    }
+  }, [windowWidth]);
+
+  useEffect(() => {
+    createTheme({...theme, pixelSize} as any);
+  }, [pixelSize]);
+
+  return (
+    <>
+      {console.log(pixelSize)}
+      {/* <ThemeProvider theme={{ ...theme, pixelSize }}> */}
       <BarContext.Provider value={barCtx}>
-        <Bar setBarCtx = {setBarCtx}/>
+        <Bar setBarCtx={setBarCtx} />
       </BarContext.Provider>
-    </ThemeProvider>
-  </>);
+      {/* </ThemeProvider> */}
+    </>
+  );
 };
 
-type IPixelSize = '2px' | '3px' | '4px';
-const pixelSizeQuery: (a : number[]) =>  IPixelSize = ( [windowWidth, windowHeight]: number[])=> {
-let solution: IPixelSize = '2px';
- if(windowWidth >= 1000){
-  solution = '4px';
- }else if(windowWidth >= 700){
+type IPixelSize = '1px' | '2px' | '3px';
+const pixelSizeQuery: (a : number) =>  IPixelSize = ( windowWidth: number)=> {
+let solution: IPixelSize = '1px';
+ if(windowWidth >= 1920){
   solution = '3px';
+ }else if(windowWidth >= 1280){
+  solution = '2px';
  }
 
  return solution;

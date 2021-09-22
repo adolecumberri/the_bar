@@ -1,7 +1,3 @@
 export interface ITheme  {
-    color: {};
-    anim: {};
-    shadows: {};
-    spacing: number;
-    typography: {};
+    pixelSize: '1px' | '2px' | '3px'
 }
