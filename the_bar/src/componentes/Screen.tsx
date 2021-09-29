@@ -6,11 +6,11 @@ import { createTheme } from '@material-ui/core/styles';
 
 import { useWindowSize } from "../hooks";
 
-import { ITheme } from "../interfaces";
-import {THEME} from '../constants';
-import { Wall, Board, Salon, Bar, Entrance } from ".";
-import { BarContext } from "../utility";
+import { IPixelSize, ITheme } from "../interfaces";
+import { Bar } from ".";
+import { BarContext, StyleContext } from "../utility";
 import { pixelSize } from "../utility/context";
+import { THEME } from "../constants";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
@@ -36,7 +36,7 @@ const Screen: FC = () => {
   // const pixelSize = pixelSizeQuery(windowSizes);
 
   const [pixelSize, setPixelSize] = useState(pixelSizeQuery(windowWidth));
-  const [themeState, setThemeState] = useState(createTheme(THEME));
+  const [themeState, setThemeState] = useState(THEME);
 
   useEffect(() => {
     let newPixelSize = pixelSizeQuery(windowWidth);
@@ -46,27 +46,30 @@ const Screen: FC = () => {
   }, [windowWidth]);
 
   useEffect(() => {
-    setThemeState( createTheme({...themeState, pixelSize} as any) );
+    setThemeState( {...THEME, pixelSize} );
   }, [pixelSize]);
 
   return (
     <>
-      <ThemeProvider theme={themeState}>
+      <StyleContext.Provider value={themeState}>
         <BarContext.Provider value={barCtx}>
           <Bar setBarCtx={setBarCtx} />
         </BarContext.Provider>
-      </ThemeProvider>
+      </StyleContext.Provider>
     </>
   );
 };
 
-type IPixelSize = '1px' | '2px' | '3px';
 const pixelSizeQuery: (a : number) =>  IPixelSize = ( windowWidth: number)=> {
-let solution: IPixelSize = '1px';
+let solution: IPixelSize = 1;
  if(windowWidth >= 1920){
-  solution = '3px';
+  solution = 2.5;
  }else if(windowWidth >= 1280){
-  solution = '2px';
+  solution = 2;
+ } else if( windowWidth >= 980){
+    solution = 1.5;
+ } else if( windowWidth <= 650){
+   solution = 0.75;
  }
 
  return solution;

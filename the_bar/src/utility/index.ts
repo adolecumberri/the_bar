@@ -1,4 +1,4 @@
 import { Counter } from "./utility";
-import { BarContext } from "./context";
+import { BarContext, StyleContext } from "./context";
 
-export { Counter, BarContext };
+export { Counter, BarContext, StyleContext };

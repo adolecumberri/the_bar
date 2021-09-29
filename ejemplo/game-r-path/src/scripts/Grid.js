@@ -22,7 +22,7 @@ export default ({ game, utils }) => {
                gridHash[key] = gridBox;
             }
          }
-   
+   console.log({gridHash});
          return gridHash;
       }
 
@@ -50,6 +50,7 @@ export default ({ game, utils }) => {
          delete game.heroDestination
    
          nextSrc._setSource()
+         if(nextDest)
          nextDest._setDestination();
       }
 

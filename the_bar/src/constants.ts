@@ -1,9 +1,11 @@
-const TILE_SIZE = 32;
+import { ITheme } from "./interfaces";
+
+const TILE_SIZE = 16;
 const CANVAS_WIDTH = 640;
 const CANVAS_HEIGHT = 320;
 
-const THEME = {
-
+const THEME: ITheme = {
+    pixelSize: 2
 }
 
 export {
