@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 
 //Material UI
-import { makeStyles, ThemeProvider } from "@material-ui/styles";
-import { createTheme } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/styles";
 
 import { useWindowSize } from "../hooks";
 
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme: ITheme) => ({
 const Screen: FC = () => {
   const { screen, topRow, bottomRow } = useStyles();
 
-  const [barCtx, setBarCtx] = useState<CanvasRenderingContext2D>();
+  const [barCtx, setBarCtx] = useState<any>();
   const [windowWidth, windowHeight] = useWindowSize();
   // const pixelSize = pixelSizeQuery(windowSizes);
 
