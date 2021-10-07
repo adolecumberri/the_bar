@@ -1,7 +1,7 @@
 import { ITheme, IPixelSize } from './ITheme';
 import ICoord from './ICoord';
 import {ISalon, ITable} from './ISalon';
-import { IGridCell, IGridBox, IGridConfig, IGridConstructor } from './IGridCell';
+import { IGridCell, IGridBox, IGridConfig, IGridConstructor, IStatus, IGRID_TYPES, IChair } from './IGridCell';
 import { ISprite } from './ISprites';
 
 export type {
@@ -15,4 +15,7 @@ export type {
     ITable,
     IPixelSize,
     ISprite,
+    IStatus,
+    IGRID_TYPES,
+    IChair,
 }

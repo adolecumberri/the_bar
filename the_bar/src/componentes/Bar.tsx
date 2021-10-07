@@ -1,6 +1,6 @@
 //Barra del bar
 
-import React, { FC, useRef, Dispatch, SetStateAction, useEffect, useContext} from "react";
+import React, { FC, useRef, Dispatch, SetStateAction, useEffect, useContext, useState} from "react";
 
 //Material UI
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -40,31 +40,49 @@ const Bar: FC<IBarProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [count] = useRenderCounter();
 
+  const [barGrid, setBarGrid] = useState<any>();//instanceof 
+
   //Iniciar canvas.
   useEffect( () => {
     setBarCtx(canvasRef.current?.getContext('2d') as CanvasRenderingContext2D )
   }, []);
 
   useEffect( () => {
-    _initializeGameCanvas();
+    _initializeGameCanvas( {
+      rows: 16,
+      cols: 16,
+      t_width: CANVAS_WIDTH * pixelSize,
+      t_height: CANVAS_HEIGHT * pixelSize
+   });
   }, []);
 
-  const _initializeGameCanvas = () =>{
-    // let  ctx: CanvasRenderingContext2D = canvasRef.current?.getContext('2d');
-    Grid()._initNewGrid(
-      {
-        rows: 16,
-        cols: 16,
-        t_width: CANVAS_WIDTH * pixelSize,
-        t_height: CANVAS_HEIGHT * pixelSize
-     }
-    )
-  } 
+  const _initializeGameCanvas: (a: {
+    rows: number;
+    cols: number;
+    t_width: number;
+    t_height: number;
+  }) => void = ({ rows, cols, t_width, t_height }) => {
+    
+    let grid = Grid();
+    grid._initNewGrid({ rows, cols, t_width, t_height })
+    setBarGrid(grid);
+  }; 
 
 
-   /* function to draw individual game objects to the canvas */
+  /* recursively draw each grid object */
+  // drawGrid = () => { for (let coord in this.gridHash) this._drawBox('grid', this.gridHash[coord]) }
+  // drawGrid2 = () => { 
+    
+  //   for (let coord in this.gridHash) {
+  //   this._drawBox('grid', this.gridHash[coord]) 
+  // }
+  
+  
+  // }
+
+   /* function to draw individual game objects (square) to the canvas */
   //  const _drawBox: (type: string, box: IGridCell) => void = (type, box) => {
-  //   let  ctx: CanvasRenderingContext2D = canvasRef.current?.getContext('2d');
+  //   let  ctx: CanvasRenderingContext2D = canvasRef.current?.getContext('2d') as CanvasRenderingContext2D;
     
   //    if (!box) return;
 

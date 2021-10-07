@@ -1,7 +1,11 @@
-import { GRID_TYPES } from "../constants";
+
 import { ISprite } from "./ISprites";
 
+
+//Not sure if usefull
 export interface IGridCell {}
+
+//
 
 export interface IGridBox {
   key: string;
@@ -11,28 +15,38 @@ export interface IGridBox {
   y: number;
   width: number;
   height: number;
-  type: "walkable" | "blocked";
-  constRef:
-    | typeof GRID_TYPES.CELL_VOID
-    | typeof GRID_TYPES.CELL_CHAIR
-    | typeof GRID_TYPES.CELL_TABLE;
+  status: IStatus;
+  type?: IGRID_TYPES;
   walkable: boolean;
   color: string;
   sprite: ISprite;
 }
 
-export interface IGridConfig {
-  [x: string]: {
-    type: "walkable" | "blocked";
-    constRef:
-      | typeof GRID_TYPES.CELL_VOID
-      | typeof GRID_TYPES.CELL_CHAIR
-      | typeof GRID_TYPES.CELL_TABLE;
+export interface IChair extends IGridBox {
+  occupied: boolean;
+  hero?: any; //todo: interfaz de heroe
+}
+
+
+export type IStatus = "walkable" | "blocked" | "occupied" | "free";
+
+export interface IGRID_TYPES {
+  CELL_VOID: string,
+  CELL_CHAIR: string,
+  CELL_TABLE: string,
+};
+
+export type IGRID_VALUES = "void" | "chair" | "table";
+
+export type IGridConfig = {
+  [x in IGRID_VALUES]: {
+    status: IStatus;
+    type: IGRID_VALUES;
     walkable: boolean;
     color: string;
     sprite: ISprite;
   };
-}
+};
 
 export interface IGridConstructor {
   rows: number;
