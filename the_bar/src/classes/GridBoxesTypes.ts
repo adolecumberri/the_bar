@@ -1,6 +1,11 @@
-
-import { IGridBox, ISprite, IGRID_TYPES, IStatus, IChair } from "../interfaces";
-import { GRID_TYPES } from "../constants";
+import {
+  IGridBox,
+  ISprite,
+  IStatus,
+  IChair,
+  ITable,
+  IGRID_VALUES,
+} from "../interfaces";
 
 class GridBox {
   // this: IGridBox;
@@ -12,7 +17,7 @@ class GridBox {
   width: number;
   height: number;
   status: IStatus;
-  type?: IGRID_TYPES;
+  type?: IGRID_VALUES;
   walkable: boolean;
   color: string;
   sprite: ISprite;
@@ -30,7 +35,6 @@ class GridBox {
     color,
     sprite,
   }: IGridBox) {
-
     this.key = key;
     this.gX = gX;
     this.gY = gY;
@@ -41,35 +45,62 @@ class GridBox {
     this.type = type; // vacio, silla, mesa....
     this.walkable = walkable; //se puede andar o no
     this.status = status; // andable o no, ocupado o no.
-    this.color = color;  //no claro.
+    this.color = color; //no claro.
     this.sprite = sprite; //imagen a cargar
-
   }
 
-
-  setStatus: (status: IStatus) => void = status => {
+  setStatus: (status: IStatus) => void = (status) => {
     if (status === "walkable") {
       this.status = status;
       this.walkable = true;
     } else if (status === "blocked") {
       this.status = status;
       this.walkable = false;
-    } else if(status === "occupied"){
+    } else if (status === "occupied") {
       this.status = status;
       this.walkable = false;
-    } else if (status === "free"){
+    } else if (status === "free") {
       this.status = status;
       this.walkable = true;
     }
-  }
-
+  };
 }
-export const GridBoxesTypes: any = {
+export const GridBoxesTypes = {
   Chair: class Chair extends GridBox {
-    occupied: boolean
-    constructor(arg: IChair){
+    occupied: boolean;
+    hero: any;
+    tableRef: number;
+    constructor(arg: IChair) {
       super(arg);
-      this.occupied = arg.occupied;
+
+      this.occupied = arg.occupied || false;
+      this.status = "free";
+      this.walkable = true;
+      this.tableRef = arg.tableRef;
     }
-  }
+
+    occupyChair = (hero: any) => {
+      this.status = "occupied";
+      this.walkable = false;
+      this.occupied = true;
+      this.hero = hero;
+    };
+
+    releaseChair = () => {
+      this.status = "free";
+      this.walkable = true;
+      this.occupied = false;
+      this.hero = null;
+    };
+  },
+  Table: class Table extends GridBox {
+    tableRef: number;
+    constructor(arg: ITable) {
+      super(arg);
+      this.status = "blocked";
+      this.walkable = false;
+      this.tableRef = arg.tableRef;
+    }
+  },
+  Void: GridBox,
 };

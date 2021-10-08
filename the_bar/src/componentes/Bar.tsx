@@ -9,7 +9,7 @@ import {THEME} from "../constants";
 import { ITheme } from "../interfaces";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants";
 import { useRenderCounter } from "../hooks";
-import { StyleContext } from "../utility";
+import { BarContext, StyleContext } from "../utility";
 import { Grid } from "../classes/Grid";
 
 
@@ -35,9 +35,12 @@ interface IBarProps {
 const Bar: FC<IBarProps> = (props) => {
   const { setBarCtx } = props;
   const { container, counter } = useStyles();
+
   const { pixelSize } = useContext(StyleContext);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
+
   const [count] = useRenderCounter();
 
   const [barGrid, setBarGrid] = useState<any>();//instanceof 
@@ -63,22 +66,39 @@ const Bar: FC<IBarProps> = (props) => {
     t_height: number;
   }) => void = ({ rows, cols, t_width, t_height }) => {
     
+    //GENERO CANVAS. TODO: que no esté vacio.
     let grid = Grid();
-    grid._initNewGrid({ rows, cols, t_width, t_height })
-    setBarGrid(grid);
+    setBarGrid(grid._initNewGrid({ rows, cols, t_width, t_height }));
+
+    //Inicio render loop
+    _renderLoop();
   }; 
+
+
+  function _renderLoop() {
+    let canvas = canvasRef.current as HTMLCanvasElement;
+    let ctx = canvasRef.current?.getContext('2d') as CanvasRenderingContext2D;
+    // console.log(ctx);
+    ctx?.clearRect(0, 0, canvas.width, canvas.height);
+    // _drawGrid();
+    frameId.current = requestAnimationFrame(_renderLoop);
+  }
 
 
   /* recursively draw each grid object */
   // drawGrid = () => { for (let coord in this.gridHash) this._drawBox('grid', this.gridHash[coord]) }
-  // drawGrid2 = () => { 
+  // const drawGrid2 = () => { 
     
-  //   for (let coord in this.gridHash) {
-  //   this._drawBox('grid', this.gridHash[coord]) 
+  //   for (let coord in barGrid) {
+  //   _drawBox('grid', this.gridHash[coord]) 
   // }
   
   
   // }
+
+  const _drawBox = () => {
+    console.log("estamos");
+  }
 
    /* function to draw individual game objects (square) to the canvas */
   //  const _drawBox: (type: string, box: IGridCell) => void = (type, box) => {

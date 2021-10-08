@@ -1,4 +1,5 @@
 
+import { IGRID_TYPES, IGRID_VALUES } from "./IConstants";
 import { ISprite } from "./ISprites";
 
 
@@ -16,7 +17,7 @@ export interface IGridBox {
   width: number;
   height: number;
   status: IStatus;
-  type?: IGRID_TYPES;
+  type?: IGRID_VALUES;
   walkable: boolean;
   color: string;
   sprite: ISprite;
@@ -25,18 +26,17 @@ export interface IGridBox {
 export interface IChair extends IGridBox {
   occupied: boolean;
   hero?: any; //todo: interfaz de heroe
+  tableRef: number;
+  direction: ""
 }
 
+export interface ITable extends IGridBox {
+  tableRef: number;
+}
 
 export type IStatus = "walkable" | "blocked" | "occupied" | "free";
 
-export interface IGRID_TYPES {
-  CELL_VOID: string,
-  CELL_CHAIR: string,
-  CELL_TABLE: string,
-};
 
-export type IGRID_VALUES = "void" | "chair" | "table";
 
 export type IGridConfig = {
   [x in IGRID_VALUES]: {

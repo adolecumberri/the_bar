@@ -1,5 +1,4 @@
-import { IGridConfig, IGRID_TYPES, ITheme } from "./interfaces";
-import { IGRID_VALUES } from "./interfaces/IGridCell";
+import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES} from "./interfaces";
 
 const TILE_SIZE = 16;
 const CANVAS_WIDTH = 640;

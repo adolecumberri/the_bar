@@ -1,5 +1,5 @@
 import { GRID_CONFIG } from "../constants";
-import { IGridConstructor } from "../interfaces";
+import { IGridConstructor, IGridHash } from "../interfaces";
 import { GridBoxesTypes } from "./GridBoxesTypes";
 
 export const Grid = () => {
@@ -12,7 +12,7 @@ export const Grid = () => {
 
       let width = t_width / cols;
       let height = t_height / rows;
-      let gridHash = {};
+      let gridHash: IGridHash = {};
 
       for (let Y = 0; Y <= rows - 1; Y++) {
         for (let X = 0; X <= cols - 1; X++) {
@@ -24,6 +24,11 @@ export const Grid = () => {
           let y = Y * height;
           let gridTypeConfig = GRID_CONFIG.void;
 
+          let gridBox = new GridBoxesTypes.Void({
+             key, gX, gY, x, y, width, height, ...gridTypeConfig
+          })
+
+          gridHash[key] = gridBox;
          //  let gridBox = new GridBoxesTypes.GridBox({
          //    key,
          //    gX,
@@ -38,7 +43,7 @@ export const Grid = () => {
          //  console.log(gridBox);
           //  if (!game.heroPosition && (utils._randInt(1, 20) > 15) && gridBox.type === 'walkable') game.heroPosition = gridBox;
 
-          //  gridHash[key] = gridBox;
+           
         }
       }
       console.log({ gridHash });

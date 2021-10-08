@@ -1,0 +1,18 @@
+// import ICoord from "./ICoord";
+
+// interface IChair {
+//   id: number;
+//   occupied: boolean;
+//   coordinates: ICoord;
+// }
+
+// export interface ITable {
+//   id: number;
+//   origin: ICoord;
+//   chairs: IChair[];
+//   tables: ICoord[];
+// }
+
+// export interface ISalon {
+//   tables: ITable[];
+// }
