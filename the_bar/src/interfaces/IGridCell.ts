@@ -4,7 +4,7 @@ import { ISprite } from "./ISprites";
 
 
 //Not sure if usefull
-export interface IGridCell {}
+export type IAnyBox = IGridBox | IChair | ITable
 
 //
 

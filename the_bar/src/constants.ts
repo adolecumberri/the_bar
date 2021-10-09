@@ -24,8 +24,8 @@ const GRID_CONFIG: IGridConfig = {
     status: "walkable",
     type: GRID_TYPES.CELL_VOID as IGRID_VALUES,
     walkable: true,
-    color: "#d2d2d2",
-    sprite: { x: 0, y: 150, width: 50, height: 50 },
+    color: "#e1e1e1",
+    sprite: { x: 0, y: 0, width: 50, height: 50 },
   },
   chair: {
     status: "walkable",

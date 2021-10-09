@@ -38,7 +38,9 @@ const Screen: FC = () => {
   const [themeState, setThemeState] = useState(THEME);
 
   useEffect(() => {
-    let newPixelSize = pixelSizeQuery(windowWidth);
+    debugger;
+    //hay un bug, que windowWidth se lee como 0
+    let newPixelSize = pixelSizeQuery(!!windowWidth ? windowWidth : window.innerWidth );
     if(newPixelSize !== pixelSize){
       setPixelSize(newPixelSize);
     }
