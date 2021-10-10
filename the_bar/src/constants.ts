@@ -1,8 +1,11 @@
 import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES} from "./interfaces";
 
 const TILE_SIZE = 16;
-const CANVAS_WIDTH = 640;
+const CANVAS_WIDTH = 640; 
 const CANVAS_HEIGHT = 320;
+// entre el tamaño son
+// 40 x 20
+
 
 const THEME: ITheme = {
   pixelSize: 2,
