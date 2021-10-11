@@ -7,7 +7,7 @@ import { useWindowSize } from "../hooks";
 
 import { IPixelSize, ITheme } from "../interfaces";
 import { Bar } from ".";
-import { BarContext, StyleContext } from "../utility";
+import { StyleContext, ImagesContext } from "../utility";
 import { pixelSize } from "../utility/context";
 import { THEME } from "../constants";
 
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: ITheme) => ({
 const Screen: FC = () => {
   const { screen, topRow, bottomRow } = useStyles();
 
-  const [barCtx, setBarCtx] = useState<any>();
+  // const [barCtx, setBarCtx] = useState<any>();
   const [windowWidth, windowHeight] = useWindowSize();
   // const pixelSize = pixelSizeQuery(windowSizes);
 
@@ -53,9 +53,11 @@ const Screen: FC = () => {
   return (
     <>
       <StyleContext.Provider value={themeState}>
-        <BarContext.Provider value={barCtx}>
-          <Bar setBarCtx={setBarCtx} />
-        </BarContext.Provider>
+        {/* <BarContext.Provider value={barCtx}> */}
+        {/* <ImagesContext.Provider> */}
+          <Bar/>
+        {/* </ImagesContext.Provider> */}
+        {/* </BarContext.Provider> */}
       </StyleContext.Provider>
     </>
   );

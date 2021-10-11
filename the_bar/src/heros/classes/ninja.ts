@@ -1,5 +1,5 @@
-import { connection } from '../../../config/database';
-import { IHero, IHeroEfects } from '../../../interfaces/Hero.Interface';
+// import { connection } from '../../../config/database';
+import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../commonHero';
 
 export class Ninja extends Hero {
@@ -22,15 +22,15 @@ export class Ninja extends Hero {
 		let damage = 0;
 
 		//statas
-		this.fightStats.addSkillUses();
+		// this.fightStats.addSkillUses();
 
 		for (let i = 0; i < 3; i++) {
 			if (accuracy > this.getProb()) {
 				if (crit > this.getProb()) {
-					this.fightStats.addCrit();
+					// this.fightStats.addCrit();
 					damage += this.rand(dmg * (critDmg + 1) * 0.85, dmg * (critDmg + 1) * 1.15 * 0.7);
 				} else {
-					this.fightStats.addHit();
+					// this.fightStats.addHit();
 					damage += this.rand(dmg * 0.85, dmg * 1.15 * 0.7);
 				}
 			}
@@ -51,15 +51,15 @@ export class Ninja extends Hero {
 			if (accuracy > this.getProb()) {
 				//golpeo?
 				if (crit > this.getProb()) {
-					this.fightStats.addCrit();
+					// this.fightStats.addCrit();
 					//critico
 					damage = this.rand(dmg * (critDmg + 1) * 0.85, dmg * (critDmg + 1) * 1.15);
 				} else {
-					this.fightStats.addHit();
+					// this.fightStats.addHit();
 					damage = this.rand(dmg * 0.85, dmg * 1.15);
 				}
 			} else {
-				this.fightStats.addMiss();
+				// this.fightStats.addMiss();
 			}
 		}
 

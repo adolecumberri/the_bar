@@ -1,6 +1,5 @@
 import { AnyHero } from '.';
-import { connection } from '../../../config/database';
-import { IHero, IHeroEfects } from '../../../interfaces/Hero.Interface';
+import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../commonHero';
 
 export class Defender extends Hero {
@@ -17,7 +16,7 @@ export class Defender extends Hero {
 	//THORNMAIL
 	skillProb = 1;
 	skill: (damage: number) => number = (damage) => {
-		this.fightStats.addSkillUses();
+		// this.fightStats.addSkillUses();
 		return Math.floor(7 + damage * 0.2);
 	};
 	skillUsed = false;
@@ -38,18 +37,18 @@ export class Defender extends Hero {
 			enemi.straightDamage(skillDmg);
 
 			//Stats
-			enemi.fightStats.set('total_damage', enemi.fightStats.get('total_damage') + finalDamage);
-			this.fightStats.addHitReceived();
+			// enemi.fightStats.set('total_damage', enemi.fightStats.get('total_damage') + finalDamage);
+			// this.fightStats.addHitReceived();
 		} else {
 			enemi.calcNextTurn(enemi.heroEfects.att_interval);
 
 			//stats
-			this.fightStats.addEvasion();
+			// this.fightStats.addEvasion();
 		}
 
 		this.heroStats.currentHp = currentHp - finalDamage > 0 ? currentHp - finalDamage : 0; //
 		//stats
-		this.fightStats.set('currhp', this.heroStats.currentHp);
+		// this.fightStats.set('currhp', this.heroStats.currentHp);
 
 		if (this.heroStats.currentHp === 0) {
 			this.isDead = true;

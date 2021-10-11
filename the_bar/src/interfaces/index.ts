@@ -5,6 +5,7 @@ import { IAnyBox, IGridBox, IGridConfig, IGridConstructor, IStatus, IChair, ITab
 import { ISprite } from './ISprites';
 import { IGRID_VALUES, IGRID_TYPES, IDirections } from './IConstants';
 import { IGridHash } from './IGridHash';
+import { IImageContext } from './IImageContext';
 
 export type {
     ITheme,
@@ -23,4 +24,5 @@ export type {
     ITable,
     IDirections,
     IGridHash,
+    IImageContext,
 }

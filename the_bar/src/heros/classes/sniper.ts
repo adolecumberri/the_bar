@@ -1,5 +1,5 @@
-import { connection } from '../../../config/database';
-import { IHero, IHeroEfects } from '../../../interfaces/Hero.Interface';
+// import { connection } from '../../../config/database';
+import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../commonHero';
 
 export class Sniper extends Hero {
@@ -24,23 +24,23 @@ export class Sniper extends Hero {
 		let damage = 0;
 
 		if (this.skillUsed ) {
-			this.fightStats.addSkillUses();
+			// this.fightStats.addSkillUses();
 			if (0.75 > this.getProb()) {
 				//golpeo?
 				if (crit > this.getProb()) {
 					//stats
-					this.fightStats.addCrit();
+					// this.fightStats.addCrit();
 					//critico
 					damage = this.rand((dmg + dmgEf) * (critDmg + 1) * 0.95, (dmg + dmgEf) * (critDmg + 1) * 1.15);
 					//console.log(`${id}.${name} ${surname}: ${damage}dmg!`);
 				} else {
 					//stats
-					this.fightStats.addHit();
+					// this.fightStats.addHit();
 					damage = this.rand((dmg + dmgEf) * 0.95, (dmg + dmgEf) * 1.15);
 					//console.log(`${id}.${name} ${surname}: ${damage}dmg`);
 				}
 			}else {
-				this.fightStats.addMiss();
+				// this.fightStats.addMiss();
 			}
 			this.skillUsed = false; //Apago la skill
 		} else {
@@ -48,18 +48,18 @@ export class Sniper extends Hero {
 				//golpeo?
 				if (crit > this.getProb()) {
 					//stats
-					this.fightStats.addCrit()
+					// this.fightStats.addCrit()
 					//critico
 					damage = this.rand((dmg + dmgEf) * (critDmg + 1) * 0.85, (dmg + dmgEf) * (critDmg + 1) * 1.15);
 					//console.log(`${id}.${name} ${surname}: ${damage}dmg!`);
 				} else {
 					//stats
-					this.fightStats.addHit();
+					// this.fightStats.addHit();
 					damage = this.rand((dmg + dmgEf) * 0.85, (dmg + dmgEf) * 1.15);
 					//console.log(`${id}.${name} ${surname}: ${damage}dmg`);
 				}
 			}else {
-				this.fightStats.addMiss();
+				// this.fightStats.addMiss();
 			}
 			this.calcNextTurn();
 		}

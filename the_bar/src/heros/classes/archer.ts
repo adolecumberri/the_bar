@@ -1,4 +1,4 @@
-import { IHero, IHeroEfects } from '../../../interfaces/Hero.Interface';
+import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../commonHero';
 
 export class Archer extends Hero {
@@ -16,7 +16,7 @@ export class Archer extends Hero {
 	//Haste
 	skillProb = 0.23;
 	skill: () => void = () => {
-		this.fightStats.addSkillUses();
+		// this.fightStats.addSkillUses();
 		this.heroEfects.att_interval = -2;
 	};
 	skillUsed = null;
@@ -31,15 +31,15 @@ export class Archer extends Hero {
 			//golpeo?
 			if (crit > this.getProb()) {
 				//stats
-				this.fightStats.addCrit();
+				// this.fightStats.addCrit();
 				//critico
 				damage = this.rand((dmg + dmgEf) * (critDmg + 1) * 0.85, (dmg + dmgEf) * (critDmg + 1) * 1.15);
 			} else {
-				this.fightStats.addHit();
+				// this.fightStats.addHit();
 				damage = this.rand((dmg + dmgEf) * 0.85, (dmg + dmgEf) * 1.15);
 			}
 		} else {
-			this.fightStats.addMiss();
+			// this.fightStats.addMiss();
 		}
 
 		//archer Skill

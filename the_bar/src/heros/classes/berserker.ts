@@ -1,5 +1,5 @@
 import { AnyHero } from '.';
-import { IHero, IHeroEfects } from '../../../interfaces/Hero.Interface';
+import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../commonHero';
 
 export class Berserker extends Hero {
@@ -18,7 +18,7 @@ export class Berserker extends Hero {
 	skillProb = 1;
 	skill: () => void = () => {
 		//stats
-		this.fightStats.addSkillUses();
+		// this.fightStats.addSkillUses();
 		this.heroEfects = { dmg: +22, def: -16, att_interval: -4 };
 	};
 	skillUsed = false;
@@ -34,14 +34,14 @@ export class Berserker extends Hero {
 				//critico
 				damage = this.rand((dmg + dmgEf) * (critDmg + 1) * 0.85, (dmg + dmgEf) * (critDmg + 1) * 1.15);
 				//stats
-				this.fightStats.addCrit();
+				// this.fightStats.addCrit();
 			} else {
 				//stats
-				this.fightStats.addHit();
+				// this.fightStats.addHit();
 				damage = this.rand((dmg + dmgEf) * 0.85, (dmg + dmgEf) * 1.15);
 			}
 		} else {
-			this.fightStats.addMiss();
+			// this.fightStats.addMiss();
 		}
 
 		this.calcNextTurn(this.heroEfects.att_interval);
@@ -60,18 +60,18 @@ export class Berserker extends Hero {
 			finalDamage = Math.round(enemiAttack * attMultiplier);
 
 			//Stats
-			enemi.fightStats.set('total_damage', enemi.fightStats.get('total_damage') + finalDamage);
-			this.fightStats.addHitReceived();
+			// enemi.fightStats.set('total_damage', enemi.fightStats.get('total_damage') + finalDamage);
+			// this.fightStats.addHitReceived();
 		} else {
 			enemi.calcNextTurn(enemi.heroEfects.att_interval);
 
 			//stats
-			this.fightStats.addEvasion();
+			// this.fightStats.addEvasion();
 		}
 
 		this.heroStats.currentHp = currentHp - finalDamage > 0 ? currentHp - finalDamage : 0; //
 		//stats
-		this.fightStats.set('currhp', this.heroStats.currentHp);
+		// this.fightStats.set('currhp', this.heroStats.currentHp);
 
 		if (this.heroStats.currentHp === 0) {
 			this.isDead = true;

@@ -17,7 +17,7 @@ import { THEME } from "../constants";
 import { IAnyBox, ITheme } from "../interfaces";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants";
 import { useRenderCounter } from "../hooks";
-import { BarContext, StyleContext } from "../utility";
+import { StyleContext, ImagesContext } from "../utility";
 import { Grid } from "../classes/Grid";
 
 const gridSprites = new Image();
@@ -40,15 +40,15 @@ const useStyles = makeStyles((tema: ITheme) => {
 });
 
 interface IBarProps {
-  setBarCtx: Dispatch<SetStateAction<CanvasRenderingContext2D | undefined>>;
+  
 }
 
 const Bar: FC<IBarProps> = (props) => {
-  const { setBarCtx } = props;
   const { container, counter } = useStyles();
 
   const { pixelSize } = useContext(StyleContext);
-
+  const { batTile } = useContext(ImagesContext);
+ 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
 
@@ -57,11 +57,11 @@ const Bar: FC<IBarProps> = (props) => {
   const [barGrid, setBarGrid] = useState<any>(); //instanceof
 
   //Iniciar canvas.
-  useEffect(() => {
-    setBarCtx(canvasRef.current?.getContext("2d") as CanvasRenderingContext2D);
+  // useEffect(() => {
+  //   setBarCtx(canvasRef.current?.getContext("2d") as CanvasRenderingContext2D);
     
-    gridSprites.setAttribute("src", "../sprites/spritesheet.png");
-  }, []);
+  //   gridSprites.setAttribute("src", "../sprites/bar_tile.png");
+  // }, []);
 
   useEffect(() => {
     // debugger;
@@ -130,8 +130,9 @@ const Bar: FC<IBarProps> = (props) => {
       case "void":
         // debugger;
         ctx.fillRect(box.x, box.y, box.width, box.height);
+        debugger;
         ctx.drawImage(
-          gridSprites,
+          batTile.img,
           box.sprite.x,
           box.sprite.y,
           box.sprite.width,

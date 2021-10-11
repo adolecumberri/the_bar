@@ -9,5 +9,6 @@ import { Soldier } from "./soldier";
 import { Thieve } from "./thieve";
 
 type AnyHero = Archer | Berserker | Defender | Fencer | Ninja | Paladin | Sniper | Soldier;
+export type { AnyHero };
+export { Archer, Berserker, Defender, Fencer, Ninja, Paladin, Sniper, Soldier, Thieve };
 
-export {Archer, Berserker, Defender, Fencer, Ninja, Paladin, Sniper, Soldier, Thieve, AnyHero}

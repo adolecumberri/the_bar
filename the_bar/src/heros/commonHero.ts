@@ -1,23 +1,15 @@
-/** NOTA.
- * Cuando un hijo quiere llamar a una funcion del padre, se la usa con this.F().
- * Cuando sobre escribo, pongo el mismo nombre y el hijo prioriza al padre. Aun así
- * si escribo super.func() se llama a func del padre. si pongo solo func() se llama ç
- * a la del hijo. Como olvide esto estoy jodido
- */
 
-import { connection } from '../../config/database';
-import { IFightStats } from '../../interfaces/Figth.interface';
-import { IHero } from '../../interfaces/Hero.Interface';
+import { IHero } from '../interfaces/Hero.Interface';
 import { AnyHero } from './classes';
-import { StatsManager } from './fightStatsManager';
+// import { StatsManager } from './fightStatsManager';
 
 export class Hero {
 	constructor(data: IHero) {
 		this.heroStats = { ...data, curr_att_interval: data.att_interval };
-		this.fightStats = new StatsManager(data.id);
+		// this.fightStats = new StatsManager(data.id);
 	}
-	// fightStats: IFightStats
-	fightStats: StatsManager; //Manager de stats. Easy
+	
+	// fightStats: StatsManager; //Manager de stats. Easy
 	heroStats: IHero;
 	isDead = false;
 
@@ -32,15 +24,15 @@ export class Hero {
 		if (accuracy > this.getProb()) {
 			//golpeo?
 			if (crit > this.getProb()) {
-				this.fightStats.addCrit();
+				// this.fightStats.addCrit();
 				//critico
 				damage = this.rand((dmg + dmgEf) * (critDmg + 1) * 0.85, (dmg + dmgEf) * (critDmg + 1) * 1.15);
 			} else {
-				this.fightStats.addHit();
+				// this.fightStats.addHit();
 				damage = this.rand((dmg + dmgEf) * 0.85, (dmg + dmgEf) * 1.15);
 			}
 		} else {
-			this.fightStats.addMiss();
+			// this.fightStats.addMiss();
 		}
 		this.calcNextTurn();
 		return damage;
@@ -57,18 +49,18 @@ export class Hero {
 			finalDamage = Math.round(enemiAttack * attMultiplier);
 
 			//Stats
-			enemi.fightStats.set('total_damage', enemi.fightStats.get('total_damage') + finalDamage);
-			this.fightStats.addHitReceived();
+			// enemi.fightStats.set('total_damage', enemi.fightStats.get('total_damage') + finalDamage);
+			// this.fightStats.addHitReceived();
 		} else {
 			enemi.calcNextTurn(enemi.heroEfects.att_interval);
 
 			//stats
-			this.fightStats.addEvasion();
+			// this.fightStats.addEvasion();
 		}
 
 		this.heroStats.currentHp = currentHp - finalDamage >= 0 ? currentHp - finalDamage : 0; //
 		//stats
-		this.fightStats.set('currhp', this.heroStats.currentHp);
+		// this.fightStats.set('currhp', this.heroStats.currentHp);
 		if (this.heroStats.currentHp === 0) {
 			this.isDead = true;
 		}
@@ -80,8 +72,8 @@ export class Hero {
 		this.heroStats.currentHp = this.heroStats.currentHp - damage >= 0 ? this.heroStats.currentHp - damage : 0;
 
 		//stats
-		this.fightStats.addHitReceived();
-		this.fightStats.set('currhp', this.heroStats.currentHp);
+		// this.fightStats.addHitReceived();
+		// this.fightStats.set('currhp', this.heroStats.currentHp);
 		if (this.heroStats.currentHp === 0) {
 			this.isDead = true;
 		}
@@ -95,11 +87,6 @@ export class Hero {
 		// } else {
 		// 	console.log('Archer dies');
 		// }
-		await new Promise((resolve, reject) => {
-			connection.query(`UPDATE hero SET deaths = deaths + 1 WHERE id = ${this.heroStats.id}`, (err, result) =>
-				resolve(true)
-			);
-		});
 	};
 
 	//HERO WINS
@@ -110,11 +97,7 @@ export class Hero {
 		// 	console.log('Archer kills');
 		// }
 		// console.log('entro en victoria');
-		await new Promise((resolve, reject) => {
-			connection.query(`UPDATE hero SET kills = kills + 1 WHERE id = ${this.heroStats.id}`, (err, result) =>
-				resolve(true)
-			);
-		});
+		// 
 	};
 
 	//calculo siguiente turno. Habilidades de velocidad lo sobreescribiran.
