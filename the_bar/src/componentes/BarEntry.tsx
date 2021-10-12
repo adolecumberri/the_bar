@@ -1,23 +1,25 @@
-//muros izq y derecha del tablon de anuncio
+//Entrada del bar
+
 import React, { FC } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
 
+import {THEME} from '../constants';
 import { ITheme } from "../interfaces";
 
-const useStyles = makeStyles((Theme: ITheme) => ({
+const useStyles = makeStyles((theme: ITheme) => ({
   container: {
-    width: "30%",
+    width: "5%",
     height: "100%",
-    backgroundColor: "sienna",
+    backgroundColor: "wheat"
   },
 }));
 
-const Wall: FC = () => {
+const BarEntry: FC = () => {
   const { container } = useStyles();
 
   return <div className={container}></div>;
 };
 
-export default Wall;
+export default BarEntry;
