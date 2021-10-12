@@ -5,10 +5,6 @@ export interface IImageContext {
     xSize: number;
     ySize: number;
   };
-  barBackground: {
-    title: string;
-    img: HTMLImageElement;
-    xSize: number;
-    ySize: number;
-  };
 }
+
+//TODO: borrar barBackground. unused

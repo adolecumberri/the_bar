@@ -24,14 +24,14 @@ export interface IGridBox {
 }
 
 export interface IChair extends IGridBox {
-  occupied: boolean;
+  occupied?: boolean;
   hero?: any; //todo: interfaz de heroe
-  tableRef: number;
-  direction: ""
+  tableId: number;
+  direction?: ""
 }
 
 export interface ITable extends IGridBox {
-  tableRef: number;
+  tableId: number;
 }
 
 export type IStatus = "walkable" | "blocked" | "occupied" | "free";

@@ -67,16 +67,16 @@ class GridBox {
 }
 export const GridBoxesTypes = {
   Chair: class Chair extends GridBox {
-    occupied: boolean;
-    hero: any;
-    tableRef: number;
+    occupied?: boolean;
+    hero?: any;
+    tableId: number;
     constructor(arg: IChair) {
       super(arg);
 
       this.occupied = arg.occupied || false;
       this.status = "free";
       this.walkable = true;
-      this.tableRef = arg.tableRef;
+      this.tableId = arg.tableId;
     }
 
     occupyChair = (hero: any) => {
@@ -94,12 +94,12 @@ export const GridBoxesTypes = {
     };
   },
   Table: class Table extends GridBox {
-    tableRef: number;
+    tableId: number;
     constructor(arg: ITable) {
       super(arg);
       this.status = "blocked";
       this.walkable = false;
-      this.tableRef = arg.tableRef;
+      this.tableId = arg.tableId;
     }
   },
   Void: GridBox,

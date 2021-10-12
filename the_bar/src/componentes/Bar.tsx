@@ -66,7 +66,7 @@ const Bar: FC<IBarProps> = (props) => {
   useEffect(() => {
     // debugger;
     _initializeGameCanvas({
-      rows: 8,
+      rows: 6,
       cols: 16,
       t_width: CANVAS_WIDTH * pixelSize,
       t_height: CANVAS_HEIGHT * pixelSize,
@@ -81,7 +81,12 @@ const Bar: FC<IBarProps> = (props) => {
   }) => void = ({ rows, cols, t_width, t_height }) => {
     //GENERO CANVAS. TODO: que no esté vacio.
     let grid = Grid();
-    let newGrid = grid._initNewGrid({ rows, cols, t_width, t_height });
+    //grid void
+    // let newGrid = grid._initNewVoidGrid({ rows, cols, t_width, t_height });
+    //grid With Tables.
+    let newGrid = grid._initNewGridWithTables({ rows, cols, t_width, t_height });
+
+    
     setBarGrid(newGrid);
     //Inicio render loop
     
@@ -101,23 +106,15 @@ const Bar: FC<IBarProps> = (props) => {
     ctx?.clearRect(0, 0, canvas.width, canvas.height);
     // debugger;
     _drawGrid();
-    frameId.current = requestAnimationFrame(_renderLoop);
+    // frameId.current = requestAnimationFrame(_renderLoop);
   }
 
   /* recursively draw each grid object */
-  // drawGrid = () => { for (let coord in this.gridHash) this._drawBox('grid', this.gridHash[coord]) }
   function _drawGrid() {
-    // debugger;
-    
-    // debugger;
     for (let coord in barGrid) {
-      _drawBox("void", barGrid[coord]);
+      _drawBox(barGrid[coord].type, barGrid[coord]);
     }
   };
-
-  // const _drawBox = () => {
-  //   console.log("estamos");
-  // }
 
   /* function to draw individual game objects (square) to the canvas */
   function _drawBox (type: string, box: IAnyBox) : void {
@@ -153,9 +150,23 @@ const Bar: FC<IBarProps> = (props) => {
         return;
 
       case "chair":
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.rect(box.x, box.y, box.width, box.height);
+        ctx.fillStyle = "#e1e1e1";
+        ctx.fillRect(box.x, box.y, box.width, box.height);
+        ctx.stroke();
+        ctx.globalAlpha = 1.0;
         return;
 
       case "table":
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.rect(box.x, box.y, box.width, box.height);
+        ctx.fillStyle = "#f22222";
+        ctx.fillRect(box.x, box.y, box.width, box.height);
+        ctx.stroke();
+        ctx.globalAlpha = 1.0;
         return;
 
       case "hero":

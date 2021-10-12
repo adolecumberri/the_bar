@@ -1,7 +1,7 @@
-import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES} from "./interfaces";
+import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES } from "./interfaces";
 
 const TILE_SIZE = 16;
-const CANVAS_WIDTH = 320; 
+const CANVAS_WIDTH = 320;
 const CANVAS_HEIGHT = 160;
 // entre el tamaño son
 // 40 x 20
@@ -46,6 +46,168 @@ const GRID_CONFIG: IGridConfig = {
   },
 };
 
+const TABLES_LOCATIONS = [
+  {
+    id: 1,
+    col: 2,
+    row: 0,
+    chairs: [
+      {
+        col: 1,
+        row: 0
+      },
+      {
+        col: 3,
+        row: 0
+      }
+    ]
+  },
+  {
+    id: 2,
+    col: 1,
+    row: 3,
+    chairs: [
+      {
+        col: 0,
+        row: 3
+      },
+      {
+        col: 1,
+        row: 2
+      },
+      {
+        col: 2,
+        row: 3
+      }
+    ]
+  },
+  {
+    id: 3,
+    col: 1,
+    row: 5,
+    chairs: [
+      {
+        col: 0,
+        row: 5
+      },
+      {
+        col: 2,
+        row: 5
+      }
+    ]
+  },
+  {
+    id: 4,
+    col: 4,
+    row: 4,
+    chairs: [
+      {
+        col: 4,
+        row: 3
+      },
+      {
+        col: 4,
+        row: 5
+      }
+    ]
+  },
+  {
+    id: 5,
+    col: 6,
+    row: 4,
+    chairs: [
+      {
+        col: 6,
+        row: 3
+      },
+      {
+        col: 6,
+        row: 5
+      }
+    ]
+  },
+  {
+    id: 6,
+    col: 9,
+    row: 4,
+    chairs: [
+      {
+        col: 9,
+        row: 3
+      },
+      {
+        col: 8,
+        row: 4
+      },
+      {
+        col: 9,
+        row: 5
+      },
+      {
+        col: 10,
+        row: 4
+      }
+    ]
+  },
+  {
+    id: 7,
+    col: 13,
+    row: 4,
+    chairs: [
+      {
+        col: 13,
+        row: 3
+      },
+      {
+        col: 12,
+        row: 4
+      },
+      {
+        col: 13,
+        row: 5
+      },
+      {
+        col: 14,
+        row: 4
+      }
+    ]
+  },
+  {
+    id: 8,
+    col: 15,
+    row: 2,
+    chairs: [
+      {
+        col: 15,
+        row: 1
+      },
+      {
+        col: 15,
+        row: 3
+      }
+    ]
+  },
+  {
+    id: 9,
+    col: 13,
+    row: 0,
+    chairs: [
+      {
+        col: 12,
+        row: 0
+      },
+      {
+        col: 13,
+        row: 1
+      },
+      {
+        col: 14,
+        row: 0
+      }
+    ]
+  },
+]
+
 export {
   TILE_SIZE,
   CANVAS_HEIGHT,
@@ -54,4 +216,5 @@ export {
   GRID_TYPES,
   GRID_CONFIG,
   HERO_TYPE,
+  TABLES_LOCATIONS,
 };

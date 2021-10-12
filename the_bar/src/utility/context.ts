@@ -5,9 +5,6 @@ import { IImageContext, ITheme } from "../interfaces";
 const imgBar = new Image();
 imgBar.src = require("../sprites/bar_tile2.png").default;
 
-const barBGImg = new Image();
-barBGImg.src = require("../sprites/barbg.png").default;
-
 let defaultImageContext = {
   barTile: {
     title: "barTile",
@@ -16,12 +13,6 @@ let defaultImageContext = {
     img: imgBar,
     xSize: 32,
     ySize: 32,
-  },
-  barBackground: {
-      title: "barBackground",
-      img: barBGImg,
-      xSize: CANVAS_WIDTH,
-      ySize: CANVAS_HEIGHT,
   }
 };
 

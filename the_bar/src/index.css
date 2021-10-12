@@ -30,7 +30,7 @@ body {
 }
 
 #canvas {
-  background-image: url("sprites/barbg.png");
+  background-image: url("sprites/barbg2.png");
   background-repeat: no-repeat;
   background-size: contain;
   image-rendering: pixelated;
