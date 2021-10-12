@@ -5,7 +5,8 @@ import { GridBoxesTypes } from "./GridBoxesTypes";
 export const Grid = () => {
   class Grid {
     _initNewGrid = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
-      if (t_width % cols || t_height % rows)
+      // +2 es porque dejo un margen de "falsa pared"
+      if (t_width % cols || t_height % (rows + 2))
         throw new Error(
           "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
         );
@@ -21,7 +22,7 @@ export const Grid = () => {
           let gX = X;
           let gY = Y;
           let x = X * width;
-          let y = Y * height;
+          let y = (Y + 2) * height; // por la falsa pared
           let gridTypeConfig = GRID_CONFIG.void;
 
           let gridBox = new GridBoxesTypes.Void({

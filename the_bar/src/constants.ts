@@ -1,8 +1,8 @@
 import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES} from "./interfaces";
 
 const TILE_SIZE = 16;
-const CANVAS_WIDTH = 640; 
-const CANVAS_HEIGHT = 320;
+const CANVAS_WIDTH = 320; 
+const CANVAS_HEIGHT = 160;
 // entre el tamaño son
 // 40 x 20
 
@@ -28,7 +28,7 @@ const GRID_CONFIG: IGridConfig = {
     type: GRID_TYPES.CELL_VOID as IGRID_VALUES,
     walkable: true,
     color: "#e1e1e1",
-    sprite: { x: 0, y: 0, width: 50, height: 50 },
+    sprite: { x: 0, y: 0, width: 32, height: 32 },
   },
   chair: {
     status: "walkable",

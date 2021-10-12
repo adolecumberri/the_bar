@@ -1,25 +1,38 @@
-import React from 'react';
-import { THEME } from '../constants';
-import {IImageContext, ITheme} from '../interfaces';
+import React from "react";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, THEME } from "../constants";
+import { IImageContext, ITheme } from "../interfaces";
 
-let defaultImageContext:IImageContext = {
-    batTile: {
-        title: "barTile",
-        img:  (new Image().setAttribute("alt", '../sprites/bar_tile.png') as any as HTMLImageElement),
-        xSize: 50,
-        ySize: 50,
-    },
-}
+const imgBar = new Image();
+imgBar.src = require("../sprites/bar_tile2.png").default;
+
+const barBGImg = new Image();
+barBGImg.src = require("../sprites/barbg.png").default;
+
+let defaultImageContext = {
+  barTile: {
+    title: "barTile",
+    // img:  (new Image().setAttribute("alt", '../sprites/bar_tile.png') as any as HTMLImageElement),
+    // img: (() => (new Image().src = require("../sprites/bar_tile.png")))(),
+    img: imgBar,
+    xSize: 32,
+    ySize: 32,
+  },
+  barBackground: {
+      title: "barBackground",
+      img: barBGImg,
+      xSize: CANVAS_WIDTH,
+      ySize: CANVAS_HEIGHT,
+  }
+};
 
 // export const BarContext = React.createContext<CanvasRenderingContext2D | undefined>(undefined);
 
 export const StyleContext = React.createContext<ITheme>(THEME);
 
-export const ImagesContext = React.createContext<IImageContext>(defaultImageContext)
+export const ImagesContext =
+  React.createContext<IImageContext>(defaultImageContext);
 
-export const pixelSize = React.createContext<string>('2px');
-
-
+export const pixelSize = React.createContext<string>("2px");
 
 //     {
 //         title:,
@@ -67,4 +80,3 @@ export const pixelSize = React.createContext<string>('2px');
 //         extension:,
 //     }
 // ]
- 

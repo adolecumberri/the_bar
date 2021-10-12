@@ -38,7 +38,7 @@ const Screen: FC = () => {
   const [themeState, setThemeState] = useState(THEME);
 
   useEffect(() => {
-    debugger;
+    // debugger;
     //hay un bug, que windowWidth se lee como 0
     let newPixelSize = pixelSizeQuery(!!windowWidth ? windowWidth : window.innerWidth );
     if(newPixelSize !== pixelSize){
@@ -66,13 +66,13 @@ const Screen: FC = () => {
 const pixelSizeQuery: (a : number) =>  IPixelSize = ( windowWidth: number)=> {
 let solution: IPixelSize = 1;
  if(windowWidth >= 1920){
-  solution = 2.5;
+  solution = 4;
  }else if(windowWidth >= 1280){
-  solution = 2;
+  solution = 3;
  } else if( windowWidth >= 980){
-    solution = 1.5;
+    solution = 2;
  } else if( windowWidth <= 650){
-   solution = 0.75;
+   solution = 1;
  }
 
  return solution;

@@ -1,10 +1,14 @@
-
-
 export interface IImageContext {
-    batTile: {
-        title: string;
-        img: HTMLImageElement;
-        xSize: number;
-        ySize: number;
-    };
+  barTile: {
+    title: string;
+    img: HTMLImageElement;
+    xSize: number;
+    ySize: number;
+  };
+  barBackground: {
+    title: string;
+    img: HTMLImageElement;
+    xSize: number;
+    ySize: number;
+  };
 }

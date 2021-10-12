@@ -47,7 +47,7 @@ const Bar: FC<IBarProps> = (props) => {
   const { container, counter } = useStyles();
 
   const { pixelSize } = useContext(StyleContext);
-  const { batTile } = useContext(ImagesContext);
+  const { barTile } = useContext(ImagesContext);
  
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
@@ -66,12 +66,12 @@ const Bar: FC<IBarProps> = (props) => {
   useEffect(() => {
     // debugger;
     _initializeGameCanvas({
-      rows: 16,
+      rows: 8,
       cols: 16,
       t_width: CANVAS_WIDTH * pixelSize,
       t_height: CANVAS_HEIGHT * pixelSize,
     });
-  }, []);
+  }, [pixelSize]);
 
   const _initializeGameCanvas: (a: {
     rows: number;
@@ -129,19 +129,27 @@ const Bar: FC<IBarProps> = (props) => {
     switch (type) {
       case "void":
         // debugger;
-        ctx.fillRect(box.x, box.y, box.width, box.height);
-        debugger;
-        ctx.drawImage(
-          batTile.img,
-          box.sprite.x,
-          box.sprite.y,
-          box.sprite.width,
-          box.sprite.height,
-          box.x,
-          box.y,
-          box.width,
-          box.height
-        );
+        // ctx.fillRect(box.x, box.y, box.width, box.height);
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.rect(box.x, box.y, box.width, box.height);
+        ctx.stroke();
+        ctx.globalAlpha = 1.0;
+        // debugger;
+        // if(ctx === undefined){
+        //   debugger;
+        // }
+        // ctx.drawImage(
+        //   barTile.img,
+        //   box.sprite.x,
+        //   box.sprite.y,
+        //   box.sprite.width,
+        //   box.sprite.height,
+        //   box.x,
+        //   box.y,
+        //   box.width,
+        //   box.height
+        // );
         return;
 
       case "chair":
