@@ -11,6 +11,7 @@ import { StyleContext } from "../utility";
 import { THEME } from "../constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
+import Debugger from "./Debugger";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
@@ -38,7 +39,9 @@ const Screen: FC = () => {
   const [pixelSize, setPixelSize] = useState(pixelSizeQuery(windowWidth));
   const [themeState, setThemeState] = useState(THEME);
 
-  const [barGrid, setBarGrid] = useState<IGridHash>(); 
+  const [triggerRender, setTriggerRender] = useState(false); //Trigger a canvas render
+
+  const [barGrid, setBarGrid] = useState<Grid>(new Grid());
 
   useEffect(() => {
     // debugger;
@@ -59,25 +62,44 @@ const Screen: FC = () => {
       t_width = canvasWidth * pixelSize,
       t_height = canvasHeight * pixelSize;
 
-    let grid = Grid();
-    let newGrid = grid._initNewGridWithTables({ rows, cols, t_width, t_height });
+    let grid = new Grid();
+    grid._initNewGridWithTables({ rows, cols, t_width, t_height });
 
-    setBarGrid(newGrid);
+    setBarGrid(grid);
   }, [pixelSize]);
 
 
-
+  // const executeRenderLoop: (callBack: any) => void = (callBack) => {
+  //   callBack();
+  // }
 
 
   return (
     <>
       <StyleContext.Provider value={themeState}>
-        {/* <BarContext.Provider value={barCtx}> */}
-        {/* <ImagesContext.Provider> */}
+        <Debugger
+          highlightChairs={() => {
+            barGrid?.highlight("chair");
+            setTriggerRender(!triggerRender);
+            // setBarGrid(new Grid(barGrid?.hashGrid));
+          }}
+          highlightTables={() => {
+            barGrid?.highlight("table");
+            setTriggerRender(!triggerRender);
+            // setBarGrid(new Grid(barGrid?.hashGrid));
+          }}
+          stopHighlighting={() => {
+            barGrid?.stopHighlighting();
+            setTriggerRender(!triggerRender);
+            // setBarGrid(new Grid(barGrid?.hashGrid));
+          }}
+        />
         <BarEntry />
-        <Bar barGrid={barGrid as IGridHash} />
-        {/* </ImagesContext.Provider> */}
-        {/* </BarContext.Provider> */}
+        <Bar 
+          barGrid={barGrid as Grid} 
+          triggerRender={triggerRender} 
+          // executeRenderLoop={executeRenderLoop}
+        />
       </StyleContext.Provider>
     </>
   );

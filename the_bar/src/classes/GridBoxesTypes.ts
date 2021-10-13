@@ -21,6 +21,8 @@ class GridBox {
   walkable: boolean;
   color: string;
   sprite: ISprite;
+  initialColor: string;
+  highlighted: boolean;
   constructor({
     key,
     gX,
@@ -46,7 +48,9 @@ class GridBox {
     this.walkable = walkable; //se puede andar o no
     this.status = status; // andable o no, ocupado o no.
     this.color = color; //no claro.
+    this.initialColor = color; //Color para reestablecer el color principal.
     this.sprite = sprite; //imagen a cargar
+    this.highlighted = false; //si esta marcado.
   }
 
   setStatus: (status: IStatus) => void = (status) => {

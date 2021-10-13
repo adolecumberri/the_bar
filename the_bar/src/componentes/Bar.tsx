@@ -40,24 +40,28 @@ const useStyles = makeStyles((tema: ITheme) => {
 });
 
 interface IBarProps {
-  barGrid: IGridHash;
+  barGrid: Grid;
+  triggerRender: boolean;
+  executeRenderLoop?: any; //TODO: Experimental
 }
 
-const Bar: FC<IBarProps> = ({barGrid}) => {
+const Bar: FC<IBarProps> = ({ barGrid: { hashGrid: barGrid, triggerUpdate }, triggerRender }) => {
   const { container, counter } = useStyles();
 
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
   // const { barTile } = useContext(ImagesContext);
- 
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
 
   const [count] = useRenderCounter();
 
+  useEffect(() => {
+    _renderLoop();
+  }, [triggerRender])
 
 
-
-  useEffect( ( )=>{
+  useEffect(() => {
     _renderLoop();
     console.log("holaa-render");
   }, [barGrid]);
@@ -83,11 +87,11 @@ const Bar: FC<IBarProps> = ({barGrid}) => {
   };
 
   /* function to draw individual game objects (square) to the canvas */
-  function _drawBox (type: string, box: IAnyBox) : void {
+  function _drawBox(type: string, box: IAnyBox): void {
     let ctx: CanvasRenderingContext2D = canvasRef.current?.getContext(
       "2d"
     ) as CanvasRenderingContext2D;
-// debugger;
+    // debugger;
     //Tipos: void, chair, table y hero
     switch (type) {
       case "void":
@@ -140,9 +144,9 @@ const Bar: FC<IBarProps> = ({barGrid}) => {
     }
   };
 
-  if(pixelSize) console.log(CANVAS_WIDTH, CANVAS_HEIGHT, pixelSize);
+  if (pixelSize) console.log(CANVAS_WIDTH, CANVAS_HEIGHT, pixelSize);
   return (
-    
+
     <>
       {/* {console.log(theme)} */}
       <canvas

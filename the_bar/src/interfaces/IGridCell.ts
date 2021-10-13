@@ -20,17 +20,19 @@ export interface IGridBox {
   type: IGRID_VALUES;
   walkable: boolean;
   color: string;
+  initialColor?: string;
   sprite: ISprite;
+  highlighted?: boolean;
 }
 
-export interface IChair extends IGridBox {
+export interface IChair extends IGridBox {  //TODO: no hace falta
   occupied?: boolean;
   hero?: any; //todo: interfaz de heroe
   tableId: number;
   direction?: ""
 }
 
-export interface ITable extends IGridBox {
+export interface ITable extends IGridBox { //TODO: no hace falta
   tableId: number;
 }
 
