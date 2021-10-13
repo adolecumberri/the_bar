@@ -17,7 +17,7 @@ export interface IGridBox {
   width: number;
   height: number;
   status: IStatus;
-  type?: IGRID_VALUES;
+  type: IGRID_VALUES;
   walkable: boolean;
   color: string;
   sprite: ISprite;

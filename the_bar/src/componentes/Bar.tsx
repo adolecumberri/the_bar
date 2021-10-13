@@ -14,7 +14,7 @@ import React, {
 import { makeStyles, useTheme } from "@material-ui/styles";
 
 import { THEME } from "../constants";
-import { IAnyBox, ITheme } from "../interfaces";
+import { IAnyBox, IGridHash, ITheme } from "../interfaces";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants";
 import { useRenderCounter } from "../hooks";
 import { StyleContext, ImagesContext } from "../utility";
@@ -40,10 +40,10 @@ const useStyles = makeStyles((tema: ITheme) => {
 });
 
 interface IBarProps {
-  
+  barGrid: IGridHash;
 }
 
-const Bar: FC<IBarProps> = (props) => {
+const Bar: FC<IBarProps> = ({barGrid}) => {
   const { container, counter } = useStyles();
 
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
@@ -54,46 +54,12 @@ const Bar: FC<IBarProps> = (props) => {
 
   const [count] = useRenderCounter();
 
-  const [barGrid, setBarGrid] = useState<any>(); //instanceof
 
-  //Iniciar canvas.
-  // useEffect(() => {
-  //   setBarCtx(canvasRef.current?.getContext("2d") as CanvasRenderingContext2D);
-    
-  //   gridSprites.setAttribute("src", "../sprites/bar_tile.png");
-  // }, []);
 
-  useEffect(() => {
-    // debugger;
-    _initializeGameCanvas({
-      rows: 6,
-      cols: 16,
-      t_width: canvasWidth * pixelSize,
-      t_height: canvasHeight * pixelSize,
-    });
-  }, [pixelSize]);
-
-  const _initializeGameCanvas: (a: {
-    rows: number;
-    cols: number;
-    t_width: number;
-    t_height: number;
-  }) => void = ({ rows, cols, t_width, t_height }) => {
-    //GENERO CANVAS. TODO: que no esté vacio.
-    let grid = Grid();
-    //grid void
-    // let newGrid = grid._initNewVoidGrid({ rows, cols, t_width, t_height });
-    //grid With Tables.
-    let newGrid = grid._initNewGridWithTables({ rows, cols, t_width, t_height });
-
-    
-    setBarGrid(newGrid);
-    //Inicio render loop
-    
-  };
 
   useEffect( ( )=>{
     _renderLoop();
+    console.log("holaa-render");
   }, [barGrid]);
 
   function _renderLoop() {
@@ -183,8 +149,8 @@ const Bar: FC<IBarProps> = (props) => {
         id="canvas"
         ref={canvasRef}
         className={container}
-        width={CANVAS_WIDTH * pixelSize}
-        height={CANVAS_HEIGHT * pixelSize}
+        width={canvasWidth * pixelSize}
+        height={canvasHeight * pixelSize}
       />
       <span className={counter}>{count}</span>
     </>

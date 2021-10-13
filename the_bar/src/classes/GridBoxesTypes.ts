@@ -17,7 +17,7 @@ class GridBox {
   width: number;
   height: number;
   status: IStatus;
-  type?: IGRID_VALUES;
+  type: IGRID_VALUES;
   walkable: boolean;
   color: string;
   sprite: ISprite;
@@ -64,6 +64,10 @@ class GridBox {
       this.walkable = true;
     }
   };
+
+  highlightColor: () => void = () => {
+    this.color = `${this.color}55`;
+  }
 }
 export const GridBoxesTypes = {
   Chair: class Chair extends GridBox {

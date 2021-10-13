@@ -1,12 +1,13 @@
 import { TableSortLabel } from "@material-ui/core";
 import { GRID_CONFIG, TABLES_LOCATIONS } from "../constants";
-import { IGridConstructor, IGridHash } from "../interfaces";
+import { IGridConstructor, IGridHash, ITable } from "../interfaces";
 import { GridBoxesTypes } from "./GridBoxesTypes";
 
 export const Grid = () => {
 
   const topMargin = 2;
   class Grid {
+    hashGrid: any;
     _initNewVoidGrid = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
 
       const { height, width } = this._loadBoxDimensions({ cols, rows, t_height, t_width })
@@ -44,21 +45,14 @@ export const Grid = () => {
       return gridHash;
     };
 
-
     _initNewGridWithTables = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
-      // +2 es porque dejo un margen de "falsa pared"
-
+      
+      //Load cell-height and cell-width
       const { height, width } = this._loadBoxDimensions({ cols, rows, t_height, t_width })
       let gridHash: IGridHash = {};
 
-
-
+      //following Tables_locations scheme
       for (let i = 0; i < TABLES_LOCATIONS.length; i++) {
-        // if (!TABLES_LOCATIONS[i]) {
-        //   console.log(TABLES_LOCATIONS);
-        //   debugger;
-        // }
-        //Table info.
         let X = TABLES_LOCATIONS[i].col;
         let Y = TABLES_LOCATIONS[i].row;
         let tableId = TABLES_LOCATIONS[i].id;
@@ -66,7 +60,7 @@ export const Grid = () => {
         let key = `${X}-${Y}`;
         let gridTypeConfig = GRID_CONFIG.table;
 
-        let gridBox = new GridBoxesTypes.Table({
+        let gridBox: ITable = new GridBoxesTypes.Table({
           key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, tableId, ...gridTypeConfig
         });
         gridHash[key] = gridBox;
@@ -93,14 +87,10 @@ export const Grid = () => {
           let key = `${X}-${Y}`;
 
           if (!gridHash[key]) {
-            let gX = X;
-            let gY = Y;
-            let x = X * width;
-            let y = (Y + topMargin) * height; // por la falsa pared
             let gridTypeConfig = GRID_CONFIG.void;
 
             let gridBox = new GridBoxesTypes.Void({
-              key, gX, gY, x, y, width, height, ...gridTypeConfig
+              key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, ...gridTypeConfig
             })
             gridHash[key] = gridBox;
           }
@@ -112,7 +102,6 @@ export const Grid = () => {
       console.log({ gridHash });
       return gridHash;
     };
-
 
     _loadBoxDimensions = ({ t_width, cols, t_height, rows }: {
       t_width: number;
@@ -145,34 +134,7 @@ export const Grid = () => {
 
       return { gX, gY, x, y }
     }
-    //Sin Tocar.
-    //  _resetGrid = () => {
-    //     let nextSrc, nextDest;
-    //     console.log('resetting')
-
-    //     for (let coords in game.gridHash) {
-    //        let gridBox = game.gridHash[coords];
-
-    //        if (gridBox.isNextSource) nextSrc = gridBox;
-    //        if (gridBox.isNextDestination) nextDest = gridBox;
-
-    //        gridBox.sprite = gridBox.origSprite;
-    //        gridBox.gScore = 0;
-    //        gridBox.hScore = 0;
-    //        gridBox.fScore = 0;
-    //        gridBox._deselect();
-    //        gridBox._clearParent();
-    //        gridBox._clearDestination();
-    //        gridBox._clearSource();
-    //     }
-
-    //     delete game.heroPosition;
-    //     delete game.heroDestination
-
-    //     nextSrc._setSource()
-    //     if(nextDest)
-    //     nextDest._setDestination();
-    //  }
+   
   }
   return new Grid();
 };
