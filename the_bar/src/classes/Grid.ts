@@ -9,28 +9,17 @@ export const Grid = () => {
   class Grid {
     _initNewVoidGrid = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
 
-      // +2 es porque dejo un margen de "falsa pared"
-      if (t_width % cols || t_height % (rows + topMargin))
-        throw new Error(
-          "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
-        );
-
-      let width = t_width / cols;
-      let height = t_height / (rows + topMargin);
+      const { height, width } = this._loadBoxDimensions({ cols, rows, t_height, t_width })
       let gridHash: IGridHash = {};
 
       for (let Y = 0; Y <= rows - 1; Y++) {
         for (let X = 0; X <= cols - 1; X++) {
           //variables.
           let key = `${X}-${Y}`;
-          let gX = X;
-          let gY = Y;
-          let x = X * width;
-          let y = (Y + topMargin) * height; // por la falsa pared
           let gridTypeConfig = GRID_CONFIG.void;
 
           let gridBox = new GridBoxesTypes.Void({
-            key, gX, gY, x, y, width, height, ...gridTypeConfig
+            key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, ...gridTypeConfig
           })
 
           gridHash[key] = gridBox;
@@ -59,36 +48,26 @@ export const Grid = () => {
     _initNewGridWithTables = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
       // +2 es porque dejo un margen de "falsa pared"
 
-      if (t_width % cols || t_height % (rows + topMargin))
-        throw new Error(
-          "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
-        );
-
-      let width = t_width / cols;
-      let height = t_height / (rows + topMargin);
+      const { height, width } = this._loadBoxDimensions({ cols, rows, t_height, t_width })
       let gridHash: IGridHash = {};
 
 
 
       for (let i = 0; i < TABLES_LOCATIONS.length; i++) {
-        if(!TABLES_LOCATIONS[i]){
-          console.log(TABLES_LOCATIONS);
-          debugger;
-        }
+        // if (!TABLES_LOCATIONS[i]) {
+        //   console.log(TABLES_LOCATIONS);
+        //   debugger;
+        // }
         //Table info.
         let X = TABLES_LOCATIONS[i].col;
         let Y = TABLES_LOCATIONS[i].row;
         let tableId = TABLES_LOCATIONS[i].id;
 
         let key = `${X}-${Y}`;
-        let gX = X;
-        let gY = Y;
-        let x = X * width;
-        let y = (Y + topMargin) * height; // por la falsa pared
         let gridTypeConfig = GRID_CONFIG.table;
 
         let gridBox = new GridBoxesTypes.Table({
-          key, gX, gY, x, y, width, height, tableId, ...gridTypeConfig
+          key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, tableId, ...gridTypeConfig
         });
         gridHash[key] = gridBox;
 
@@ -97,15 +76,11 @@ export const Grid = () => {
           X = col;
           Y = row;
 
-          key = `${X}-${Y}`;
-          gX = X;
-          gY = Y;
-          x = X * width;
-          y = (Y + topMargin) * height; // por la falsa pared
+          let key = `${X}-${Y}`;
           gridTypeConfig = GRID_CONFIG.chair;
 
           let gridBox = new GridBoxesTypes.Chair({
-            key, gX, gY, x, y, width, height, tableId, ...gridTypeConfig
+            key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, tableId, ...gridTypeConfig
           });
           gridHash[key] = gridBox;
         });
@@ -138,6 +113,38 @@ export const Grid = () => {
       return gridHash;
     };
 
+
+    _loadBoxDimensions = ({ t_width, cols, t_height, rows }: {
+      t_width: number;
+      cols: number;
+      t_height: number;
+      rows: number;
+    }) => {
+      if (t_width % cols || t_height % (rows + topMargin))
+        throw new Error(
+          "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
+        );
+
+      let width = t_width / cols;
+      let height = t_height / (rows + topMargin);
+
+      return { width, height }
+    }
+
+    _loadBoxBasicVariables = ({ X, Y, width, height }: {
+      X: number;
+      Y: number;
+      width: number;
+      height: number;
+    }) => {
+
+      let gX = X,
+        gY = Y,
+        x = X * width,
+        y = (Y + topMargin) * height; // por la falsa pared
+
+      return { gX, gY, x, y }
+    }
     //Sin Tocar.
     //  _resetGrid = () => {
     //     let nextSrc, nextDest;

@@ -1,25 +1,63 @@
 //Entrada del bar
 
-import React, { FC } from "react";
+import React, { FC, useContext, useEffect } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
 
-import {THEME} from '../constants';
+import { THEME } from '../constants';
 import { ITheme } from "../interfaces";
+import { loadBoxDimensions, StyleContext } from "../utility";
+import { useRenderCounter } from "../hooks";
 
-const useStyles = makeStyles((theme: ITheme) => ({
-  container: {
-    width: "5%",
-    height: "100%",
-    backgroundColor: "wheat"
-  },
-}));
+const useStyles = makeStyles(() => {
+
+  
+
+    return (
+        {
+            container: {
+
+            }
+        }
+    )
+}
+
+);
 
 const BarEntry: FC = () => {
-  const { container } = useStyles();
+    // let { container } = useStyles();
+    const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+    const [count] = useRenderCounter();
+  console.log({ pixelSize, canvasHeight, canvasWidth });
+    const {height, width} = loadBoxDimensions({
+        rows: 6,
+        cols: 16,
+        t_width: canvasWidth * pixelSize,
+        t_height: canvasHeight * pixelSize,
+        topMargin: 2
+    });
 
-  return <div className={container}></div>;
+  
+   
+    let style = {
+        width,
+        height,
+        border: "1px solid black",
+        backgroundColor: "wheat"
+    }
+
+    let container = {
+        height:(canvasHeight * pixelSize) - (height * 3),
+        width: width,
+        border: "1px solid black",
+        marginTop: height * 3
+    };
+
+    return <div style={container}>
+  <span style={{position: "absolute"}}>{count}</span>
+
+    </div>;
 };
 
 export default BarEntry;

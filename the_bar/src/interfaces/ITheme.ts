@@ -1,5 +1,7 @@
 export interface ITheme  {
-    pixelSize: IPixelSize
+    pixelSize: IPixelSize,
+    canvasWidth: number,
+    canvasHeight: number,
 }
 
 

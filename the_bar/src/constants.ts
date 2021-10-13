@@ -9,6 +9,8 @@ const CANVAS_HEIGHT = 160;
 
 const THEME: ITheme = {
   pixelSize: 2,
+  canvasWidth: 320,
+  canvasHeight: 160,
 };
 
 const GRID_TYPES: IGRID_TYPES = {
@@ -34,14 +36,14 @@ const GRID_CONFIG: IGridConfig = {
     status: "walkable",
     type: GRID_TYPES.CELL_CHAIR as IGRID_VALUES,
     walkable: true,
-    color: "#80cccc",
+    color: "#e1e1e1",
     sprite: { x: 0, y: 0, width: 50, height: 50 },
   },
   table: {
     status: "blocked",
     type: GRID_TYPES.CELL_TABLE as IGRID_VALUES,
     walkable: false,
-    color: "#7a7a7a",
+    color: "#f22222",
     sprite: { x: 0, y: 50, width: 50, height: 50 },
   },
 };

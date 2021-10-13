@@ -46,8 +46,8 @@ interface IBarProps {
 const Bar: FC<IBarProps> = (props) => {
   const { container, counter } = useStyles();
 
-  const { pixelSize } = useContext(StyleContext);
-  const { barTile } = useContext(ImagesContext);
+  const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+  // const { barTile } = useContext(ImagesContext);
  
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
@@ -68,8 +68,8 @@ const Bar: FC<IBarProps> = (props) => {
     _initializeGameCanvas({
       rows: 6,
       cols: 16,
-      t_width: CANVAS_WIDTH * pixelSize,
-      t_height: CANVAS_HEIGHT * pixelSize,
+      t_width: canvasWidth * pixelSize,
+      t_height: canvasHeight * pixelSize,
     });
   }, [pixelSize]);
 
@@ -106,7 +106,7 @@ const Bar: FC<IBarProps> = (props) => {
     ctx?.clearRect(0, 0, canvas.width, canvas.height);
     // debugger;
     _drawGrid();
-    // frameId.current = requestAnimationFrame(_renderLoop);
+    // frameId.current = requestAnimationFrame(_renderLoop); //TODO: puedo prescindir de el todavía.
   }
 
   /* recursively draw each grid object */
@@ -153,7 +153,7 @@ const Bar: FC<IBarProps> = (props) => {
         ctx.globalAlpha = 0.8;
         ctx.beginPath();
         ctx.rect(box.x, box.y, box.width, box.height);
-        ctx.fillStyle = "#e1e1e1";
+        ctx.fillStyle = box.color;
         ctx.fillRect(box.x, box.y, box.width, box.height);
         ctx.stroke();
         ctx.globalAlpha = 1.0;
@@ -163,7 +163,7 @@ const Bar: FC<IBarProps> = (props) => {
         ctx.globalAlpha = 0.8;
         ctx.beginPath();
         ctx.rect(box.x, box.y, box.width, box.height);
-        ctx.fillStyle = "#f22222";
+        ctx.fillStyle = box.color;
         ctx.fillRect(box.x, box.y, box.width, box.height);
         ctx.stroke();
         ctx.globalAlpha = 1.0;

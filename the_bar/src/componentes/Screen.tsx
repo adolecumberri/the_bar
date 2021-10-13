@@ -10,6 +10,7 @@ import { Bar } from ".";
 import { StyleContext, ImagesContext } from "../utility";
 import { pixelSize } from "../utility/context";
 import { THEME } from "../constants";
+import BarEntry from "./BarEntry";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
@@ -55,6 +56,7 @@ const Screen: FC = () => {
       <StyleContext.Provider value={themeState}>
         {/* <BarContext.Provider value={barCtx}> */}
         {/* <ImagesContext.Provider> */}
+        <BarEntry />
           <Bar/>
         {/* </ImagesContext.Provider> */}
         {/* </BarContext.Provider> */}
