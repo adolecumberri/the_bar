@@ -1,11 +1,11 @@
 import { TableSortLabel } from "@material-ui/core";
-import { GRID_CONFIG, TABLES_LOCATIONS } from "../constants";
+import { GRID_CONFIG, TABLES_LOCATIONS } from "../constants/constants";
 import { IGridConstructor, IGridHash, IGRID_VALUES, ITable } from "../interfaces";
 import { GridBoxesTypes } from "./GridBoxesTypes";
 
- 
+
 export class Grid {
-  constructor( customGrid?: IGridHash ){
+  constructor(customGrid?: IGridHash) {
     this.hashGrid = customGrid as IGridHash;
   }
   topMargin = 2;
@@ -52,7 +52,7 @@ export class Grid {
   };
 
   _initNewGridWithTables = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
-    
+
     //Load cell-height and cell-width
     const { height, width } = this._loadBoxDimensions({ cols, rows, t_height, t_width })
     let gridHash: IGridHash = {};
@@ -141,31 +141,31 @@ export class Grid {
 
     return { gX, gY, x, y }
   }
- 
+
   highlight = (type: IGRID_VALUES) => {
-     for (let cell in this.hashGrid){
-        if(this.hashGrid[cell].type === type){
-          this.hashGrid[cell].color = "#e1e1e1";
-          this.hashGrid[cell].highlighted = true;
-        }
-        // else{
-        //   this.hashGrid[cell].color = this.hashGrid[cell].initialColor as string;
-        //   this.hashGrid[cell].highlighted = false;
-        // }
-     }
-     this.triggerUpdate = this.triggerUpdate + 1; //trigger updates
+    for (let cell in this.hashGrid) {
+      if (this.hashGrid[cell].type === type) {
+        this.hashGrid[cell].color = "#e1e1e1";
+        this.hashGrid[cell].highlighted = true;
+      }
+      // else{
+      //   this.hashGrid[cell].color = this.hashGrid[cell].initialColor as string;
+      //   this.hashGrid[cell].highlighted = false;
+      // }
+    }
+    this.triggerUpdate = this.triggerUpdate + 1; //trigger updates
   }
 
-  stopHighlighting = () =>{
-    for (let cell in this.hashGrid){  
-        this.hashGrid[cell].color = this.hashGrid[cell].initialColor as string;
-        this.hashGrid[cell].highlighted = false;
-   }
-   this.triggerUpdate = this.triggerUpdate + 1; //trigger updates
-  } 
+  stopHighlighting = () => {
+    for (let cell in this.hashGrid) {
+      this.hashGrid[cell].color = this.hashGrid[cell].initialColor as string;
+      this.hashGrid[cell].highlighted = false;
+    }
+    this.triggerUpdate = this.triggerUpdate + 1; //trigger updates
+  }
 
   //returns table's hash key and chairs.
-  getFreeTables = () =>{
+  getFreeTables = () => {
 
   }
 

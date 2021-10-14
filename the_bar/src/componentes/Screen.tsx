@@ -8,10 +8,11 @@ import { useWindowSize } from "../hooks";
 import { IGridHash, IPixelSize, ITheme } from "../interfaces";
 import { Bar } from ".";
 import { StyleContext } from "../utility";
-import { THEME } from "../constants";
+import { THEME } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
+import { createHero } from "../utility/Utility";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
@@ -42,6 +43,15 @@ const Screen: FC = () => {
   const [triggerRender, setTriggerRender] = useState(false); //Trigger a canvas render
 
   const [barGrid, setBarGrid] = useState<Grid>(new Grid());
+
+//------CREWS.----------
+//TODO: metería esto en un hook personalizado, que creo que puede ser 
+// una clase ES6 pero mucho mas flexible en el paradigma de react. 
+const [allCrews, setAllCrews] = useState<any>();
+const [crewsAtDoor, setCrewsAtDoor] = useState<any>();
+
+
+const [randomGuy, setRandomGuy] = useState<any>(createHero());
 
   useEffect(() => {
     // debugger;

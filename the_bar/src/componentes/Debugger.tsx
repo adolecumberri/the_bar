@@ -7,7 +7,7 @@ import React, { FC } from "react";
 //Material UI
 import { makeStyles } from "@material-ui/styles";
 
-import { THEME } from '../constants';
+import { THEME } from '../constants/constants';
 import { ITheme } from "../interfaces";
 
 const useStyles = makeStyles((Theme: ITheme) => ({

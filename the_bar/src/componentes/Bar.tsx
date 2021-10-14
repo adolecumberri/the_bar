@@ -13,9 +13,9 @@ import React, {
 //Material UI
 import { makeStyles, useTheme } from "@material-ui/styles";
 
-import { THEME } from "../constants";
+import { THEME } from "../constants/constants";
 import { IAnyBox, IGridHash, ITheme } from "../interfaces";
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants/constants";
 import { useRenderCounter } from "../hooks";
 import { StyleContext, ImagesContext } from "../utility";
 import { Grid } from "../classes/Grid";

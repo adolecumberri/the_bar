@@ -1,5 +1,5 @@
 import React from "react";
-import { CANVAS_HEIGHT, CANVAS_WIDTH, THEME } from "../constants";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, THEME } from "../constants/constants";
 import { IImageContext, ITheme } from "../interfaces";
 
 const imgBar = new Image();
