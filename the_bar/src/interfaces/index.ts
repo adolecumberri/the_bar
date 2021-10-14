@@ -6,6 +6,7 @@ import { ISprite } from './ISprites';
 import { IGRID_VALUES, IGRID_TYPES, IDirections } from './IConstants';
 import { IGridHash } from './IGridHash';
 import { IImageContext } from './IImageContext';
+import { ICrew } from './Crew.interface';
 
 export type {
     ITheme,
@@ -25,4 +26,5 @@ export type {
     IDirections,
     IGridHash,
     IImageContext,
+    ICrew
 }

@@ -3,11 +3,12 @@ import { GRID_CONFIG, TABLES_LOCATIONS } from "../constants";
 import { IGridConstructor, IGridHash, IGRID_VALUES, ITable } from "../interfaces";
 import { GridBoxesTypes } from "./GridBoxesTypes";
 
-const topMargin = 2;
+ 
 export class Grid {
   constructor( customGrid?: IGridHash ){
     this.hashGrid = customGrid as IGridHash;
   }
+  topMargin = 2;
   hashGrid: IGridHash = {};
   //cada vez que una funcion quiera triggear un render, ++ a esa variable. y lo controlo fuera.
   //así el useEffect no checkea un objeto complejo.
@@ -115,13 +116,13 @@ export class Grid {
     t_height: number;
     rows: number;
   }) => {
-    if (t_width % cols || t_height % (rows + topMargin))
+    if (t_width % cols || t_height % (rows + this.topMargin))
       throw new Error(
         "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
       );
 
     let width = t_width / cols;
-    let height = t_height / (rows + topMargin);
+    let height = t_height / (rows + this.topMargin);
 
     return { width, height }
   }
@@ -136,7 +137,7 @@ export class Grid {
     let gX = X,
       gY = Y,
       x = X * width,
-      y = (Y + topMargin) * height; // por la falsa pared
+      y = (Y + this.topMargin) * height; // por la falsa pared
 
     return { gX, gY, x, y }
   }
@@ -163,6 +164,10 @@ export class Grid {
    this.triggerUpdate = this.triggerUpdate + 1; //trigger updates
   } 
 
+  //returns table's hash key and chairs.
+  getFreeTables = () =>{
+
+  }
 
 }
 
