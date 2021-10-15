@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/styles";
 
 import { THEME } from '../constants/constants';
 import { ITheme } from "../interfaces";
-import { loadBoxDimensions, StyleContext } from "../utility";
+import { ImagesContext, loadBoxDimensions, StyleContext } from "../utility";
 import { useRenderCounter } from "../hooks";
 
 const useStyles = makeStyles(() => {
@@ -23,6 +23,8 @@ const useStyles = makeStyles(() => {
 const BarEntry: FC = () => {
     // let { container } = useStyles();
     const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+    const a = useContext(ImagesContext);
+    console.log({a});
     const [count] = useRenderCounter();
     console.log({ pixelSize, canvasHeight, canvasWidth });
     const { height, width } = loadBoxDimensions({
