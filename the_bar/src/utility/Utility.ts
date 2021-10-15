@@ -45,7 +45,7 @@ export const loadBoxDimensions = ({ t_width, cols, t_height, rows, topMargin = 0
   return { width, height }
 }
 
-export function rand(max: number, min?: number = 0) {
+export function rand(max: number, min: number = 0) {
   return Math.round(Math.random() * (max - min) + min);
 }
 
@@ -64,6 +64,8 @@ let calculateFinalStats = (baseStats: any, classState: any) => {
 			Math.round((Math.random() * (value * (1 + VARIATION) - value * (1 - VARIATION)) + value * (1 - VARIATION)) * 100) /
 			100;
 	});
+
+  finalStat['className'] = classState['className'];
 	return finalStat;
 };
 

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useContext } from "react";
+import { FC, useEffect, useState, useContext, useCallback } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
@@ -44,14 +44,15 @@ const Screen: FC = () => {
 
   const [barGrid, setBarGrid] = useState<Grid>(new Grid());
 
-//------CREWS.----------
-//TODO: metería esto en un hook personalizado, que creo que puede ser 
-// una clase ES6 pero mucho mas flexible en el paradigma de react. 
-const [allCrews, setAllCrews] = useState<any>();
-const [crewsAtDoor, setCrewsAtDoor] = useState<any>();
+  //------CREWS.----------
+  //TODO: metería esto en un hook personalizado, que creo que puede ser 
+  // una clase ES6 pero mucho mas flexible en el paradigma de react. 
+  const [allCrews, setAllCrews] = useState<any>();
+  const [crewsAtDoor, setCrewsAtDoor] = useState<any>();
 
+  const create = useCallback(createHero, []);
 
-const [randomGuy, setRandomGuy] = useState<any>(createHero());
+  const [randomGuy, setRandomGuy] = useState<any>();
 
   useEffect(() => {
     // debugger;
@@ -105,10 +106,10 @@ const [randomGuy, setRandomGuy] = useState<any>(createHero());
           }}
         />
         <BarEntry />
-        <Bar 
-          barGrid={barGrid as Grid} 
-          triggerRender={triggerRender} 
-          // executeRenderLoop={executeRenderLoop}
+        <Bar
+          barGrid={barGrid as Grid}
+          triggerRender={triggerRender}
+        // executeRenderLoop={executeRenderLoop}
         />
       </StyleContext.Provider>
     </>
@@ -130,3 +131,5 @@ const pixelSizeQuery: (a: number) => IPixelSize = (windowWidth: number) => {
   return solution;
 }
 export default Screen;
+
+
