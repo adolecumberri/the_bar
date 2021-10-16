@@ -50,7 +50,6 @@ let imgs: {
   [x: string]: HTMLImageElement
 } = {};
 
-debugger;
 urlsToLoad.forEach(({ name, src }) => {
   let newImg = new Image();
   newImg.src = src

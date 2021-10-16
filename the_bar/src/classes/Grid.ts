@@ -1,7 +1,7 @@
-import { TableSortLabel } from "@material-ui/core";
+
 import { GRID_CONFIG, TABLES_LOCATIONS } from "../constants/constants";
 import { IGridConstructor, IGridHash, IGRID_VALUES, IGridTable } from "../interfaces";
-import { GridBoxesTypes } from "./GridBoxesTypes";
+import { Chair, Table, Void } from "./GridBoxesTypes";
 
 
 export class Grid {
@@ -10,7 +10,7 @@ export class Grid {
   }
   topMargin = 2;
   hashGrid: IGridHash = {};
-  tables: typeof GridBoxesTypes.Table[] = [];
+  tables: Table[] = [];
   //cada vez que una funcion quiera triggear un render, ++ a esa variable. y lo controlo fuera.
   //así el useEffect no checkea un objeto complejo.
   triggerUpdate: number = 0;  // unused
@@ -26,7 +26,7 @@ export class Grid {
         let key = `${X}-${Y}`;
         let gridTypeConfig = GRID_CONFIG.void;
 
-        let gridBox = new GridBoxesTypes.Void({
+        let gridBox = new Void({
           key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, ...gridTypeConfig
         })
 
@@ -68,17 +68,19 @@ export class Grid {
       let gridTypeConfig = GRID_CONFIG.table;
 
       //creation.
-      let gridBox = new GridBoxesTypes.Table({
-        key, 
-        ...this._loadBoxBasicVariables({ X, Y, height, width }), 
-        width, 
-        height, 
+      let gridBox = new Table({
+        key,
+        ...this._loadBoxBasicVariables({ X, Y, height, width }),
+        width,
+        height,
+        isOccupied: false,
         tableId,
         ...gridTypeConfig,
         chairs: TABLES_LOCATIONS[i].chairs,
         sites: TABLES_LOCATIONS[i].sites,
       });
 
+      //añado mesa al array de mesas y al gridHash
       gridHash[key] = gridBox;
       this.tables.push(gridBox);
 
@@ -91,8 +93,14 @@ export class Grid {
         //configuración basica para sillas
         gridTypeConfig = GRID_CONFIG.chair;
 
-        let gridBox = new GridBoxesTypes.Chair({
-          key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, tableId, ...gridTypeConfig
+        let gridBox = new Chair({
+          key,
+          ...this._loadBoxBasicVariables({ X, Y, height, width }),
+          width,
+          height,
+          tableId,
+          isOccupied: false,
+          ...gridTypeConfig
         });
         gridHash[key] = gridBox;
       });
@@ -107,7 +115,7 @@ export class Grid {
         if (!gridHash[key]) {
           let gridTypeConfig = GRID_CONFIG.void;
 
-          let gridBox = new GridBoxesTypes.Void({
+          let gridBox = new Void({
             key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, ...gridTypeConfig
           })
           gridHash[key] = gridBox;
@@ -178,11 +186,16 @@ export class Grid {
 
   //returns table's hash key and chairs.
   getFreeTables = () => {
-    let solution: ITable[] = [];
+    let solution: IGridTable[] = [];
 
-    for (let cell in this.hashGrid) {
+    TABLES_LOCATIONS.forEach(({ row, col, chairs }) => {
+      let key = `${row}-${col}`;
+      if (!(this.hashGrid[key] as IGridTable).isOccupied) {
+        solution.push(this.hashGrid[key] as IGridTable);
+      }
+    });
 
-    }
+    return solution;
   }
 
 }

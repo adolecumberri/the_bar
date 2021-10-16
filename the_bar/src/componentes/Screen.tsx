@@ -54,6 +54,7 @@ const Screen: FC = () => {
 
   const [randomGuy, setRandomGuy] = useState<any>();
 
+  //set pixelSize
   useEffect(() => {
     // debugger;
     //hay un bug, que windowWidth se lee como 0
@@ -63,10 +64,12 @@ const Screen: FC = () => {
     }
   }, [windowWidth]);
 
+  //set theme state
   useEffect(() => {
     setThemeState({ ...THEME, pixelSize });
   }, [pixelSize]);
 
+  //grid initializer
   useEffect(() => {
     let rows = 6,
       cols = 16,
@@ -78,6 +81,8 @@ const Screen: FC = () => {
 
     setBarGrid(grid);
   }, [pixelSize]);
+
+
 
 
   // const executeRenderLoop: (callBack: any) => void = (callBack) => {

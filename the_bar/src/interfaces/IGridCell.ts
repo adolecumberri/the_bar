@@ -11,7 +11,6 @@ export interface IGridBox {
   y: number;
   width: number;
   height: number;
-  status: IStatus;
   type: IGRID_VALUES;
   walkable: boolean;
   color: string;
@@ -21,7 +20,7 @@ export interface IGridBox {
 }
 
 export interface IGridChair extends IGridBox {  //TODO: no hace falta
-  occupied?: boolean;
+  isOccupied: boolean;
   hero?: any; //todo: interfaz de heroe
   tableId: number;
   direction?: ""
@@ -31,15 +30,15 @@ export interface IGridTable extends IGridBox { //TODO: no hace falta
   tableId: number;
   chairs: IChair[];
   sites: number;
+  isOccupied: boolean;
 }
 
-export type IStatus = "walkable" | "blocked" | "occupied" | "free";
+export type IStatus = "walkable" | "blocked" | "occupied" | "free"; //Todo: no hace falta
 
 
 
 export type IGridConfig = {
   [x in IGRID_VALUES]: {
-    status: IStatus;
     type: IGRID_VALUES;
     walkable: boolean;
     color: string;
