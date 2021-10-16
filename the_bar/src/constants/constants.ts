@@ -1,4 +1,5 @@
 import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES } from "../interfaces";
+import { ITable } from "../interfaces/ITables";
 
 
 
@@ -49,11 +50,12 @@ const GRID_CONFIG: IGridConfig = {
   },
 };
 
-const TABLES_LOCATIONS = [
+const TABLES_LOCATIONS: ITable[] = [
   {
     id: 1,
     col: 2,
     row: 0,
+    sites: 2,
     chairs: [
       {
         col: 1,
@@ -69,6 +71,7 @@ const TABLES_LOCATIONS = [
     id: 2,
     col: 1,
     row: 3,
+    sites: 3,
     chairs: [
       {
         col: 0,
@@ -88,6 +91,7 @@ const TABLES_LOCATIONS = [
     id: 3,
     col: 1,
     row: 5,
+    sites: 2,
     chairs: [
       {
         col: 0,
@@ -103,6 +107,7 @@ const TABLES_LOCATIONS = [
     id: 4,
     col: 4,
     row: 4,
+    sites: 2,
     chairs: [
       {
         col: 4,
@@ -118,6 +123,7 @@ const TABLES_LOCATIONS = [
     id: 5,
     col: 6,
     row: 4,
+    sites: 2,
     chairs: [
       {
         col: 6,
@@ -133,6 +139,7 @@ const TABLES_LOCATIONS = [
     id: 6,
     col: 9,
     row: 4,
+    sites: 4,
     chairs: [
       {
         col: 9,
@@ -156,6 +163,7 @@ const TABLES_LOCATIONS = [
     id: 7,
     col: 13,
     row: 4,
+    sites: 4,
     chairs: [
       {
         col: 13,
@@ -179,6 +187,7 @@ const TABLES_LOCATIONS = [
     id: 8,
     col: 15,
     row: 2,
+    sites: 2,
     chairs: [
       {
         col: 15,
@@ -194,6 +203,7 @@ const TABLES_LOCATIONS = [
     id: 9,
     col: 13,
     row: 0,
+    sites: 3,
     chairs: [
       {
         col: 12,

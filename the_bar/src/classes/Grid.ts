@@ -1,6 +1,6 @@
 import { TableSortLabel } from "@material-ui/core";
 import { GRID_CONFIG, TABLES_LOCATIONS } from "../constants/constants";
-import { IGridConstructor, IGridHash, IGRID_VALUES, ITable } from "../interfaces";
+import { IGridConstructor, IGridHash, IGRID_VALUES, IGridTable } from "../interfaces";
 import { GridBoxesTypes } from "./GridBoxesTypes";
 
 
@@ -10,6 +10,7 @@ export class Grid {
   }
   topMargin = 2;
   hashGrid: IGridHash = {};
+  tables: typeof GridBoxesTypes.Table[] = [];
   //cada vez que una funcion quiera triggear un render, ++ a esa variable. y lo controlo fuera.
   //así el useEffect no checkea un objeto complejo.
   triggerUpdate: number = 0;  // unused
@@ -66,10 +67,20 @@ export class Grid {
       let key = `${X}-${Y}`;
       let gridTypeConfig = GRID_CONFIG.table;
 
+      //creation.
       let gridBox = new GridBoxesTypes.Table({
-        key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, tableId, ...gridTypeConfig
+        key, 
+        ...this._loadBoxBasicVariables({ X, Y, height, width }), 
+        width, 
+        height, 
+        tableId,
+        ...gridTypeConfig,
+        chairs: TABLES_LOCATIONS[i].chairs,
+        sites: TABLES_LOCATIONS[i].sites,
       });
+
       gridHash[key] = gridBox;
+      this.tables.push(gridBox);
 
       //Creación de sillas.
       TABLES_LOCATIONS[i].chairs.forEach(({ col, row }) => {
@@ -77,6 +88,7 @@ export class Grid {
         Y = row;
 
         let key = `${X}-${Y}`;
+        //configuración basica para sillas
         gridTypeConfig = GRID_CONFIG.chair;
 
         let gridBox = new GridBoxesTypes.Chair({
@@ -166,7 +178,11 @@ export class Grid {
 
   //returns table's hash key and chairs.
   getFreeTables = () => {
+    let solution: ITable[] = [];
 
+    for (let cell in this.hashGrid) {
+
+    }
   }
 
 }

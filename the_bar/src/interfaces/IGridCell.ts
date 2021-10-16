@@ -1,12 +1,7 @@
 
-import { IGRID_TYPES, IGRID_VALUES } from "./IConstants";
-import { ISprite } from "./ISprites";
+import { IChair, IGRID_VALUES, ISprite } from ".";
 
-
-//Not sure if usefull
-export type IAnyBox = IGridBox | IChair | ITable
-
-//
+export type IAnyBox = IGridBox | IGridChair | IGridTable
 
 export interface IGridBox {
   key: string;
@@ -25,15 +20,17 @@ export interface IGridBox {
   highlighted?: boolean;
 }
 
-export interface IChair extends IGridBox {  //TODO: no hace falta
+export interface IGridChair extends IGridBox {  //TODO: no hace falta
   occupied?: boolean;
   hero?: any; //todo: interfaz de heroe
   tableId: number;
   direction?: ""
 }
 
-export interface ITable extends IGridBox { //TODO: no hace falta
+export interface IGridTable extends IGridBox { //TODO: no hace falta
   tableId: number;
+  chairs: IChair[];
+  sites: number;
 }
 
 export type IStatus = "walkable" | "blocked" | "occupied" | "free";

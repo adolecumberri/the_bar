@@ -2,9 +2,10 @@ import {
   IGridBox,
   ISprite,
   IStatus,
-  IChair,
-  ITable,
+  IGridChair,
+  IGridTable,
   IGRID_VALUES,
+  IChair,
 } from "../interfaces";
 
 class GridBox {
@@ -78,7 +79,7 @@ export const GridBoxesTypes = {
     occupied?: boolean;
     hero?: any;
     tableId: number;
-    constructor(arg: IChair) {
+    constructor(arg: IGridChair) {
       super(arg);
 
       this.occupied = arg.occupied || false;
@@ -103,11 +104,13 @@ export const GridBoxesTypes = {
   },
   Table: class Table extends GridBox {
     tableId: number;
-    constructor(arg: ITable) {
+    chairs: IChair[];
+    constructor(arg: IGridTable) {
       super(arg);
       this.status = "blocked";
       this.walkable = false;
       this.tableId = arg.tableId;
+      this.chairs = arg.chairs;
     }
   },
   Void: GridBox,

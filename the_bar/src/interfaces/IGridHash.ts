@@ -1,7 +1,5 @@
-import { IChair, IGridBox, ITable } from ".";
-
-
+import { IGridChair, IGridBox, IGridTable } from ".";
 
 export type IGridHash = {
-    [x: string]: IGridBox | IChair | ITable
+    [x: string]: IGridBox | IGridChair | IGridTable
 }
