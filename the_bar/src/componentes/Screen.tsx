@@ -13,6 +13,7 @@ import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
 import { createHero } from "../utility/Utility";
+import useInterval from "../hooks/useInterval";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
@@ -83,7 +84,10 @@ const Screen: FC = () => {
   }, [pixelSize]);
 
 
-
+  useInterval(() => {
+    // Your custom logic here
+    console.log(createHero());
+  }, 1000);
 
   // const executeRenderLoop: (callBack: any) => void = (callBack) => {
   //   callBack();
