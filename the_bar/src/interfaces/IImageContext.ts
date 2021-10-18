@@ -11,9 +11,10 @@ export interface IImgAnimation {
   name: string;
   animationDir?: string;
   img: HTMLImageElement;
-  xSize: number;
-  ySize: number;
+  xSize: number | string;
+  ySize: number | string;
   steps: number;
+  sheetType: 'vertical' | 'horizontal';
 }
 
 

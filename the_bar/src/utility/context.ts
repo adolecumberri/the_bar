@@ -65,6 +65,7 @@ let defaultImageContext: IImageContext = {
     xSize: 32,
     ySize: 32,
     steps: 0,
+    sheetType: 'vertical',
   },
   archer: {
     name: "archer",
@@ -73,6 +74,7 @@ let defaultImageContext: IImageContext = {
     xSize: 186,
     ySize: 80,
     steps: 6,
+    sheetType: 'horizontal',
   },
   ninja: {
     name: "ninja",
@@ -81,22 +83,26 @@ let defaultImageContext: IImageContext = {
     xSize: 126,
     ySize: 27,
     steps: 4,
+    sheetType: 'vertical',
   },
   berserker: {
     name: "berserker",
     animationDir: "dwn",
     img: imgs.berserker,
     xSize: 126,
-    ySize: 29,
+    ySize: 39,
     steps: 5,
+    sheetType: 'vertical',
   },
   deffender: {
     name: "deffender",
     animationDir: "dwn",
     img: imgs.deffender,
-    xSize: 137,
+    // xSize: 137,
+    xSize: '100%',
     ySize: 44,
     steps: 4,
+    sheetType: 'vertical',
   },
   fencer: {
     name: "fencer",
@@ -105,6 +111,7 @@ let defaultImageContext: IImageContext = {
     xSize: 82,
     ySize: 23,
     steps: 5,
+    sheetType: 'vertical',
   },
   paladin: {
     name: "paladin",
@@ -112,7 +119,8 @@ let defaultImageContext: IImageContext = {
     img: imgs.paladin,
     xSize: 119,
     ySize: 124,
-    steps: 4,
+    steps: 9,
+    sheetType: 'vertical',
   },
   sniper: {
     name: "sniper",
@@ -121,6 +129,8 @@ let defaultImageContext: IImageContext = {
     xSize: 117,
     ySize: 26,
     steps: 4,
+    
+    sheetType: 'vertical',
   },
   soldier: {
     name: "soldier",
@@ -129,6 +139,7 @@ let defaultImageContext: IImageContext = {
     xSize: 156,
     ySize: 64,
     steps: 7,
+    sheetType: 'horizontal',
   },
   thieve: {
     name: "thieve",
@@ -137,6 +148,8 @@ let defaultImageContext: IImageContext = {
     xSize: 64,
     ySize: 64,
     steps: 4,
+    
+    sheetType: 'horizontal',
   }
 };
 

@@ -60,20 +60,46 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
 
             let type = hero.className.toLocaleLowerCase() as keyof IImageContext;
             if (!barImgs[type]) debugger;
-            let { img, name, xSize, ySize, steps } = barImgs[type];
-if(!img){
-    debugger;
-}
+            let { img, name, xSize, ySize, steps, sheetType } = barImgs[type];
+            if (!img) {
+                debugger;
+            }
             let a = (
-                <div>
-                    {name}
-                    <div 
+                <div
                     style={{
-                        width: `${xSize}px`,
-                        height: `${ySize}px`,
-                        background: `transparent url(${img.src}) 0 0 no-repeat`,
-                        animation: `iddle-${name} 1s steps(${steps}) infinite`
-                    }}  ></div>
+                        overflow: 'hidden',
+                        position: 'relative',
+                        width: `${typeof xSize === "string" ? xSize : xSize + "px"}`,
+                        height: `${typeof ySize === "string" ? ySize : ySize + "px"}`,
+                    }}>
+                    <span style={
+                        { position: "absolute", top: 0, left: 0, zIndex: 1 }
+                    }>{name}</span>
+                    <img
+                        alt="e"
+                        style={
+                            sheetType === "horizontal" ?
+                                {
+                                    height: "100%",
+                                    width: "auto",
+                                    animation: `iddle-${name} 1s steps(${steps}) infinite`,
+                                    // minHeight: height,
+                                    // minWidth: width
+                                }
+                                : {
+                                    height: "auto",
+                                    width: "100",
+                                    // overflow: "hidden",
+                                    // width: `${typeof xSize === "string" ? xSize : xSize+"px"}`,
+                                    // height: `${typeof ySize === "string" ? ySize : ySize+"px"}`,
+                                    // background: `transparent url(${img.src}) 0 0 no-repeat`,
+                                    animation: `iddle-${name} 1s steps(${steps}) infinite`,
+                                    // minHeight: height,
+                                    // minWidth: width
+                                }
+                        }
+                        src={img.src}
+                    />
                 </div>
             );
             solution.push(a);

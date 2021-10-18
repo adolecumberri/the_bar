@@ -52,31 +52,61 @@
 }
 
 @keyFrames iddle-deffender {
-    100% {
+    /* 100% {
         background-position: 0, 176px;
-    }
+    } */
+    from {
+        transform: translate3d(0, 0px ,0)
+     }
+     to {
+        transform: translate3d(0, -100%, 0)
+     }
 }
 
 @keyFrames iddle-fencer {
-    100% {
+    /* 100% {
         background-position: 0, 115px;
-    }
+    } */
+    from {
+        transform: translate3d(0, 0px ,0)
+     }
+     to {
+        transform: translate3d(0, -100%, 0)
+     }
 }
 
 @keyFrames iddle-ninja {
-    100% {
+    /* 100% {
         background-position: 0, 108px;
-    }
+    } */
+    from {
+        transform: translate3d(0, 0px ,0)
+     }
+     to {
+        transform: translate3d(0, -100%, 0)
+     }
 }
 
 @keyFrames iddle-paladin {
-    100% {
+    /* 100% {
         background-position: 0, 1116px;
-    }
+    } */
+    from {
+        transform: translate3d(0, 0px ,0)
+     }
+     to {
+        transform: translate3d(0, -100%, 0)
+     }
 }
 
 @keyFrames iddle-sniper {
-    100% {
+    /* 100% {
         background-position:  0, 104px;
-    }
+    } */
+    from {
+        transform: translate3d(0, 0px ,0)
+     }
+     to {
+        transform: translate3d(0, -100%, 0)
+     }
 }
