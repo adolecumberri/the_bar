@@ -58,7 +58,7 @@ export function randName(gender: number) {
 
 let calculateFinalStats = (baseStats: any, classState: any) => {
 	let finalStat: any = {};
-	Object.keys(baseStats).map((a: string | any) => {
+	Object.keys(baseStats).forEach((a: string | any) => {
 		let value = baseStats[a] + classState[a] + Number.EPSILON;
 		finalStat[a] =
 			Math.round((Math.random() * (value * (1 + VARIATION) - value * (1 - VARIATION)) + value * (1 - VARIATION)) * 100) /
@@ -71,7 +71,6 @@ let calculateFinalStats = (baseStats: any, classState: any) => {
 
 
 export const createHero = () => {
-  debugger;
   let basicStats = HERO_STATS[0];
   let classStats = HERO_STATS.slice(1);
 

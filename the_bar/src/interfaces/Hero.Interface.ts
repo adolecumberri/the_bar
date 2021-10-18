@@ -17,6 +17,7 @@ export interface IHeroCreated extends IHeroStats {
     name: string;
     surname: string;
     gender: string;
+    className: string;
 } 
 
 export interface IHeroBase { 

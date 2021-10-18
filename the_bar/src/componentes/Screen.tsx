@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useContext, useCallback } from "react";
+import { FC, useEffect, useState, useContext, useCallback, useRef } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
@@ -49,8 +49,9 @@ const Screen: FC = () => {
   //TODO: metería esto en un hook personalizado, que creo que puede ser 
   // una clase ES6 pero mucho mas flexible en el paradigma de react. 
   const [allCrews, setAllCrews] = useState<any>();
-  const [crewsAtDoor, setCrewsAtDoor] = useState<any>();
-
+  const [crewsAtDoor, setCrewsAtDoor] = useState<any>([]);
+const [delay, setDelay] = useState(1000);
+  // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createHero, []);
 
   const [randomGuy, setRandomGuy] = useState<any>();
@@ -83,11 +84,20 @@ const Screen: FC = () => {
     setBarGrid(grid);
   }, [pixelSize]);
 
+  //when crewsAtDoor changes, re-starts delay used in the interval of creation.
+  useEffect(() => {
+    if(crewsAtDoor.length < 5){
+      setDelay(1000);
+    }
+  }, [crewsAtDoor.length])
 
   useInterval(() => {
-    // Your custom logic here
-    console.log(createHero());
-  }, 1000);
+    if(crewsAtDoor.length < 5){
+      setCrewsAtDoor( [...crewsAtDoor, create()]);
+    }else {
+      setDelay(0);
+    }
+  }, delay);
 
   // const executeRenderLoop: (callBack: any) => void = (callBack) => {
   //   callBack();
@@ -114,7 +124,7 @@ const Screen: FC = () => {
             // setBarGrid(new Grid(barGrid?.hashGrid));
           }}
         />
-        <BarEntry />
+        <BarEntry crewsAtDoor={crewsAtDoor}/>
         <Bar
           barGrid={barGrid as Grid}
           triggerRender={triggerRender}

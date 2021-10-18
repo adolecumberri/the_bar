@@ -6,9 +6,10 @@ import React, { FC, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 
 import { THEME } from '../constants/constants';
-import { ITheme } from "../interfaces";
+import { IImageContext, ITheme } from "../interfaces";
 import { ImagesContext, loadBoxDimensions, StyleContext } from "../utility";
 import { useRenderCounter } from "../hooks";
+import { IHeroCreated } from "../interfaces/Hero.Interface";
 
 const useStyles = makeStyles(() => {
     return (
@@ -16,15 +17,18 @@ const useStyles = makeStyles(() => {
             container: {}
         }
     )
+});
+
+interface barProps {
+    crewsAtDoor: IHeroCreated[]
 }
 
-);
-
-const BarEntry: FC = () => {
+const BarEntry: FC<barProps> = ({crewsAtDoor}) => {
     // let { container } = useStyles();
     const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
-    const a = useContext(ImagesContext);
-    console.log({a});
+
+    const barImgs = useContext(ImagesContext);
+    console.log({ barImgs });
     const [count] = useRenderCounter();
     console.log({ pixelSize, canvasHeight, canvasWidth });
     const { height, width } = loadBoxDimensions({
@@ -34,8 +38,6 @@ const BarEntry: FC = () => {
         t_height: canvasHeight * pixelSize,
         topMargin: 2
     });
-
-
 
     let style = {
         width,
@@ -51,9 +53,20 @@ const BarEntry: FC = () => {
         marginTop: height * 3
     };
 
+let heroesInQueue = ( ) => {
+    let solution = [];
+    crewsAtDoor.forEach( ( hero )=> {
+        //barImgs[((hero.className as string).toLowerCase() as key of typeof IImageContext)].img
+        debugger;
+        let type = hero.className.toLocaleLowerCase() as keyof  IImageContext;
+        let barImg = barImgs[type].img
+       solution.push( barImg );
+    })
+}
+
     return <div style={container}>
         <span style={{ position: "absolute" }}>{count}</span>
-
+{heroesInQueue()}
     </div>;
 };
 

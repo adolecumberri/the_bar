@@ -1,6 +1,6 @@
 import React from "react";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, THEME } from "../constants/constants";
-import { IImageContext, ITheme } from "../interfaces";
+import { IImageContext, IImgAnimation, ITheme } from "../interfaces";
 
 let urlsToLoad = [
   {
@@ -58,9 +58,9 @@ urlsToLoad.forEach(({ name, src }) => {
 // const imgBar = new Image();
 // imgBar.src = require("../sprites/bar_tile2.png").default;
 
-let defaultImageContext = {
+let defaultImageContext: IImageContext = {
   barTile: {
-    title: "barTile",
+    name: "barTile",
     img: imgs.barTile,
     xSize: 32,
     ySize: 32,
@@ -72,10 +72,10 @@ let defaultImageContext = {
     xSize: 186,
     ySize: 80,
   },
-  assasin: {
-    name: "assasin",
+  ninja: {
+    name: "ninja",
     animationDir: "dwn",
-    img: imgs.assasin,
+    img: imgs.ninja,
     xSize: 126,
     ySize: 27,
   },
@@ -89,42 +89,42 @@ let defaultImageContext = {
   defender: {
     name: "defender",
     animationDir: "dwn",
-    img: imgs.assasin,
+    img: imgs.defender,
     xSize: 137,
     ySize: 44,
   },
   fencer: {
     name: "fencer",
     animationDir: "dwn",
-    img: imgs.assasin,
+    img: imgs.fencer,
     xSize: 82,
     ySize: 23,
   },
   paladin: {
     name: "paladin",
     animationDir: "dwn",
-    img: imgs.assasin,
+    img: imgs.paladin,
     xSize: 119,
     ySize: 124,
   },
   sniper: {
     name: "sniper",
     animationDir: "dwn",
-    img: imgs.assasin,
+    img: imgs.sniper,
     xSize: 117,
     ySize: 26,
   },
   soldier: {
     name: "soldier",
     animationDir: "rgt",
-    img: imgs.assasin,
+    img: imgs.soldier,
     xSize: 156,
     ySize: 64,
   },
   thieve: {
     name: "thieve",
     animationDir: "dwn",
-    img: imgs.assasin,
+    img: imgs.thieve,
     xSize: 64,
     ySize: 64,
   }
@@ -135,7 +135,7 @@ let defaultImageContext = {
 export const StyleContext = React.createContext<ITheme>(THEME);
 
 export const ImagesContext =
-  React.createContext<IImageContext>(defaultImageContext);
+  React.createContext(defaultImageContext);
 
 export const pixelSize = React.createContext<string>("2px");
 
