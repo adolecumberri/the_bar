@@ -1,6 +1,6 @@
 //Entrada del bar
 
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useCallback, useContext, useEffect } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
@@ -53,9 +53,11 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
         marginTop: height * 3
     };
 
-    let heroesInQueue = () => {
+    //TODO: deprecated
+    // realmente voy a pintar equipos, no heroes solos.
+    let heroesInQueue = useCallback(() => {
         let solution: any[] = [];
-        crewsAtDoor.forEach((hero) => {
+        crewsAtDoor.forEach((hero, index) => {
             //barImgs[((hero.className as string).toLowerCase() as key of typeof IImageContext)].img
 
             let type = hero.className.toLocaleLowerCase() as keyof IImageContext;
@@ -66,15 +68,16 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
             }
             let a = (
                 <div
+                key= {index}
                     style={{
                         overflow: 'hidden',
                         position: 'relative',
                         width: `${typeof xSize === "string" ? xSize : xSize + "px"}`,
                         height: `${typeof ySize === "string" ? ySize : ySize + "px"}`,
                     }}>
-                    <span style={
+                    {/* <span style={
                         { position: "absolute", top: 0, left: 0, zIndex: 1 }
-                    }>{name}</span>
+                    }>{name}</span> */}
                     <img
                         alt="e"
                         style={
@@ -107,7 +110,9 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
         });
 
         return solution;
-    }
+    },[crewsAtDoor]);
+
+
 
     return <div style={container}>
         <span style={{ position: "absolute" }}>{count}</span>

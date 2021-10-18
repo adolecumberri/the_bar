@@ -43,6 +43,10 @@ let urlsToLoad = [
     name: "thieve",
     src: require("../img/common/thieve.png").default,
   },
+  {
+    name: "generalCrew",
+    src: require("../img/common/goup_sprite.png").default,
+  }
 ];
 
 
@@ -148,7 +152,15 @@ let defaultImageContext: IImageContext = {
     xSize: 64,
     ySize: 64,
     steps: 4,
-    
+    sheetType: 'horizontal',
+  },
+  generalCrew: {
+    name: "crew",
+    animationDir: "rgt",
+    img: imgs.thieve,
+    xSize: 96,
+    ySize: 96,
+    steps: 9,
     sheetType: 'horizontal',
   }
 };

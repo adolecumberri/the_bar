@@ -29,5 +29,6 @@ export interface IImageContext {
   'sniper': IImgAnimation;
   'soldier': IImgAnimation;
   'thieve': IImgAnimation;
+  'generalCrew': IImgAnimation;
 
 }//TODO: borrar barBackground. unused

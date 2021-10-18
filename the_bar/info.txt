@@ -39,3 +39,8 @@ overflow: hidden;
     animation:
         walkDown 0.5s spets(4) infinite;
 }
+
+
+/* los heroes tienen que ser....*/
+
+como la resolucion en la que trabajo tiene un tamaño de pixel x4, los heroes tienen que tener un tamaño original de 20x20.

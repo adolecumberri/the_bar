@@ -1,6 +1,6 @@
 
 import { IHero } from '../interfaces/Hero.Interface';
-import { AnyHero } from './classes';
+import { AnyHero } from './hero_classes';
 // import { StatsManager } from './fightStatsManager';
 
 export class Hero {
