@@ -1,6 +1,5 @@
 const HERO_STATS = [
   {
-    "id": 0,
     "id_class": null,
     "className": null,
     "hp": 70,
@@ -14,7 +13,6 @@ const HERO_STATS = [
     "reg": 0.6
   },
   {
-    "id": 1,
     "id_class": 1,
     "className": "Archer",
     "hp": 18,
@@ -28,7 +26,6 @@ const HERO_STATS = [
     "reg": 0.0
   },
   {
-    "id": 2,
     "id_class": 2,
     "className": "Berserker",
     "hp": 70,
@@ -42,7 +39,6 @@ const HERO_STATS = [
     "reg": 0.2
   },
   {
-    "id": 3,
     "id_class": 3,
     "className": "Deffender",
     "hp": 42,
@@ -56,9 +52,8 @@ const HERO_STATS = [
     "reg": 0.2
   },
   {
-    "id": 4,
     "id_class": 4,
-    "className": "Fencers",
+    "className": "Fencer",
     "hp": 34,
     "dmg": 16,
     "def": 11,
@@ -70,7 +65,6 @@ const HERO_STATS = [
     "reg": 0.0
   },
   {
-    "id": 5,
     "id_class": 5,
     "className": "Ninja",
     "hp": -28,
@@ -84,7 +78,6 @@ const HERO_STATS = [
     "reg": 0.0
   },
   {
-    "id": 6,
     "id_class": 6,
     "className": "Paladin",
     "hp": 50,
@@ -98,7 +91,6 @@ const HERO_STATS = [
     "reg": 0.2
   },
   {
-    "id": 7,
     "id_class": 7,
     "className": "Sniper",
     "hp": 5,
@@ -112,7 +104,6 @@ const HERO_STATS = [
     "reg": -0.2
   },
   {
-    "id": 8,
     "id_class": 8,
     "className": "Soldier",
     "hp": 35,
@@ -126,7 +117,6 @@ const HERO_STATS = [
     "reg": 0.0
   },
   {
-    "id": 9,
     "id_class": 9,
     "className": "Thieve",
     "hp": 25,

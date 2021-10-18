@@ -12,16 +12,16 @@ let urlsToLoad = [
     src: require("../img/common/archer.png").default,
   },
   {
-    name: "assasin",
-    src: require("../img/common/assasin.png").default,
+    name: "ninja",
+    src: require("../img/common/ninja.png").default,
   },
   {
-    name: "berserk",
-    src: require("../img/common/berserk.png").default,
+    name: "berserker",
+    src: require("../img/common/berserker.png").default,
   },
   {
-    name: "defender",
-    src: require("../img/common/defender.png").default,
+    name: "deffender",
+    src: require("../img/common/deffender.png").default,
   },
   {
     name: "fencer",
@@ -64,6 +64,7 @@ let defaultImageContext: IImageContext = {
     img: imgs.barTile,
     xSize: 32,
     ySize: 32,
+    steps: 0,
   },
   archer: {
     name: "archer",
@@ -71,6 +72,7 @@ let defaultImageContext: IImageContext = {
     img: imgs.archer,
     xSize: 186,
     ySize: 80,
+    steps: 6,
   },
   ninja: {
     name: "ninja",
@@ -78,20 +80,23 @@ let defaultImageContext: IImageContext = {
     img: imgs.ninja,
     xSize: 126,
     ySize: 27,
+    steps: 4,
   },
-  berserk: {
-    name: "berserk",
+  berserker: {
+    name: "berserker",
     animationDir: "dwn",
-    img: imgs.berserk,
+    img: imgs.berserker,
     xSize: 126,
     ySize: 29,
+    steps: 5,
   },
-  defender: {
-    name: "defender",
+  deffender: {
+    name: "deffender",
     animationDir: "dwn",
-    img: imgs.defender,
+    img: imgs.deffender,
     xSize: 137,
     ySize: 44,
+    steps: 4,
   },
   fencer: {
     name: "fencer",
@@ -99,6 +104,7 @@ let defaultImageContext: IImageContext = {
     img: imgs.fencer,
     xSize: 82,
     ySize: 23,
+    steps: 5,
   },
   paladin: {
     name: "paladin",
@@ -106,6 +112,7 @@ let defaultImageContext: IImageContext = {
     img: imgs.paladin,
     xSize: 119,
     ySize: 124,
+    steps: 4,
   },
   sniper: {
     name: "sniper",
@@ -113,6 +120,7 @@ let defaultImageContext: IImageContext = {
     img: imgs.sniper,
     xSize: 117,
     ySize: 26,
+    steps: 4,
   },
   soldier: {
     name: "soldier",
@@ -120,6 +128,7 @@ let defaultImageContext: IImageContext = {
     img: imgs.soldier,
     xSize: 156,
     ySize: 64,
+    steps: 7,
   },
   thieve: {
     name: "thieve",
@@ -127,6 +136,7 @@ let defaultImageContext: IImageContext = {
     img: imgs.thieve,
     xSize: 64,
     ySize: 64,
+    steps: 4,
   }
 };
 

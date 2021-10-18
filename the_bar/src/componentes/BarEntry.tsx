@@ -23,7 +23,7 @@ interface barProps {
     crewsAtDoor: IHeroCreated[]
 }
 
-const BarEntry: FC<barProps> = ({crewsAtDoor}) => {
+const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
     // let { container } = useStyles();
     const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
 
@@ -53,20 +53,39 @@ const BarEntry: FC<barProps> = ({crewsAtDoor}) => {
         marginTop: height * 3
     };
 
-let heroesInQueue = ( ) => {
-    let solution = [];
-    crewsAtDoor.forEach( ( hero )=> {
-        //barImgs[((hero.className as string).toLowerCase() as key of typeof IImageContext)].img
-        debugger;
-        let type = hero.className.toLocaleLowerCase() as keyof  IImageContext;
-        let barImg = barImgs[type].img
-       solution.push( barImg );
-    })
+    let heroesInQueue = () => {
+        let solution: any[] = [];
+        crewsAtDoor.forEach((hero) => {
+            //barImgs[((hero.className as string).toLowerCase() as key of typeof IImageContext)].img
+
+            let type = hero.className.toLocaleLowerCase() as keyof IImageContext;
+            if (!barImgs[type]) debugger;
+            let { img, name, xSize, ySize, steps } = barImgs[type];
+if(!img){
+    debugger;
 }
+            let a = (
+                <div>
+                    {name}
+                    <div 
+                    style={{
+                        width: `${xSize}px`,
+                        height: `${ySize}px`,
+                        background: `transparent url(${img.src}) 0 0 no-repeat`,
+                        animation: `iddle-${name} 1s steps(${steps}) infinite`
+                    }}  ></div>
+                </div>
+            );
+            solution.push(a);
+
+        });
+
+        return solution;
+    }
 
     return <div style={container}>
         <span style={{ position: "absolute" }}>{count}</span>
-{heroesInQueue()}
+        {heroesInQueue()}
     </div>;
 };
 

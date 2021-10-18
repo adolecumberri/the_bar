@@ -13,7 +13,6 @@ export interface IHeroStats{
 }
 
 export interface IHeroCreated extends IHeroStats {
-    id: number;
     name: string;
     surname: string;
     gender: string;

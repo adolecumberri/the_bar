@@ -13,6 +13,7 @@ export interface IImgAnimation {
   img: HTMLImageElement;
   xSize: number;
   ySize: number;
+  steps: number;
 }
 
 
@@ -20,8 +21,8 @@ export interface IImageContext {
   'barTile': IImgAnimation;
   'archer': IImgAnimation;
   'ninja': IImgAnimation;
-  'berserk': IImgAnimation;
-  'defender': IImgAnimation;
+  'berserker': IImgAnimation;
+  'deffender': IImgAnimation;
   'fencer': IImgAnimation;
   'paladin': IImgAnimation;
   'sniper': IImgAnimation;

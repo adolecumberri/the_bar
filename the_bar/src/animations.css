@@ -1,0 +1,82 @@
+
+
+/* horizontales. */
+@keyFrames iddle-archer {
+    /* 100% {
+        background-position: 0, 1116px;
+    } */
+    from {
+        transform: translate3d(0px,0,0)
+     }
+     to {
+        transform: translate3d(-100%,0,0)
+     }
+}
+
+@keyFrames iddle-soldier {
+    /* 100% {
+        background-position: 0, 1092px;
+    } */
+    from {
+        transform: translate3d(0px,0,0)
+     }
+     to {
+        transform: translate3d(-100%,0,0)
+     }
+}
+
+@keyFrames iddle-thieve {
+    /* 100% {
+        background-position: 0, 256px;
+    } */
+    from {
+        transform: translate3d(0px,0,0)
+     }
+     to {
+        transform: translate3d(-100%,0,0)
+     }
+}
+
+
+/* verticales */
+@keyFrames iddle-berserker {
+    /* 100% {
+        background-position: 0, 195px;
+    } */
+    from {
+        transform: translate3d(0, 0px ,0)
+     }
+     to {
+        transform: translate3d(0, -100%, 0)
+     }
+}
+
+@keyFrames iddle-deffender {
+    100% {
+        background-position: 0, 176px;
+    }
+}
+
+@keyFrames iddle-fencer {
+    100% {
+        background-position: 0, 115px;
+    }
+}
+
+@keyFrames iddle-ninja {
+    100% {
+        background-position: 0, 108px;
+    }
+}
+
+@keyFrames iddle-paladin {
+    100% {
+        background-position: 0, 1116px;
+    }
+}
+
+@keyFrames iddle-sniper {
+    100% {
+        background-position:  0, 104px;
+    }
+}
