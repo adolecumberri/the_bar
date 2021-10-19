@@ -1,13 +1,14 @@
 //Barra del bar
 
 import React, {
-  FC,
-  useRef,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useContext,
-  useState,
+    FC,
+    useRef,
+    Dispatch,
+    SetStateAction,
+    useEffect,
+    useContext,
+    useState,
+    useCallback,
 } from "react";
 
 //Material UI
@@ -28,137 +29,101 @@ gridSprites.setAttribute("src", "../sprites/spritesheet.png");
 // }
 
 const useStyles = makeStyles((tema: ITheme) => {
-  console.log(tema);
-  return {
-    container: {
-      backgroundColor: "burlywood",
-    },
-    counter: {
-      position: "absolute",
-    },
-  };
+    console.log(tema);
+    return {
+        container: {
+            backgroundColor: "burlywood",
+        },
+        counter: {
+            position: "absolute",
+        },
+    };
 });
 
 interface IBarProps {
-  barGrid: Grid;
-  triggerRender: boolean;
-  executeRenderLoop?: any; //TODO: Experimental
+    barGrid: Grid;
+    triggerRender: boolean;
+    executeRenderLoop?: any; //TODO: Experimental
 }
 
 const Bar: FC<IBarProps> = ({ barGrid: { hashGrid: barGrid, triggerUpdate }, triggerRender }) => {
-  const { container, counter } = useStyles();
+    const { container, counter } = useStyles();
 
-  const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
-  // const { barTile } = useContext(ImagesContext);
+    const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+    // const { barTile } = useContext(ImagesContext);
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
+    // const canvasRef = useRef<HTMLCanvasElement>(null);
+    // const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
 
-  const [count] = useRenderCounter();
+    const [count] = useRenderCounter();
 
-  useEffect(() => {
-    _renderLoop();
-  }, [triggerRender])
+    // useEffect(() => {
+    //     _drawGrid();
+    // }, [barGrid, triggerRender]);
 
 
-  useEffect(() => {
-    _renderLoop();
-    console.log("holaa-render");
-  }, [barGrid]);
+    /* recursively draw each grid object */
+    const _drawGrid = () => {
+        let solution = [];
+        for (let coord in barGrid) {
+            // solution.push(_drawBox(barGrid[coord].type, barGrid[coord]));
+  
+                let div = (<div
+                    style={{
+                        position: "absolute",
+                        width:  barGrid[coord].width,
+                        height:  barGrid[coord].height,
+                        top:  barGrid[coord].y,
+                        left:  barGrid[coord].x,
+                        border: "1px solid #bbbbbb",
+                        imageRendering: "pixelated",
+                    }}></div>);
+        
+                switch (barGrid[coord].type) {
+                    case "void":
+                        // div.props.style['background-color' as any] = box.color;
+                        break;
+        
+                    case "chair":
+        
+                        div.props.style['background-color' as any] =  barGrid[coord].color;
+                        break;
+        
+                    case "table":
+                        div.props.style['background-color' as any] =  barGrid[coord].color;
+                        break;
+        
+                    // case "hero":
+                    //     break;
+                }
+                
+                solution.push(div);
+    
+        }
 
-  function _renderLoop() {
-    let canvas = canvasRef.current as HTMLCanvasElement;
-    let ctx = canvasRef.current?.getContext("2d") as CanvasRenderingContext2D;
-    // console.log(ctx);
+        return solution;
+    };
 
-    //TODO: checkear si puedo pintar solo una vez el mapa y dejarlo así.
-    //reseteo el rectangulo
-    ctx?.clearRect(0, 0, canvas.width, canvas.height);
-    // debugger;
-    _drawGrid();
-    // frameId.current = requestAnimationFrame(_renderLoop); //TODO: puedo prescindir de el todavía.
-  }
+    if (pixelSize) console.log(CANVAS_WIDTH, CANVAS_HEIGHT, pixelSize);
+    return (
 
-  /* recursively draw each grid object */
-  function _drawGrid() {
-    for (let coord in barGrid) {
-      _drawBox(barGrid[coord].type, barGrid[coord]);
-    }
-  };
+        <>
+            {/* {console.log(theme)} */}
+            <div
+                id="canvas"
+                className={container}
+                style={{
+                    width: `${canvasWidth * pixelSize}px`,
+                    height: `${canvasHeight * pixelSize}px`,
+                    position: "relative",
+                }}
+            >
+                <span className={counter}>{count}</span>
 
-  /* function to draw individual game objects (square) to the canvas */
-  function _drawBox(type: string, box: IAnyBox): void {
-    let ctx: CanvasRenderingContext2D = canvasRef.current?.getContext(
-      "2d"
-    ) as CanvasRenderingContext2D;
-    // debugger;
-    //Tipos: void, chair, table y hero
-    switch (type) {
-      case "void":
-        // debugger;
-        // ctx.fillRect(box.x, box.y, box.width, box.height);
-        ctx.globalAlpha = 0.8;
-        ctx.beginPath();
-        ctx.rect(box.x, box.y, box.width, box.height);
-        ctx.stroke();
-        ctx.globalAlpha = 1.0;
-        // debugger;
-        // if(ctx === undefined){
-        //   debugger;
-        // }
-        // ctx.drawImage(
-        //   barTile.img,
-        //   box.sprite.x,
-        //   box.sprite.y,
-        //   box.sprite.width,
-        //   box.sprite.height,
-        //   box.x,
-        //   box.y,
-        //   box.width,
-        //   box.height
-        // );
-        return;
-
-      case "chair":
-        ctx.globalAlpha = 0.8;
-        ctx.beginPath();
-        ctx.rect(box.x, box.y, box.width, box.height);
-        ctx.fillStyle = box.color;
-        ctx.fillRect(box.x, box.y, box.width, box.height);
-        ctx.stroke();
-        ctx.globalAlpha = 1.0;
-        return;
-
-      case "table":
-        ctx.globalAlpha = 0.8;
-        ctx.beginPath();
-        ctx.rect(box.x, box.y, box.width, box.height);
-        ctx.fillStyle = box.color;
-        ctx.fillRect(box.x, box.y, box.width, box.height);
-        ctx.stroke();
-        ctx.globalAlpha = 1.0;
-        return;
-
-      case "hero":
-        return;
-    }
-  };
-
-  if (pixelSize) console.log(CANVAS_WIDTH, CANVAS_HEIGHT, pixelSize);
-  return (
-
-    <>
-      {/* {console.log(theme)} */}
-      <canvas
-        id="canvas"
-        ref={canvasRef}
-        className={container}
-        width={canvasWidth * pixelSize}
-        height={canvasHeight * pixelSize}
-      />
-      <span className={counter}>{count}</span>
-    </>
-  );
+                {_drawGrid()}
+            </div>
+        </>
+    );
 };
 
 export default Bar;
