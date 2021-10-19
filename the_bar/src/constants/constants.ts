@@ -218,6 +218,14 @@ const TABLES_LOCATIONS: ITable[] = [
   },
 ]
 
+/* DELAYS */
+const DELAYS = {
+  MIN_CREW_CREATION_DELAY: 1000,
+  MAX_CREW_CREATION_DELAY: 5000,
+
+}
+
+
 export {
   TILE_SIZE,
   CANVAS_HEIGHT,
@@ -227,4 +235,5 @@ export {
   GRID_CONFIG,
   HERO_TYPE,
   TABLES_LOCATIONS,
+  DELAYS,
 };

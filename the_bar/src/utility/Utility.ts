@@ -1,3 +1,5 @@
+
+import { Crew } from "../classes/Crew";
 import { HERO_STATS, MALE_NAMES, SURNAMES, VARIATION, WOMAN_NAMES } from "../constants";
 import { IHeroCreated } from "../interfaces/Hero.Interface";
 
@@ -94,4 +96,9 @@ export const createHero = () => {
   return randHero as IHeroCreated;
 };
 
+export const createCrew = () => {
+  let crew = new Crew(rand(4,2));
+  
 
+  return crew;
+}

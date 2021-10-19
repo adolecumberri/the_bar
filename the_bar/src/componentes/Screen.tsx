@@ -5,14 +5,14 @@ import { makeStyles } from "@material-ui/styles";
 
 import { useWindowSize } from "../hooks";
 
-import { IGridHash, IPixelSize, ITheme } from "../interfaces";
+import { ICrew, IGridHash, IPixelSize, ITheme } from "../interfaces";
 import { Bar } from ".";
 import { StyleContext } from "../utility";
-import { THEME } from "../constants/constants";
+import { THEME, DELAYS } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
-import { createHero } from "../utility/Utility";
+import { createHero, createCrew, rand } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
 
 const useStyles = makeStyles((theme: ITheme) => ({
@@ -48,11 +48,13 @@ const Screen: FC = () => {
   //------CREWS.----------
   //TODO: metería esto en un hook personalizado, que creo que puede ser 
   // una clase ES6 pero mucho mas flexible en el paradigma de react. 
+  const { MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY } = DELAYS;
   const [allCrews, setAllCrews] = useState<any>();
-  const [crewsAtDoor, setCrewsAtDoor] = useState<any>([]);
-const [delay, setDelay] = useState(1000);
+  const [crewsAtDoor, setCrewsAtDoor] = useState<ICrew[]>([]);
+
+  const [delay, setDelay] = useState(MIN_CREW_CREATION_DELAY);
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
-  const create = useCallback(createHero, []);
+  const create = useCallback(createCrew, []);
 
   const [randomGuy, setRandomGuy] = useState<any>();
 
@@ -86,15 +88,17 @@ const [delay, setDelay] = useState(1000);
 
   //when crewsAtDoor changes, re-starts delay used in the interval of creation.
   useEffect(() => {
-    if(crewsAtDoor.length < 5){
-      setDelay(1000);
+    if (crewsAtDoor.length < 5) {
+      setDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
     }
   }, [crewsAtDoor.length])
 
   useInterval(() => {
-    if(crewsAtDoor.length < 5){
-      setCrewsAtDoor( [...crewsAtDoor, create()]);
-    }else {
+    if (crewsAtDoor.length < 5) {
+      setCrewsAtDoor([...crewsAtDoor, create()]);
+      //delay random desde el minimo hasta el máximo tiempo de creación
+      setDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
+    } else {
       setDelay(0);
     }
   }, delay);
@@ -123,8 +127,10 @@ const [delay, setDelay] = useState(1000);
             setTriggerRender(!triggerRender);
             // setBarGrid(new Grid(barGrid?.hashGrid));
           }}
+          delay = {delay}
+          tables = {barGrid.hashGrid && barGrid.getFreeTables()}
         />
-        <BarEntry crewsAtDoor={crewsAtDoor}/>
+        <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
           barGrid={barGrid as Grid}
           triggerRender={triggerRender}

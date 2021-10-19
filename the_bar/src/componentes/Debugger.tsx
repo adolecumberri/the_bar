@@ -8,7 +8,7 @@ import React, { FC } from "react";
 import { makeStyles } from "@material-ui/styles";
 
 import { THEME } from '../constants/constants';
-import { ITheme } from "../interfaces";
+import { IGridTable, ITheme } from "../interfaces";
 
 const useStyles = makeStyles((Theme: ITheme) => ({
   container: {
@@ -16,21 +16,31 @@ const useStyles = makeStyles((Theme: ITheme) => ({
     top: 0,
     left: 0,
     minWidth: "200px",
+    maxWidth: "200px",
     minHeight: "400px",
     border: "1px solid #4d4d4d",
     margin: "16px 0px 0px 16px"
-
   },
+  tablesContainer: { display: "flex", flexWrap: "wrap" },
+  tableInfo: {
+    border: "1px solid #e1e1e1",
+    color: "#ffffff",
+    backgroundColor: "#5b1f1f",
+    margin: "4px",
+    padding: "4px"
+  }
 }));
 
 interface IDebugger {
   highlightTables?: () => void,
   highlightChairs?: () => void,
   stopHighlighting?: () => void,
+  delay: number,
+  tables: IGridTable[],
 }
 
-const Debugger: FC<IDebugger> = ({ highlightChairs, highlightTables, stopHighlighting }) => {
-  const { container } = useStyles();
+const Debugger: FC<IDebugger> = ({ highlightChairs, highlightTables, stopHighlighting, delay, tables }) => {
+  const { container, tableInfo, tablesContainer } = useStyles();
 
   return (
     <div className={container}>
@@ -53,8 +63,23 @@ const Debugger: FC<IDebugger> = ({ highlightChairs, highlightTables, stopHighlig
           onClick={(e) => {
             stopHighlighting && stopHighlighting();
           }}
-        ></input></label>
+        ></input></label><br />
       </>)}
+      entry creation delay: {delay} <br />
+      {tables && tables.length && <>
+        tables: <br />
+        <div className={tablesContainer}>
+          {tables.map(
+            ({ tableId, chairs }, index) =>
+              <div
+                key={`tableInfo-${index}`}
+                className={tableInfo}
+              >
+                {tableId}: {chairs.length}
+              </div>
+          )}
+        </div>
+      </>}
     </div>
   );
 };

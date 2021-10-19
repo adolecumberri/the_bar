@@ -9,6 +9,7 @@ export class Grid {
     this.hashGrid = customGrid as IGridHash;
   }
   topMargin = 2;
+  //las keys son col-row OR X-Y
   hashGrid: IGridHash = {};
   tables: Table[] = [];
   //cada vez que una funcion quiera triggear un render, ++ a esa variable. y lo controlo fuera.
@@ -188,8 +189,17 @@ export class Grid {
   getFreeTables = () => {
     let solution: IGridTable[] = [];
 
+    
+    if(!this.hashGrid) debugger;
+
+    //si no hay hashGrid, devuelve un array vacio
+    if(!this.hashGrid) return [];
+
+
     TABLES_LOCATIONS.forEach(({ row, col, chairs }) => {
-      let key = `${row}-${col}`;
+      let key = `${col}-${row}`;
+      if (!(this.hashGrid[key] as IGridTable)) debugger;
+
       if (!(this.hashGrid[key] as IGridTable).isOccupied) {
         solution.push(this.hashGrid[key] as IGridTable);
       }

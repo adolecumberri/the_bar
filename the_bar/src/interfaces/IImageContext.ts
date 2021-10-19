@@ -11,15 +11,15 @@ export interface IImgAnimation {
   name: string;
   animationDir?: string;
   img: HTMLImageElement;
-  xSize: number | string;
-  ySize: number | string;
+  xSize: number;
+  ySize: number;
   steps: number;
   sheetType: 'vertical' | 'horizontal';
 }
 
 
 export interface IImageContext {
-  'barTile': IImgAnimation;
+  // 'barTile': IImgAnimation;
   'archer': IImgAnimation;
   'ninja': IImgAnimation;
   'berserker': IImgAnimation;
@@ -29,6 +29,7 @@ export interface IImageContext {
   'sniper': IImgAnimation;
   'soldier': IImgAnimation;
   'thieve': IImgAnimation;
-  'generalCrew': IImgAnimation;
+  // 'generalCrew': IImgAnimation;
+  'crew': IImgAnimation;
 
 }//TODO: borrar barBackground. unused
