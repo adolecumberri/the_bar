@@ -14,6 +14,7 @@ import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
 import { createHero, createCrew, rand } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
+import { Crew } from "../classes/Crew";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
@@ -48,11 +49,18 @@ const Screen: FC = () => {
   //------CREWS.----------
   //TODO: metería esto en un hook personalizado, que creo que puede ser 
   // una clase ES6 pero mucho mas flexible en el paradigma de react. 
-  const { MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY } = DELAYS;
-  const [allCrews, setAllCrews] = useState<any>();
-  const [crewsAtDoor, setCrewsAtDoor] = useState<ICrew[]>([]);
+  const { MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY, ENTER_DELAY } = DELAYS;
 
-  const [delay, setDelay] = useState(MIN_CREW_CREATION_DELAY);
+
+  const [crewsGone, setCrewsGone] = useState<Crew[]>([]);
+  const [crewsInside, setCrewsInside] = useState<Crew[]>([]);
+  const [crewsAtDoor, setCrewsAtDoor] = useState<Crew[]>([]);
+  // let {current: timesTryingToEnter} = useRef(0);
+  let [timesTryingToEnter, setTimesTryingToEnter] = useState(0);
+
+  //DELAYS
+  const [goToEntryDelay, setGoToEntryDelay] = useState(MIN_CREW_CREATION_DELAY);
+  const [checkEnterDelay, setCheckEnterDelay] = useState(ENTER_DELAY);
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createCrew, []);
 
@@ -89,23 +97,59 @@ const Screen: FC = () => {
   //when crewsAtDoor changes, re-starts delay used in the interval of creation.
   useEffect(() => {
     if (crewsAtDoor.length < 5) {
-      setDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
+      setGoToEntryDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
     }
+//Reinicio el checkEnterDelay si esta a 0
+    if( checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
   }, [crewsAtDoor.length])
 
   useInterval(() => {
+    //No hay mesass? paro la llegada a la puerta
+    if(barGrid.getFreeTables().length === 0){
+      setGoToEntryDelay(0)
+      return;
+    }
+
     if (crewsAtDoor.length < 5) {
       setCrewsAtDoor([...crewsAtDoor, create()]);
       //delay random desde el minimo hasta el máximo tiempo de creación
-      setDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
-    } else {
-      setDelay(0);
-    }
-  }, delay);
+      setGoToEntryDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
+    } else if( crewsAtDoor.length === 5){
+      setGoToEntryDelay(0);
+    } 
+  }, goToEntryDelay);
 
-  // const executeRenderLoop: (callBack: any) => void = (callBack) => {
-  //   callBack();
-  // }
+  useInterval(() => {
+    if (crewsAtDoor.length === 0) setCheckEnterDelay(0);
+
+    let crewToEnter = crewsAtDoor[0];
+    let freeTables = barGrid.getFreeTablesBySize(crewToEnter?.heroNum);
+
+
+    if (freeTables.length === 0 && timesTryingToEnter === 3) {
+      //No hay mesas y lo intentan 3 veces. El equipo se va.
+      console.log("3 veces");
+      const crewGone = crewsAtDoor.shift();
+      setCrewsGone( [...crewsGone, crewGone as Crew]);
+      setCrewsAtDoor( [ ...crewsAtDoor ]);
+    } else if (freeTables.length === 0) {
+
+      //no hay mesas. intentos +1
+      setTimesTryingToEnter(timesTryingToEnter + 1);
+      console.log("intentando: " + timesTryingToEnter);
+
+    } else if (freeTables.length > 0) {
+      //hay mesa. el equipo entra
+
+      console.log("puedo entrar.", freeTables[0]);
+      freeTables[0].occupyTable(crewToEnter);
+      const crewGone = crewsAtDoor.shift();
+      setCrewsInside( [...crewsInside, crewGone as Crew]);
+      setCrewsAtDoor( [ ...crewsAtDoor ]);
+      // debugger;
+    }
+  }, checkEnterDelay);
+
 
 
   return (
@@ -127,8 +171,12 @@ const Screen: FC = () => {
             setTriggerRender(!triggerRender);
             // setBarGrid(new Grid(barGrid?.hashGrid));
           }}
-          delay = {delay}
-          tables = {barGrid.hashGrid && barGrid.getFreeTables()}
+          delay={goToEntryDelay}
+          enterDelay = {checkEnterDelay}
+          tables={barGrid.hashGrid && barGrid.getFreeTables()}
+          crewsGone = {crewsGone.length}
+          crewsInside =  {crewsInside.length}
+          crewsInQueue = { crewsAtDoor.length}
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
@@ -156,5 +204,6 @@ const pixelSizeQuery: (a: number) => IPixelSize = (windowWidth: number) => {
   return solution;
 }
 export default Screen;
+
 
 

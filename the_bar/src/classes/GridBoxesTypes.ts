@@ -7,6 +7,7 @@ import {
   IChair,
   IGridHash,
 } from "../interfaces";
+import { Crew } from "./Crew";
 
 class GridBox {
   // this: IGridBox;
@@ -83,24 +84,48 @@ class Chair extends GridBox {
 
 class Table extends GridBox {
   tableId: number;
-  chairs: IChair[];
+  chairsLocation: IChair[] = [];
+  chairs: Chair[] = [];
   isOccupied: boolean;
+  crew: Crew | null = null;
   constructor(arg: IGridTable) {
     super(arg);
     this.walkable = false;
     this.tableId = arg.tableId;
-    this.chairs = arg.chairs;
+    this.chairsLocation = arg.chairs;
     this.isOccupied = false;
   }
 
+  //unused
   getChairs = (grid: IGridHash) => {
     let solution: IGridChair[] = [];
 
-    this.chairs.forEach(({ row, col }) => {
+    this.chairsLocation.forEach(({ row, col }) => {
       solution.push((grid[`${row}-${col}`] as IGridChair));
     });
     return solution;
   };
+
+
+  occupyTable = (crew: Crew) =>{
+      this.isOccupied = true;
+      this.crew = crew;
+
+    let heroes = crew.heros;
+
+    if(heroes.length !== this.chairs.length)
+    throw new Error(
+      `The number of Heroes is different of Chairs number in table.
+      Heores: ${heroes.length}
+      Chairs: ${this.chairs.length}`
+    );
+
+
+    //Al tener la misma longitud, puedo iterar por las sillas  y usar el index para los heroes.
+      this.chairs.forEach( (chair, i) => {
+          chair.occupyChair(heroes[i]);
+      });
+  }
 
   
 

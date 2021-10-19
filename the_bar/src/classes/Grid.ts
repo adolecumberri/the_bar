@@ -94,7 +94,7 @@ export class Grid {
         //configuración basica para sillas
         gridTypeConfig = GRID_CONFIG.chair;
 
-        let gridBox = new Chair({
+        let chairBox = new Chair({
           key,
           ...this._loadBoxBasicVariables({ X, Y, height, width }),
           width,
@@ -103,7 +103,9 @@ export class Grid {
           isOccupied: false,
           ...gridTypeConfig
         });
-        gridHash[key] = gridBox;
+
+        gridBox.chairs.push(chairBox);
+        gridHash[key] = chairBox;
       });
     }
 
@@ -187,7 +189,7 @@ export class Grid {
 
   //returns table's hash key and chairs.
   getFreeTables = () => {
-    let solution: IGridTable[] = [];
+    let solution: Table[] = [];
 
     
     if(!this.hashGrid) debugger;
@@ -198,10 +200,29 @@ export class Grid {
 
     TABLES_LOCATIONS.forEach(({ row, col, chairs }) => {
       let key = `${col}-${row}`;
-      if (!(this.hashGrid[key] as IGridTable)) debugger;
+      if (!(this.hashGrid[key] as Table)) debugger;
 
-      if (!(this.hashGrid[key] as IGridTable).isOccupied) {
-        solution.push(this.hashGrid[key] as IGridTable);
+      if (!(this.hashGrid[key] as Table).isOccupied) {
+        solution.push(this.hashGrid[key] as Table);
+      }
+    });
+
+    return solution;
+  }
+
+  getFreeTablesBySize = (size: number) => {
+    let solution: Table[] = [];
+
+    //si no hay hashGrid, devuelve un array vacio
+    if(!this.hashGrid) return [];
+
+
+    TABLES_LOCATIONS.forEach(({ row, col, chairs }) => {
+      let key = `${col}-${row}`;
+      if (!(this.hashGrid[key] as Table)) debugger;
+
+      if (!(this.hashGrid[key] as Table).isOccupied && (this.hashGrid[key] as Table).chairs.length === size) {
+        solution.push(this.hashGrid[key] as Table);
       }
     });
 

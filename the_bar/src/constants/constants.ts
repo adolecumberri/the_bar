@@ -47,6 +47,8 @@ const GRID_CONFIG: IGridConfig = {
   },
 };
 
+const TABLES_IDS: number[] = [1,2,3,4,5,6,7,8,9];
+
 const TABLES_LOCATIONS: ITable[] = [
   {
     id: 1,
@@ -222,6 +224,8 @@ const TABLES_LOCATIONS: ITable[] = [
 const DELAYS = {
   MIN_CREW_CREATION_DELAY: 1000,
   MAX_CREW_CREATION_DELAY: 5000,
+  ENTER_DELAY: 3000,
+
 
 }
 
@@ -236,4 +240,5 @@ export {
   HERO_TYPE,
   TABLES_LOCATIONS,
   DELAYS,
+  TABLES_IDS,
 };

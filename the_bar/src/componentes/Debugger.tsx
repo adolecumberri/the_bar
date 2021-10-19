@@ -9,6 +9,8 @@ import { makeStyles } from "@material-ui/styles";
 
 import { THEME } from '../constants/constants';
 import { IGridTable, ITheme } from "../interfaces";
+import { Table } from "../classes/GridBoxesTypes";
+import { Crew } from "../classes/Crew";
 
 const useStyles = makeStyles((Theme: ITheme) => ({
   container: {
@@ -36,10 +38,24 @@ interface IDebugger {
   highlightChairs?: () => void,
   stopHighlighting?: () => void,
   delay: number,
-  tables: IGridTable[],
+  enterDelay: number,
+  tables: Table[],
+  crewsInside: number,
+  crewsGone: number,
+  crewsInQueue: number,
 }
 
-const Debugger: FC<IDebugger> = ({ highlightChairs, highlightTables, stopHighlighting, delay, tables }) => {
+const Debugger: FC<IDebugger> = ({ 
+  highlightChairs, 
+  highlightTables, 
+  stopHighlighting, 
+  delay, 
+  enterDelay, 
+  tables, 
+  crewsInside, 
+  crewsInQueue, 
+  crewsGone 
+}) => {
   const { container, tableInfo, tablesContainer } = useStyles();
 
   return (
@@ -66,8 +82,9 @@ const Debugger: FC<IDebugger> = ({ highlightChairs, highlightTables, stopHighlig
         ></input></label><br />
       </>)}
       entry creation delay: {delay} <br />
+      enter delay: {enterDelay} <br />
       {tables && tables.length && <>
-        tables: <br />
+        free tables: <br />
         <div className={tablesContainer}>
           {tables.map(
             ({ tableId, chairs }, index) =>
@@ -75,11 +92,15 @@ const Debugger: FC<IDebugger> = ({ highlightChairs, highlightTables, stopHighlig
                 key={`tableInfo-${index}`}
                 className={tableInfo}
               >
-                {tableId}: {chairs.length}
+                id:{tableId} - sillas:{chairs.length}
               </div>
           )}
         </div>
       </>}
+
+      crewsInside: {crewsInside} <br/>
+      crewsAtDoor: {crewsInQueue} <br />
+      crewsGone: {crewsGone}
     </div>
   );
 };

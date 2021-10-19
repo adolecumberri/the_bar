@@ -15,11 +15,12 @@ import React, {
 import { makeStyles, useTheme } from "@material-ui/styles";
 
 import { THEME } from "../constants/constants";
-import { IAnyBox, IGridHash, ITheme } from "../interfaces";
+import { IAnyBox, IGridHash, IGridTable, ITheme } from "../interfaces";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants/constants";
 import { useRenderCounter } from "../hooks";
 import { StyleContext, ImagesContext } from "../utility";
 import { Grid } from "../classes/Grid";
+import { Table } from "../classes/GridBoxesTypes";
 
 const gridSprites = new Image();
 gridSprites.setAttribute("src", "../sprites/spritesheet.png");
@@ -29,13 +30,14 @@ gridSprites.setAttribute("src", "../sprites/spritesheet.png");
 // }
 
 const useStyles = makeStyles((tema: ITheme) => {
-    console.log(tema);
     return {
         container: {
             backgroundColor: "burlywood",
         },
         counter: {
             position: "absolute",
+            top: "50%",
+            left: "50%",
         },
     };
 });
@@ -67,48 +69,48 @@ const Bar: FC<IBarProps> = ({ barGrid: { hashGrid: barGrid, triggerUpdate }, tri
         let solution = [];
         for (let coord in barGrid) {
             // solution.push(_drawBox(barGrid[coord].type, barGrid[coord]));
-  
-                let div = (<div
-                    style={{
-                        position: "absolute",
-                        width:  barGrid[coord].width,
-                        height:  barGrid[coord].height,
-                        top:  barGrid[coord].y,
-                        left:  barGrid[coord].x,
-                        border: "1px solid #bbbbbb",
-                        imageRendering: "pixelated",
-                    }}></div>);
-        
-                switch (barGrid[coord].type) {
-                    case "void":
-                        // div.props.style['background-color' as any] = box.color;
-                        break;
-        
-                    case "chair":
-        
-                        div.props.style['background-color' as any] =  barGrid[coord].color;
-                        break;
-        
-                    case "table":
-                        div.props.style['background-color' as any] =  barGrid[coord].color;
-                        break;
-        
-                    // case "hero":
-                    //     break;
-                }
-                
-                solution.push(div);
-    
+
+            let div = (<div
+                style={{
+                    position: "absolute",
+                    width: barGrid[coord].width,
+                    height: barGrid[coord].height,
+                    top: barGrid[coord].y,
+                    left: barGrid[coord].x,
+                    border: "1px solid #bbbbbb",
+                    imageRendering: "pixelated",
+                }}>
+
+                    {barGrid[coord].type === "table" && <>{(barGrid[coord] as Table).tableId}</> }
+                </div>);
+
+            switch (barGrid[coord].type) {
+                case "void":
+                    // div.props.style['background-color' as any] = box.color;
+                    break;
+
+                case "chair":
+
+                    div.props.style['background-color' as any] = barGrid[coord].color;
+                    break;
+
+                case "table":
+                    div.props.style['background-color' as any] = barGrid[coord].color;
+                    
+                    break;
+
+                // case "hero":
+                //     break;
+            }
+            solution.push(div);
+
         }
 
         return solution;
     };
 
-    if (pixelSize) console.log(CANVAS_WIDTH, CANVAS_HEIGHT, pixelSize);
     return (
-
         <>
-            {/* {console.log(theme)} */}
             <div
                 id="canvas"
                 className={container}

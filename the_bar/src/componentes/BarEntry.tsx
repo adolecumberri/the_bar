@@ -25,9 +25,7 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
 
   const barImgs = useContext(ImagesContext);
-  console.log({ barImgs });
   const [count] = useRenderCounter();
-  console.log({ pixelSize, canvasHeight, canvasWidth });
   const { height, width } = loadBoxDimensions({
     rows: 6,
     cols: 16,
