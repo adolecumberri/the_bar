@@ -44,13 +44,13 @@ const useStyles = makeStyles((tema: ITheme) => {
 
 interface IBarProps {
   barGrid: Grid;
-  triggerRender: boolean;
-  executeRenderLoop?: any; //TODO: Experimental
+  // triggerRender: boolean;
+  // executeRenderLoop?: any; //TODO: Experimental
 }
 
 const Bar: FC<IBarProps> = ({
   barGrid: { hashGrid: barGrid, triggerUpdate },
-  triggerRender,
+  // triggerRender,
 }) => {
   const { container, counter } = useStyles();
 
@@ -92,10 +92,11 @@ const Bar: FC<IBarProps> = ({
           break;
 
         case "chair":
-          if ((barGrid[coord] as Chair).isOccupied) {
+          let thisChair = barGrid[coord] as Chair;
+          if (thisChair.isOccupied) {
             //silla ocupada
-            let hero = (barGrid[coord] as Chair).hero;
-            console.log((barGrid[coord] as Chair).hero);
+            let hero = thisChair.hero;
+            
             div = (
               <div
                 className=""
@@ -113,7 +114,9 @@ const Bar: FC<IBarProps> = ({
                     src={(hero?.img?.img as HTMLImageElement).src }
                     style={{
                       height: "100%",
-                      animation: `iddle 1s steps(${hero?.img.steps}) infinite`,
+                      position: "absolute",
+                      animation: `iddle-${thisChair.dir} 1s steps(${hero?.img.steps}) infinite`,
+                      // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
                     }}
                   />
                 </div>
@@ -142,7 +145,9 @@ const Bar: FC<IBarProps> = ({
                   ...divStyle,
                   backgroundColor: barGrid[coord].color
                 } as any
-              } />
+              } >
+                <span>{(barGrid[coord] as Table).tableId}</span>
+                </div>
           );
 
           break;

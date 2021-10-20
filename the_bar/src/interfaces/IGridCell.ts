@@ -23,7 +23,8 @@ export interface IGridChair extends IGridBox {  //TODO: no hace falta
   isOccupied: boolean;
   hero?: any; //todo: interfaz de heroe
   tableId: number;
-  direction?: ""
+  dir: "left" | "top" | "right" | "bottom",
+  
 }
 
 export interface IGridTable extends IGridBox { //TODO: no hace falta

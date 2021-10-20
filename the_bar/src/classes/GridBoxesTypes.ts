@@ -62,9 +62,10 @@ class Chair extends GridBox {
   isOccupied?: boolean;
   hero?: IHeroCreated | null;
   tableId: number;
+  dir: "left" | "top" | "right" | "bottom";
   constructor(arg: IGridChair) {
     super(arg);
-
+    this.dir = arg.dir;
     this.isOccupied = arg.isOccupied || false;
     this.walkable = true;
     this.tableId = arg.tableId;

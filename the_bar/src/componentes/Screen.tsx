@@ -42,7 +42,7 @@ const Screen: FC = () => {
   const [pixelSize, setPixelSize] = useState(pixelSizeQuery(windowWidth));
   const [themeState, setThemeState] = useState(THEME);
 
-  const [triggerRender, setTriggerRender] = useState(false); //Trigger a canvas render
+  // const [triggerRender, setTriggerRender] = useState(false); //Trigger a canvas render
 
   const [barGrid, setBarGrid] = useState<Grid>(new Grid());
 
@@ -156,21 +156,21 @@ const Screen: FC = () => {
     <>
       <StyleContext.Provider value={themeState}>
         <Debugger
-          highlightChairs={() => {
-            barGrid?.highlight("chair");
-            setTriggerRender(!triggerRender);
-            // setBarGrid(new Grid(barGrid?.hashGrid));
-          }}
-          highlightTables={() => {
-            barGrid?.highlight("table");
-            setTriggerRender(!triggerRender);
-            // setBarGrid(new Grid(barGrid?.hashGrid));
-          }}
-          stopHighlighting={() => {
-            barGrid?.stopHighlighting();
-            setTriggerRender(!triggerRender);
-            // setBarGrid(new Grid(barGrid?.hashGrid));
-          }}
+          // highlightChairs={() => {
+          //   barGrid?.highlight("chair");
+          //   // setTriggerRender(!triggerRender);
+          //   // setBarGrid(new Grid(barGrid?.hashGrid));
+          // }}
+          // highlightTables={() => {
+          //   barGrid?.highlight("table");
+          //   // setTriggerRender(!triggerRender);
+          //   // setBarGrid(new Grid(barGrid?.hashGrid));
+          // }}
+          // stopHighlighting={() => {
+          //   barGrid?.stopHighlighting();
+          //   // setTriggerRender(!triggerRender);
+          //   // setBarGrid(new Grid(barGrid?.hashGrid));
+          // }}
           delay={goToEntryDelay}
           enterDelay = {checkEnterDelay}
           tables={barGrid.hashGrid && barGrid.getFreeTables()}
@@ -181,7 +181,7 @@ const Screen: FC = () => {
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
           barGrid={barGrid as Grid}
-          triggerRender={triggerRender}
+          // triggerRender={triggerRender}
         // executeRenderLoop={executeRenderLoop}
         />
       </StyleContext.Provider>

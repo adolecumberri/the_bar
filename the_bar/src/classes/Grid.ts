@@ -86,7 +86,7 @@ export class Grid {
       this.tables.push(gridBox);
 
       //Creación de sillas.
-      TABLES_LOCATIONS[i].chairs.forEach(({ col, row }) => {
+      TABLES_LOCATIONS[i].chairs.forEach(({ col, row, dir }) => {
         X = col;
         Y = row;
 
@@ -100,6 +100,7 @@ export class Grid {
           width,
           height,
           tableId,
+          dir,
           isOccupied: false,
           ...gridTypeConfig
         });
