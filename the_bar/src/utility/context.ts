@@ -79,15 +79,7 @@ urlsToLoad.forEach(({ name, src }) => {
 // const imgBar = new Image();
 // imgBar.src = require("../sprites/bar_tile2.png").default;
 
-let defaultImageContext: IImageContext = {
-  // barTile: {
-  //   name: "barTile",
-  //   img: imgs.barTile,
-  //   xSize: 32,
-  //   ySize: 32,
-  //   steps: 0,
-  //   sheetType: 'vertical',
-  // },
+export let defaultImageContext: IImageContext = {
   archer: {
     name: "archer",
     animationDir: "rgt",

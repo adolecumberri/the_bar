@@ -6,6 +6,7 @@ import {
   IGRID_VALUES,
   IChair,
   IGridHash,
+  IHeroCreated,
 } from "../interfaces";
 import { Crew } from "./Crew";
 
@@ -59,7 +60,7 @@ class GridBox {
 
 class Chair extends GridBox {
   isOccupied?: boolean;
-  hero?: any;
+  hero?: IHeroCreated | null;
   tableId: number;
   constructor(arg: IGridChair) {
     super(arg);

@@ -1,3 +1,4 @@
+import { IImgAnimation } from ".";
 
 export interface IHeroStats{
     hp: number,
@@ -17,6 +18,7 @@ export interface IHeroCreated extends IHeroStats {
     surname: string;
     gender: string;
     className: string;
+    img: IImgAnimation;
 } 
 
 export interface IHeroBase { 

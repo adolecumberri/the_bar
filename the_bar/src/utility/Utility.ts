@@ -1,7 +1,11 @@
 
+import { useContext } from "react";
+import { ImagesContext } from ".";
 import { Crew } from "../classes/Crew";
 import { HERO_STATS, MALE_NAMES, SURNAMES, VARIATION, WOMAN_NAMES } from "../constants";
+import { IImageContext } from "../interfaces";
 import { IHeroCreated } from "../interfaces/Hero.Interface";
+import { defaultImageContext } from "./context";
 
 
 export class Counter {
@@ -59,16 +63,16 @@ export function randName(gender: number) {
 };
 
 let calculateFinalStats = (baseStats: any, classState: any) => {
-	let finalStat: any = {};
-	Object.keys(baseStats).forEach((a: string | any) => {
-		let value = baseStats[a] + classState[a] + Number.EPSILON;
-		finalStat[a] =
-			Math.round((Math.random() * (value * (1 + VARIATION) - value * (1 - VARIATION)) + value * (1 - VARIATION)) * 100) /
-			100;
-	});
+  let finalStat: any = {};
+  Object.keys(baseStats).forEach((a: string | any) => {
+    let value = baseStats[a] + classState[a] + Number.EPSILON;
+    finalStat[a] =
+      Math.round((Math.random() * (value * (1 + VARIATION) - value * (1 - VARIATION)) + value * (1 - VARIATION)) * 100) /
+      100;
+  });
 
   finalStat['className'] = classState['className'];
-	return finalStat;
+  return finalStat;
 };
 
 
@@ -91,14 +95,17 @@ export const createHero = () => {
   //randHero['currentHp'] = randHero.hp;
   randHero["dmg"] = Math.round(randHero["dmg"]);
   randHero["def"] = Math.round(randHero["def"]);
+
+  // añado imagen
+  randHero.img = defaultImageContext[(randHero.className.toLocaleLowerCase() as keyof IImageContext)]
   //console.log(`Random Hero: \n ${JSON.stringify(randHero.name)}`);
   // //console.timeEnd('createHero');
   return randHero as IHeroCreated;
 };
 
 export const createCrew = () => {
-  let crew = new Crew(rand(4,2));
-  
+  let crew = new Crew(rand(4, 2));
+
 
   return crew;
 }

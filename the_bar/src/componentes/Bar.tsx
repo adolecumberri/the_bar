@@ -1,14 +1,14 @@
 //Barra del bar
 
 import React, {
-    FC,
-    useRef,
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useContext,
-    useState,
-    useCallback,
+  FC,
+  useRef,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useContext,
+  useState,
+  useCallback,
 } from "react";
 
 //Material UI
@@ -20,7 +20,7 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants/constants";
 import { useRenderCounter } from "../hooks";
 import { StyleContext, ImagesContext } from "../utility";
 import { Grid } from "../classes/Grid";
-import { Table } from "../classes/GridBoxesTypes";
+import { Chair, Table } from "../classes/GridBoxesTypes";
 
 const gridSprites = new Image();
 gridSprites.setAttribute("src", "../sprites/spritesheet.png");
@@ -30,102 +30,146 @@ gridSprites.setAttribute("src", "../sprites/spritesheet.png");
 // }
 
 const useStyles = makeStyles((tema: ITheme) => {
-    return {
-        container: {
-            backgroundColor: "burlywood",
-        },
-        counter: {
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-        },
-    };
+  return {
+    container: {
+      backgroundColor: "burlywood",
+    },
+    counter: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+    },
+  };
 });
 
 interface IBarProps {
-    barGrid: Grid;
-    triggerRender: boolean;
-    executeRenderLoop?: any; //TODO: Experimental
+  barGrid: Grid;
+  triggerRender: boolean;
+  executeRenderLoop?: any; //TODO: Experimental
 }
 
-const Bar: FC<IBarProps> = ({ barGrid: { hashGrid: barGrid, triggerUpdate }, triggerRender }) => {
-    const { container, counter } = useStyles();
+const Bar: FC<IBarProps> = ({
+  barGrid: { hashGrid: barGrid, triggerUpdate },
+  triggerRender,
+}) => {
+  const { container, counter } = useStyles();
 
-    const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
-    // const { barTile } = useContext(ImagesContext);
+  const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+  // const { barTile } = useContext(ImagesContext);
 
-    // const canvasRef = useRef<HTMLCanvasElement>(null);
-    // const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
+  // const canvasRef = useRef<HTMLCanvasElement>(null);
+  // const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
 
-    const [count] = useRenderCounter();
+  const [count] = useRenderCounter();
 
-    // useEffect(() => {
-    //     _drawGrid();
-    // }, [barGrid, triggerRender]);
+  // useEffect(() => {
+  //     _drawGrid();
+  // }, [barGrid, triggerRender]);
 
+  /* recursively draw each grid object */
+  const _drawGrid = () => {
+    let solution = [];
+    for (let coord in barGrid) {
+      // solution.push(_drawBox(barGrid[coord].type, barGrid[coord]));
+      let divStyle = {
+        position: "absolute",
+        width: barGrid[coord].width,
+        height: barGrid[coord].height,
+        top: barGrid[coord].y,
+        left: barGrid[coord].x,
+        border: "1px solid #bbbbbb",
+        imageRendering: "pixelated",
+      };
+      let div: any;
 
-    /* recursively draw each grid object */
-    const _drawGrid = () => {
-        let solution = [];
-        for (let coord in barGrid) {
-            // solution.push(_drawBox(barGrid[coord].type, barGrid[coord]));
+      // Void | Chair | Table
+      switch (barGrid[coord].type) {
+        case "void":
+          // div.props.style['background-color' as any] = box.color;
+          div = (
+            <div className="" style={{ ...divStyle } as any} />
+          );
+          break;
 
-            let div = (<div
-                style={{
-                    position: "absolute",
-                    width: barGrid[coord].width,
-                    height: barGrid[coord].height,
-                    top: barGrid[coord].y,
-                    left: barGrid[coord].x,
-                    border: "1px solid #bbbbbb",
-                    imageRendering: "pixelated",
-                }}>
+        case "chair":
+          if ((barGrid[coord] as Chair).isOccupied) {
+            //silla ocupada
+            let hero = (barGrid[coord] as Chair).hero;
+            console.log((barGrid[coord] as Chair).hero);
+            div = (
+              <div
+                className=""
+                style={
+                  {
+                    ...divStyle,
+                    overflow: "hidden",
+                    // position: "relative",
+                    // backgroundColor: barGrid[coord].color
+                  } as any
+                } 
+                >
+                  <img 
+                    alt={`${hero?.name}-${hero?.surname}`} 
+                    src={(hero?.img?.img as HTMLImageElement).src }
+                    style={{
+                      height: "100%",
+                      animation: `iddle 1s steps(${hero?.img.steps}) infinite`,
+                    }}
+                  />
+                </div>
+            );
+          } else {
+            div = (
+              <div 
+                className=""
+                style={
+                  {
+                    ...divStyle,
+                    backgroundColor: barGrid[coord].color
+                  } as any
+                } />
+            );
+          }
 
-                    {barGrid[coord].type === "table" && <>{(barGrid[coord] as Table).tableId}</> }
-                </div>);
+          break;
 
-            switch (barGrid[coord].type) {
-                case "void":
-                    // div.props.style['background-color' as any] = box.color;
-                    break;
+        case "table":
+          div = (
+            <div 
+              className=""
+              style={
+                {
+                  ...divStyle,
+                  backgroundColor: barGrid[coord].color
+                } as any
+              } />
+          );
 
-                case "chair":
+          break;
+      }
+      solution.push(div);
+    }
 
-                    div.props.style['background-color' as any] = barGrid[coord].color;
-                    break;
+    return solution;
+  };
 
-                case "table":
-                    div.props.style['background-color' as any] = barGrid[coord].color;
-                    
-                    break;
+  return (
+    <>
+      <div
+        id="canvas"
+        className={container}
+        style={{
+          width: `${canvasWidth * pixelSize}px`,
+          height: `${canvasHeight * pixelSize}px`,
+          position: "relative",
+        }}
+      >
+        <span className={counter}>{count}</span>
 
-                // case "hero":
-                //     break;
-            }
-            solution.push(div);
-
-        }
-
-        return solution;
-    };
-
-    return (
-        <>
-            <div
-                id="canvas"
-                className={container}
-                style={{
-                    width: `${canvasWidth * pixelSize}px`,
-                    height: `${canvasHeight * pixelSize}px`,
-                    position: "relative",
-                }}
-            >
-                <span className={counter}>{count}</span>
-
-                {_drawGrid()}
-            </div>
-        </>
-    );
+        {_drawGrid()}
+      </div>
+    </>
+  );
 };
 
 export default Bar;
