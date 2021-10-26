@@ -61,6 +61,8 @@ const Screen: FC = () => {
   //DELAYS
   const [goToEntryDelay, setGoToEntryDelay] = useState(MIN_CREW_CREATION_DELAY);
   const [checkEnterDelay, setCheckEnterDelay] = useState(ENTER_DELAY);
+
+  const [misionHandler, setMisionHandler] = useState ({});
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createCrew, []);
 
@@ -177,8 +179,9 @@ const Screen: FC = () => {
           crewsGone = {crewsGone.length}
           crewsInside =  {crewsInside.length}
           crewsInQueue = { crewsAtDoor.length}
+          crewsAtMision = { [].length}
         />
-        <BarEntry crewsAtDoor={crewsAtDoor} />
+        <BarEntry crewsAtDoor={crewsAtDoor} misions = {[]} />
         <Bar
           barGrid={barGrid as Grid}
           // triggerRender={triggerRender}

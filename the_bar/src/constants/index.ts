@@ -10,6 +10,7 @@ import {
 } from "./constants";
 
 import HERO_STATS from './hero_stats';
+import MISIONS from "./misions";
 import { VARIATION } from "./rpg_constants";
 
 const MALE_NAMES: string[] = require('./commun/hombres');
@@ -31,4 +32,5 @@ export {
   SURNAMES,
   HERO_STATS,
   VARIATION,
+  MISIONS,
 };

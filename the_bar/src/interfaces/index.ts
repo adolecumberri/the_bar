@@ -9,6 +9,7 @@ import { IImageContext, IImgAnimation } from './IImageContext';
 import { ICrew, ICrewStatus } from './Crew.interface';
 import {ITable, IChair} from './ITables';
 import { IHeroCreated } from './Hero.Interface';
+import { IMision, IMonsterFight } from './IMisions';
 
 
 export type {
@@ -34,5 +35,7 @@ export type {
     IChair,
     IImgAnimation,
     IHeroCreated,
-    ICrewStatus
+    ICrewStatus,
+    IMision,
+    IMonsterFight
 }

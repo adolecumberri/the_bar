@@ -43,6 +43,7 @@ interface IDebugger {
   crewsInside: number,
   crewsGone: number,
   crewsInQueue: number,
+  crewsAtMision: number,
 }
 
 const Debugger: FC<IDebugger> = ({ 
