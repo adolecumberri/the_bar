@@ -15,7 +15,7 @@ import React, {
 import { makeStyles, useTheme } from "@material-ui/styles";
 
 import { THEME } from "../constants/constants";
-import { IAnyBox, IGridHash, IGridTable, ITheme } from "../interfaces";
+import { IAnyBox, IGridHash, IGridTable, IMission, ITheme } from "../interfaces";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants/constants";
 import { useRenderCounter } from "../hooks";
 import { StyleContext, ImagesContext } from "../utility";
@@ -44,12 +44,14 @@ const useStyles = makeStyles((tema: ITheme) => {
 
 interface IBarProps {
   barGrid: Grid;
+  missions: IMission[];
   // triggerRender: boolean;
   // executeRenderLoop?: any; //TODO: Experimental
 }
 
 const Bar: FC<IBarProps> = ({
   barGrid: { hashGrid: barGrid, triggerUpdate },
+  missions,
   // triggerRender,
 }) => {
   const { container, counter } = useStyles();
@@ -157,6 +159,10 @@ const Bar: FC<IBarProps> = ({
 
     return solution;
   };
+
+  let missionsDisplayed = useCallback( () => {
+
+  }, [missions.length, pixelSize])
 
   return (
     <>

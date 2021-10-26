@@ -1,9 +1,10 @@
-import { IMision } from "../interfaces";
+import { IMission } from "../interfaces";
 
 //grado 0 hasta el 4.
 // desde MISIONS[0] hasta MISIONS[4]
-const MISIONS: IMision[][] = [
+const MISIONS: IMission[][] = [
     [{
+        id: 0,
         title: "Those dam birdos!",
         details: "Can you take off those birds from my backyard?",
         fights: [
@@ -19,6 +20,7 @@ const MISIONS: IMision[][] = [
 
     ],
     [{
+        id: 1,
         title: "A bigger one!",
         details: "A stronger birdo has appeared in front of my house, can you help me?",
         fights: [
@@ -38,6 +40,7 @@ const MISIONS: IMision[][] = [
 
     ],
     [{
+        id: 2,
         title: "Zowac's ghost",
         details: "...",
         fights: [

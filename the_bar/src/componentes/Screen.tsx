@@ -15,6 +15,7 @@ import Debugger from "./Debugger";
 import { createHero, createCrew, rand } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
 import { Crew } from "../classes/Crew";
+import { MissionManager } from "../classes/Missions";
 
 const useStyles = makeStyles((theme: ITheme) => ({
   screen: {
@@ -62,7 +63,7 @@ const Screen: FC = () => {
   const [goToEntryDelay, setGoToEntryDelay] = useState(MIN_CREW_CREATION_DELAY);
   const [checkEnterDelay, setCheckEnterDelay] = useState(ENTER_DELAY);
 
-  const [misionHandler, setMisionHandler] = useState ({});
+  const [missionManager, setmissionManager] = useState (new MissionManager());
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createCrew, []);
 
@@ -103,7 +104,20 @@ const Screen: FC = () => {
     }
 //Reinicio el checkEnterDelay si esta a 0
     if( checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
-  }, [crewsAtDoor.length])
+  }, [crewsAtDoor.length]);
+
+  //Mission controller.
+  useEffect(() => {
+    console.log("execute info changer", missionManager.missions_displayed.length, missionManager.mission_creation_delay);
+    if(missionManager.missions_displayed.length >= 7){
+      missionManager.stopMissionCreationDelay();
+    }else{
+      if(missionManager.mission_creation_delay === 0){
+        missionManager.restartMissionCreationDelay();
+      }
+    }
+
+  }, [missionManager.missions_displayed.length])
 
   useInterval(() => {
     //No hay mesass? paro la llegada a la puerta
@@ -130,7 +144,7 @@ const Screen: FC = () => {
 
     if (freeTables.length === 0 && timesTryingToEnter === 3) {
       //No hay mesas y lo intentan 3 veces. El equipo se va.
-      console.log("3 veces");
+      // console.log("3 veces");
       const crewGone = crewsAtDoor.shift();
       setCrewsGone( [...crewsGone, crewGone as Crew]);
       setCrewsAtDoor( [ ...crewsAtDoor ]);
@@ -138,21 +152,28 @@ const Screen: FC = () => {
 
       //no hay mesas. intentos +1
       setTimesTryingToEnter(timesTryingToEnter + 1);
-      console.log("intentando: " + timesTryingToEnter);
+      // console.log("intentando: " + timesTryingToEnter);
 
     } else if (freeTables.length > 0) {
       //hay mesa. el equipo entra
 
-      console.log("puedo entrar.", freeTables[0]);
+      //asigno equipo  mesa
+      crewToEnter.asignTableByTableId(freeTables[0].tableId);
+      //asigno mesa en equipo
       freeTables[0].occupyTable(crewToEnter);
-      const crewGone = crewsAtDoor.shift();
-      setCrewsInside( [...crewsInside, crewGone as Crew]);
+      //Saco el equipo que entra de los grupos en la puerta.
+      const crewEntering = crewsAtDoor.shift();
+      //añado el equipo a los equipos de dentro.
+      setCrewsInside( [...crewsInside, crewEntering as Crew]);
+      //reestructuro los equipos de la puerta
       setCrewsAtDoor( [ ...crewsAtDoor ]);
       // debugger;
     }
   }, checkEnterDelay);
 
-
+  useInterval(() => {
+    missionManager.displayMission();
+  }, missionManager.mission_creation_delay);
 
   return (
     <>
@@ -175,14 +196,16 @@ const Screen: FC = () => {
           // }}
           delay={goToEntryDelay}
           enterDelay = {checkEnterDelay}
+          missionDisplayDelay = {missionManager.mission_creation_delay}
           tables={barGrid.hashGrid && barGrid.getFreeTables()}
           crewsGone = {crewsGone.length}
           crewsInside =  {crewsInside.length}
           crewsInQueue = { crewsAtDoor.length}
-          crewsAtMision = { [].length}
+          crewsAtMission = { [].length}
         />
-        <BarEntry crewsAtDoor={crewsAtDoor} misions = {[]} />
+        <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
+        missions = {missionManager.missions_executing}
           barGrid={barGrid as Grid}
           // triggerRender={triggerRender}
         // executeRenderLoop={executeRenderLoop}

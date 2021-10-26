@@ -249,13 +249,14 @@ const DELAYS = {
   MIN_CREW_CREATION_DELAY: 1000,
   MAX_CREW_CREATION_DELAY: 5000,
   ENTER_DELAY: 3000,
-  MISION_DELAY: 5000,
+  MISSION_APPEARING_DELAY: 5000,
+  MISSION_DELAY: 5000,
 }
 
 //TODO: sustituir esta constante por un objeto funcional.
-// const MISIONS_INFO = {
+// const MISSIONS_INFO = {
 //   current_grade_allowed: 0,
-//   mision_delay: DELAYS.MISION_DELAY,
+//   mision_delay: DELAYS.MISSION_DELAY,
 //   current_exp: 0,
 //   misions_untly_next_grade: [10,20,30,50], //comparo current_exp con mision_untly_next_grade(current_grade_allowed),
 // }

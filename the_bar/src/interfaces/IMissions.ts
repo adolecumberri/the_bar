@@ -1,4 +1,5 @@
-export interface IMision {
+export interface IMission {
+    id: number;
     title: string;
     details: string;
     fights: IMonsterFight[];

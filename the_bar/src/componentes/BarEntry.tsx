@@ -6,7 +6,7 @@ import React, { FC, useCallback, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 
 import { THEME } from "../constants/constants";
-import { ICrew, IImageContext, IMision, ITheme } from "../interfaces";
+import { ICrew, IImageContext, IMission, ITheme } from "../interfaces";
 import { ImagesContext, loadBoxDimensions, StyleContext } from "../utility";
 import { useRenderCounter } from "../hooks";
 import { IHeroCreated } from "../interfaces/Hero.Interface";
@@ -19,10 +19,9 @@ const useStyles = makeStyles(() => {
 
 interface barProps {
   crewsAtDoor: ICrew[];
-  misions: IMision[];
 }
 
-const BarEntry: FC<barProps> = ({ crewsAtDoor, misions }) => {
+const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
 
   const barImgs = useContext(ImagesContext);
@@ -112,10 +111,7 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor, misions }) => {
 
     return solution;
   }, [crewsAtDoor.length, pixelSize]);
-
-  let misionsDisplayed = useCallback( () => {
-    
-  }, [misions.length, pixelSize])
+  
   return (
     <div style={container}>
       <span style={{ position: "absolute" }}>{count}</span>

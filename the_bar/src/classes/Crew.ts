@@ -11,8 +11,9 @@ export class Crew {
     status: ICrewStatus = "waiting_to_enter";
     tableId: number | null = null;
     areSitted: boolean = false;
-    onMision: boolean = false;
-    misionId: number | null = null;
+    onMission: boolean = false;
+    missionId: number | null = null;
+    hasEntered: boolean = false;
     constructor(heroNum: number){
         this.heroNum = heroNum;
         for(let i = 0; i < heroNum; i++){
@@ -26,14 +27,17 @@ export class Crew {
           );
         this.tableId = tableId;
         this.areSitted = true;
+        this.status = "sitted";
+        this.hasEntered = true;
     }
 
-    asignTable = ({tableId, isOccupied}: Table) =>{
-        if(!TABLES_IDS.includes(tableId as number))   throw new Error(
-            `Error assigning tables. Id: ${tableId} is not contained in the tables register.`
-          );
-        this.tableId = tableId;
-        this.areSitted = true;
-    }
+    // asignTable = ({tableId, isOccupied}: Table) =>{
+    //     if(!TABLES_IDS.includes(tableId as number))   throw new Error(
+    //         `Error assigning tables. Id: ${tableId} is not contained in the tables register.`
+    //       );
+    //     this.status = "sitted";
+    //     this.tableId = tableId;
+    //     this.areSitted = true;
+    // }
 
 }

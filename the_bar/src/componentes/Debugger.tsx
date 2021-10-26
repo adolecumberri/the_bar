@@ -39,11 +39,12 @@ interface IDebugger {
   stopHighlighting?: () => void,
   delay: number,
   enterDelay: number,
+  missionDisplayDelay: number,
   tables: Table[],
   crewsInside: number,
   crewsGone: number,
   crewsInQueue: number,
-  crewsAtMision: number,
+  crewsAtMission: number,
 }
 
 const Debugger: FC<IDebugger> = ({ 
@@ -52,6 +53,7 @@ const Debugger: FC<IDebugger> = ({
   stopHighlighting, 
   delay, 
   enterDelay, 
+  missionDisplayDelay,
   tables, 
   crewsInside, 
   crewsInQueue, 
@@ -84,6 +86,7 @@ const Debugger: FC<IDebugger> = ({
       </>)}
       entry creation delay: {delay} <br />
       enter delay: {enterDelay} <br />
+      mission creation delay: {missionDisplayDelay}
       {tables && tables.length && <>
         free tables: <br />
         <div className={tablesContainer}>
