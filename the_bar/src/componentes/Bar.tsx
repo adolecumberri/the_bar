@@ -14,13 +14,14 @@ import React, {
 //Material UI
 import { makeStyles, useTheme } from "@material-ui/styles";
 
-import { THEME } from "../constants/constants";
+import { THEME, TILE_SIZE } from "../constants/constants";
 import { IAnyBox, IGridHash, IGridTable, IMission, ITheme } from "../interfaces";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants/constants";
 import { useRenderCounter } from "../hooks";
 import { StyleContext, ImagesContext } from "../utility";
 import { Grid } from "../classes/Grid";
 import { Chair, Table } from "../classes/GridBoxesTypes";
+import { rand } from "../utility/Utility";
 
 const gridSprites = new Image();
 gridSprites.setAttribute("src", "../sprites/spritesheet.png");
@@ -67,6 +68,31 @@ const Bar: FC<IBarProps> = ({
   // useEffect(() => {
   //     _drawGrid();
   // }, [barGrid, triggerRender]);
+
+  const _drawMissions = () => {
+    let solution: JSX.Element[] = [];
+    
+   
+
+    missions.forEach( (m, i) => {
+      let divStyle = {
+        position: "absolute",
+        width: `${TILE_SIZE * pixelSize}px`,
+        height: `${TILE_SIZE * pixelSize}px`,
+        top: `${(TILE_SIZE * pixelSize) * Math.floor(rand(1))}px`,
+        left: `${(TILE_SIZE * pixelSize) * Math.floor(rand(10, 5))}px`,
+        backgroundColor: "gold",
+        border: "1px solid #bbbbbb",
+        imageRendering: "pixelated",
+      };
+      let div = (
+        <div className="" style={{ ...divStyle } as any} />
+      );
+      solution.push(div);
+    });
+
+    return solution;
+  }
 
   /* recursively draw each grid object */
   const _drawGrid = () => {
@@ -176,7 +202,7 @@ const Bar: FC<IBarProps> = ({
         }}
       >
         <span className={counter}>{count}</span>
-
+        {_drawMissions()}
         {_drawGrid()}
       </div>
     </>

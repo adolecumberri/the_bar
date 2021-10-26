@@ -64,7 +64,7 @@ class MissionManager {
     }
  
     displayMission = () => {
-        this.missions_displayed.push( this.missions_allowed[rand(this.missions_allowed.length)] );
+        this.missions_displayed.push( this.missions_allowed[rand(this.missions_allowed.length - 1)] );
     }
 
     stopMissionCreationDelay = () => {

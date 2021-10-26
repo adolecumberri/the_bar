@@ -3,7 +3,7 @@ import { ITable } from "../interfaces/ITables";
 
 
 
-const TILE_SIZE = 16;
+const TILE_SIZE = 20;
 const CANVAS_WIDTH = 320;
 const CANVAS_HEIGHT = 160;
 // entre el tamaño son
@@ -249,7 +249,7 @@ const DELAYS = {
   MIN_CREW_CREATION_DELAY: 1000,
   MAX_CREW_CREATION_DELAY: 5000,
   ENTER_DELAY: 3000,
-  MISSION_APPEARING_DELAY: 5000,
+  MISSION_APPEARING_DELAY: 1000,
   MISSION_DELAY: 5000,
 }
 

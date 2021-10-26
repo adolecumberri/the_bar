@@ -63,7 +63,7 @@ const Screen: FC = () => {
   const [goToEntryDelay, setGoToEntryDelay] = useState(MIN_CREW_CREATION_DELAY);
   const [checkEnterDelay, setCheckEnterDelay] = useState(ENTER_DELAY);
 
-  const [missionManager, setmissionManager] = useState (new MissionManager());
+  const [missionManager, setmissionManager] = useState(new MissionManager());
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createCrew, []);
 
@@ -102,17 +102,17 @@ const Screen: FC = () => {
     if (crewsAtDoor.length < 5) {
       setGoToEntryDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
     }
-//Reinicio el checkEnterDelay si esta a 0
-    if( checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
+    //Reinicio el checkEnterDelay si esta a 0
+    if (checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
   }, [crewsAtDoor.length]);
 
   //Mission controller.
   useEffect(() => {
-    console.log("execute info changer", missionManager.missions_displayed.length, missionManager.mission_creation_delay);
-    if(missionManager.missions_displayed.length >= 7){
+    // console.log("execute info changer", missionManager.missions_displayed.length, missionManager.mission_creation_delay);
+    if (missionManager.missions_displayed.length >= 6) {
       missionManager.stopMissionCreationDelay();
-    }else{
-      if(missionManager.mission_creation_delay === 0){
+    } else {
+      if (missionManager.mission_creation_delay === 0) {
         missionManager.restartMissionCreationDelay();
       }
     }
@@ -121,7 +121,7 @@ const Screen: FC = () => {
 
   useInterval(() => {
     //No hay mesass? paro la llegada a la puerta
-    if(barGrid.getFreeTables().length === 0){
+    if (barGrid.getFreeTables().length === 0) {
       setGoToEntryDelay(0)
       return;
     }
@@ -130,9 +130,9 @@ const Screen: FC = () => {
       setCrewsAtDoor([...crewsAtDoor, create()]);
       //delay random desde el minimo hasta el máximo tiempo de creación
       setGoToEntryDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
-    } else if( crewsAtDoor.length === 5){
+    } else if (crewsAtDoor.length === 5) {
       setGoToEntryDelay(0);
-    } 
+    }
   }, goToEntryDelay);
 
   useInterval(() => {
@@ -146,8 +146,8 @@ const Screen: FC = () => {
       //No hay mesas y lo intentan 3 veces. El equipo se va.
       // console.log("3 veces");
       const crewGone = crewsAtDoor.shift();
-      setCrewsGone( [...crewsGone, crewGone as Crew]);
-      setCrewsAtDoor( [ ...crewsAtDoor ]);
+      setCrewsGone([...crewsGone, crewGone as Crew]);
+      setCrewsAtDoor([...crewsAtDoor]);
     } else if (freeTables.length === 0) {
 
       //no hay mesas. intentos +1
@@ -164,9 +164,9 @@ const Screen: FC = () => {
       //Saco el equipo que entra de los grupos en la puerta.
       const crewEntering = crewsAtDoor.shift();
       //añado el equipo a los equipos de dentro.
-      setCrewsInside( [...crewsInside, crewEntering as Crew]);
+      setCrewsInside([...crewsInside, crewEntering as Crew]);
       //reestructuro los equipos de la puerta
-      setCrewsAtDoor( [ ...crewsAtDoor ]);
+      setCrewsAtDoor([...crewsAtDoor]);
       // debugger;
     }
   }, checkEnterDelay);
@@ -195,19 +195,19 @@ const Screen: FC = () => {
           //   // setBarGrid(new Grid(barGrid?.hashGrid));
           // }}
           delay={goToEntryDelay}
-          enterDelay = {checkEnterDelay}
-          missionDisplayDelay = {missionManager.mission_creation_delay}
+          enterDelay={checkEnterDelay}
+          missionDisplayDelay={missionManager.mission_creation_delay}
           tables={barGrid.hashGrid && barGrid.getFreeTables()}
-          crewsGone = {crewsGone.length}
-          crewsInside =  {crewsInside.length}
-          crewsInQueue = { crewsAtDoor.length}
-          crewsAtMission = { [].length}
+          crewsGone={crewsGone.length}
+          crewsInside={crewsInside.length}
+          crewsInQueue={crewsAtDoor.length}
+          crewsAtMission={[].length}
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
-        missions = {missionManager.missions_executing}
+          missions={missionManager.missions_displayed}
           barGrid={barGrid as Grid}
-          // triggerRender={triggerRender}
+        // triggerRender={triggerRender}
         // executeRenderLoop={executeRenderLoop}
         />
       </StyleContext.Provider>
