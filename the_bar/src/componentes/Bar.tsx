@@ -1,29 +1,23 @@
 //Barra del bar
 
-import React, {
+import {
   FC,
-  useRef,
-  Dispatch,
-  SetStateAction,
-  useEffect,
   useContext,
   useState,
   useCallback,
-  useMemo,
 } from "react";
 
 //Material UI
-import { makeStyles, useTheme } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 
-import { THEME, TILE_SIZE } from "../constants/constants";
-import { IAnyBox, IGridHash, IGridTable, IMission, ITheme } from "../interfaces";
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants/constants";
+import { TILE_SIZE } from "../constants/constants";
+import { ITheme } from "../interfaces";
 import { useRenderCounter } from "../hooks";
-import { StyleContext, ImagesContext } from "../utility";
+import { StyleContext } from "../utility";
 import { Grid } from "../classes/Grid";
 import { Chair, Table } from "../classes/GridBoxesTypes";
-import { rand } from "../utility/Utility";
 import { MissionManager } from "../classes/Missions";
+import { ToolTip } from ".";
 
 const gridSprites = new Image();
 gridSprites.setAttribute("src", "../sprites/spritesheet.png");
@@ -62,18 +56,12 @@ const Bar: FC<IBarProps> = ({
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
   // const { barTile } = useContext(ImagesContext);
 
-  const [hover, setHover] = useState(false);
-  const divDisplay = {
-    display: hover ? 'block' : 'none',
-    color: "#000000",
-  };
-  const handleMouseIn = () => {
-    setHover(true);
+  const [hover, setHover] = useState(-1);
+  // const divDisplay: CSSProperties  = ;
+  const showDiv = (divId: number) => {
+    setHover(divId);
   }
-  
-  const handleMouseOut = () => {
-    setHover(false);
-  }
+
   // const canvasRef = useRef<HTMLCanvasElement>(null);
   // const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
 
@@ -83,39 +71,70 @@ const Bar: FC<IBarProps> = ({
   //     _drawGrid();
   // }, [barGrid, triggerRender]);
 
-  const _drawMissions = () => {
-    let solution: JSX.Element[] = [];
+  const _drawMissions = useCallback(
+    () => {
+      let solution: JSX.Element[] = [];
 
-    missions_displayed.forEach((m, i) => {
-      let divStyle = {
-        boxSizing: "border-box",
-        mozBoxSizing: "border-box",
-        webkitBoxSizing: "border-box",
-        position: "absolute",
-        width: `${TILE_SIZE * pixelSize}px`,
-        height: `${TILE_SIZE * pixelSize}px`,
-        top: `${(TILE_SIZE * pixelSize) * (m.location?.x as number)}px`, // Math.floor(rand(1))
-        left: `${(TILE_SIZE * pixelSize) * (m.location?.y as number)}px`, // Math.floor(rand(10, 5))
-        backgroundColor: "gold",
-        border: "1px solid #bbbbbb",
-        imageRendering: "pixelated",
-      };
-      let div = (<>
-        <div
-          key={`mission-${i}`}
-          className=""
-          style={{ ...divStyle } as any}
-          onMouseOver={handleMouseIn.bind(this)} 
-          onMouseOut={handleMouseOut.bind(this)}
-        />
-        <div style={divDisplay}>this is the tooltip!!</div>
-      </>
-      );
-      solution.push(div);
-    });
+      missions_displayed.forEach((m, i) => {
+        let divStyle = {
+          boxSizing: "border-box",
+          MozBoxSizing: "border-box",
+          WebkitBoxSizing: "border-box",
+          position: "absolute",
+          width: `${TILE_SIZE * pixelSize}px`,
+          height: `${TILE_SIZE * pixelSize}px`,
+          top: `${(TILE_SIZE * pixelSize) * (m.location?.x as number)}px`, // Math.floor(rand(1))
+          left: `${(TILE_SIZE * pixelSize) * (m.location?.y as number)}px`, // Math.floor(rand(10, 5))
+          backgroundColor: "gold",
+          border: "1px solid #bbbbbb",
+          imageRendering: "pixelated",
+        };
+        let div = (
+          <div
+            key={`mission-${i}`}
+            className=""
+            style={{ ...divStyle } as any}
+            onMouseOver={() => { showDiv(m.location?.id as number) }}
+            onMouseOut={() => { showDiv(-1) }}
+          >
+            {
+              hover === m.location?.id &&
+              (
+                <ToolTip>    {/* tittle */}
+                  <div style={{ fontWeight: 700, marginBottom: `${4 * pixelSize}px` }}>
+                    {m.title}
+                  </div>
+                  <div>
+                    {m.details}
+                  </div>
+                  <div>
+                    {m.fights.map(f => {
+                      let solution = <div
+                        style={{ display: "flex", justifyContent: "space-between" }}
+                      >
+                        {f.monsters.map(m => <span>{m}</span>)}
+                      </div>
+                      return solution;
+                    })
+                    }
+                  </div>
+                </ToolTip>
+              )
+            }
+          </div >
+        );
+        // el propio jsx.element necesita una key en las propiedades.
+        // div.props["key"] = `mission-container-${i}`
+        solution.push(div);
+      });
 
-    return solution;
-  }
+
+      // debugger;
+      return solution;
+    }
+    , [missions_displayed.length, hover]);
+
+
 
   /* recursively draw each grid object */
   const _drawGrid = () => {
@@ -220,6 +239,7 @@ const Bar: FC<IBarProps> = ({
   return (
     <>
       <div
+        key="canvas-div"
         id="canvas"
         className={container}
         style={{

@@ -105,7 +105,9 @@ export const createHero = () => {
 
 export const createCrew = () => {
   let crew = new Crew(rand(4, 2));
-
-
   return crew;
 }
+
+export const uniqueID = (() => {
+  return Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))
+})();

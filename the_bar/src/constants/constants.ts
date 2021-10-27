@@ -278,32 +278,32 @@ const MISSION_LOCATION: ICoord[] = [
     y: 10
   },
   {
-    id: 5,
+    id: 6,
     x: 1,
     y: 5
   },
   {
-    id: 6,
+    id: 7,
     x: 1,
     y: 6
   },
   {
-    id: 7,
+    id: 8,
     x: 1,
     y: 7
   },
   {
-    id: 8,
+    id: 9,
     x: 1,
     y: 8
   },
   {
-    id: 9,
+    id: 10,
     x: 1,
     y: 9
   },
   {
-    id: 10,
+    id: 11,
     x: 1,
     y: 10
   },

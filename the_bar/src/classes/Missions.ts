@@ -1,7 +1,7 @@
 import { MISSIONS } from "../constants";
 import { DELAYS, MISSION_LOCATION } from "../constants/constants";
 import { ICoord, IMission } from "../interfaces";
-import { rand } from "../utility/Utility";
+import { rand, uniqueID } from "../utility/Utility";
 
 
 
@@ -37,6 +37,7 @@ class MissionManager {
     mission_location_available: ICoord[] = MISSION_LOCATION;
     mission_location_used: ICoord[] = [];
 
+    missionsDisplayed: number = 0;
     constructor() {
 
         this.grade0 = MISSIONS[0];
@@ -52,6 +53,7 @@ class MissionManager {
 
     calcNextLvl = (lvl: number) => ((lvl + 1)) * 60
 
+    //cuando missionManager sube de nivel, se meten nuevas misiones.
     updateMISSIONSAllowed = () => {
 
         // this.current_missions_allowed = [];
@@ -65,9 +67,13 @@ class MissionManager {
 
     }
 
+    //genera una mision para desplegar.
     displayMission = () => {
         //Uso spread operator para duplicar el objeto. Sino todas la localizaciones comparten referencia.
         let selectedMission = { ...this.missions_allowed[rand(this.missions_allowed.length - 1)] };
+        selectedMission.id = uniqueID;
+        //add missionDisplayed value to selectedMission.missionNumber, and later missionDisplayed + 1
+        selectedMission.missionNumber = this.missionsDisplayed++;
         this.addLocationToMission(selectedMission);
         // this.missions_displayed.push(selectedMission);
         this.missions_displayed = [...this.missions_displayed, selectedMission];
@@ -82,7 +88,7 @@ class MissionManager {
     }
 
     addLocationToMission = (mission: IMission) => {
-        debugger;
+        // debugger;
 
         let locationSelected = this.mission_location_available.splice(
             Math.floor(rand(this.mission_location_available.length - 1)),

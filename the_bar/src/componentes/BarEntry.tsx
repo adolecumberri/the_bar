@@ -1,21 +1,13 @@
 //Entrada del bar
 
-import React, { FC, useCallback, useContext, useEffect } from "react";
+import { FC, useCallback, useContext } from "react";
 
 //Material UI
-import { makeStyles } from "@material-ui/styles";
 
-import { THEME } from "../constants/constants";
-import { ICrew, IImageContext, IMission, ITheme } from "../interfaces";
+import { ICrew } from "../interfaces";
 import { ImagesContext, loadBoxDimensions, StyleContext } from "../utility";
 import { useRenderCounter } from "../hooks";
-import { IHeroCreated } from "../interfaces/Hero.Interface";
 
-const useStyles = makeStyles(() => {
-  return {
-    container: {},
-  };
-});
 
 interface barProps {
   crewsAtDoor: ICrew[];

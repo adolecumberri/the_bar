@@ -1,40 +1,44 @@
-
-
+@keyframes iddle {
+    from {
+        transform: translate3d(0px, 0, 0)
+    }
+    to {
+        transform: translate3d(-100%, 0, 0)
+    }
+}
 
 @keyframes iddle-left {
     from {
-        transform: translate3d(0px,0,0)
-     }
-     to {
-        transform: translate3d(-100%,0,0)
-     }
+        transform: translate3d(0px, 0, 0)
+    }
+    to {
+        transform: translate3d(-100%, 0, 0)
+    }
 }
 
 @keyframes iddle-right {
     from {
-        transform: translate3d(0%,0,0)
-        scaleX(-1)
-     }
-     to {
-        transform: translate3d(-100%,0,0)
-        scaleX(-1)
-     }
+        transform: translate3d(0%, 0, 0) scaleX(-1)
+    }
+    to {
+        transform: translate3d(-100%, 0, 0) scaleX(-1)
+    }
 }
 
 @keyframes iddle-top {
     from {
-        transform: translate3d(0px,0,0)
-     }
-     to {
-        transform: translate3d(-100%,0,0)
-     }
+        transform: translate3d(0px, 0, 0)
+    }
+    to {
+        transform: translate3d(-100%, 0, 0)
+    }
 }
 
 @keyframes iddle-bottom {
     from {
-        transform: translate3d(0px,0,0)
-     }
-     to {
-        transform: translate3d(-100%,0,0)
-     }
+        transform: translate3d(0px, 0, 0)
+    }
+    to {
+        transform: translate3d(-100%, 0, 0)
+    }
 }

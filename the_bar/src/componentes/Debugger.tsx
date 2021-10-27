@@ -6,11 +6,8 @@ import React, { FC } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
-
-import { THEME } from '../constants/constants';
-import { IGridTable, ITheme } from "../interfaces";
+import { ITheme } from "../interfaces";
 import { Table } from "../classes/GridBoxesTypes";
-import { Crew } from "../classes/Crew";
 
 const useStyles = makeStyles((Theme: ITheme) => ({
   container: {

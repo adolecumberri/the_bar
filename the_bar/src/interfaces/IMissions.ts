@@ -8,6 +8,7 @@ export interface IMission {
     grade: number;
     unique: boolean;
     location?: ICoord;
+    missionNumber?: number;
 }
 
 export interface IMonsterFight{
