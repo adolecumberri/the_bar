@@ -1,6 +1,6 @@
 import { MISSIONS } from "../constants";
-import { DELAYS } from "../constants/constants";
-import { IMission } from "../interfaces";
+import { DELAYS, MISSION_LOCATION } from "../constants/constants";
+import { ICoord, IMission } from "../interfaces";
 import { rand } from "../utility/Utility";
 
 
@@ -24,7 +24,7 @@ class MissionManager {
 
     //delay para hacer las missiones. (lo que tarda en hacerse)
     mission_delay: number = DELAYS.MISSION_DELAY;
-    
+
     //Array de missiones disponibles.
     missions_allowed: IMission[] = [];
 
@@ -34,8 +34,10 @@ class MissionManager {
     //missiones activas.
     missions_executing: IMission[] = [];
 
-    
-    constructor() {        
+    mission_location_available: ICoord[] = MISSION_LOCATION;
+    mission_location_used: ICoord[] = [];
+
+    constructor() {
 
         this.grade0 = MISSIONS[0];
         this.grade1 = MISSIONS[1];
@@ -43,12 +45,12 @@ class MissionManager {
         this.grade3 = MISSIONS[3];
         this.grade4 = MISSIONS[4];
 
-        this.expToNextLvl = this.calcNextLvl(0); 
+        this.expToNextLvl = this.calcNextLvl(0);
         this.updateMISSIONSAllowed();
-        
+
     }
 
-    calcNextLvl = (lvl: number) => ( (lvl + 1)) * 60
+    calcNextLvl = (lvl: number) => ((lvl + 1)) * 60
 
     updateMISSIONSAllowed = () => {
 
@@ -59,12 +61,16 @@ class MissionManager {
         // }
 
         let grade = `grade${this.current_mission_grade_allowed}` as keyof typeof MissionManager;
-        this.missions_allowed.push(...this[grade] as IMission[] );
+        this.missions_allowed.push(...this[grade] as IMission[]);
 
     }
- 
+
     displayMission = () => {
-        this.missions_displayed.push( this.missions_allowed[rand(this.missions_allowed.length - 1)] );
+        //Uso spread operator para duplicar el objeto. Sino todas la localizaciones comparten referencia.
+        let selectedMission = { ...this.missions_allowed[rand(this.missions_allowed.length - 1)] };
+        this.addLocationToMission(selectedMission);
+        // this.missions_displayed.push(selectedMission);
+        this.missions_displayed = [...this.missions_displayed, selectedMission];
     }
 
     stopMissionCreationDelay = () => {
@@ -75,6 +81,27 @@ class MissionManager {
         this.mission_creation_delay = this.default_mission_creation_delay;
     }
 
+    addLocationToMission = (mission: IMission) => {
+        debugger;
+
+        let locationSelected = this.mission_location_available.splice(
+            Math.floor(rand(this.mission_location_available.length - 1)),
+            1
+        )[0];
+
+        // let locationSelected = this.mission_location_available.shift() as ICoord;
+        this.mission_location_used.push(locationSelected);
+        mission.location = locationSelected;
+    }
+
+    removeLocationFromMission = (mission: IMission) => {
+        let missionSelectedIndex = this.mission_location_used.findIndex(coord => coord.id === mission.location?.id);
+        let missionSelected = this.mission_location_used.splice(missionSelectedIndex, 1)[0];
+        this.mission_location_available.push(missionSelected);
+
+        mission.location = undefined;
+
+    }
     // crewTomission = () =>{
 
     // }    

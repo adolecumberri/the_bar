@@ -40,6 +40,7 @@ interface IDebugger {
   delay: number,
   enterDelay: number,
   missionDisplayDelay: number,
+  missionsDisplayed: number,
   tables: Table[],
   crewsInside: number,
   crewsGone: number,
@@ -57,7 +58,8 @@ const Debugger: FC<IDebugger> = ({
   tables, 
   crewsInside, 
   crewsInQueue, 
-  crewsGone 
+  crewsGone,
+  missionsDisplayed
 }) => {
   const { container, tableInfo, tablesContainer } = useStyles();
 
@@ -86,7 +88,7 @@ const Debugger: FC<IDebugger> = ({
       </>)}
       entry creation delay: {delay} <br />
       enter delay: {enterDelay} <br />
-      mission creation delay: {missionDisplayDelay}
+      misº. creation delay: {missionDisplayDelay}
       {tables && tables.length && <>
         free tables: <br />
         <div className={tablesContainer}>
@@ -104,7 +106,8 @@ const Debugger: FC<IDebugger> = ({
 
       crewsInside: {crewsInside} <br/>
       crewsAtDoor: {crewsInQueue} <br />
-      crewsGone: {crewsGone}
+      crewsGone: {crewsGone} <br />
+      missionsDisplayed: {missionsDisplayed}
     </div>
   );
 };

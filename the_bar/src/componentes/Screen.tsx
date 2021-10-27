@@ -109,7 +109,7 @@ const Screen: FC = () => {
   //Mission controller.
   useEffect(() => {
     // console.log("execute info changer", missionManager.missions_displayed.length, missionManager.mission_creation_delay);
-    if (missionManager.missions_displayed.length >= 6) {
+    if (missionManager.missions_displayed.length > 6) {
       missionManager.stopMissionCreationDelay();
     } else {
       if (missionManager.mission_creation_delay === 0) {
@@ -197,6 +197,7 @@ const Screen: FC = () => {
           delay={goToEntryDelay}
           enterDelay={checkEnterDelay}
           missionDisplayDelay={missionManager.mission_creation_delay}
+          missionsDisplayed={missionManager.missions_displayed.length}
           tables={barGrid.hashGrid && barGrid.getFreeTables()}
           crewsGone={crewsGone.length}
           crewsInside={crewsInside.length}
@@ -205,7 +206,7 @@ const Screen: FC = () => {
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
-          missions={missionManager.missions_displayed}
+          missionManager={missionManager}
           barGrid={barGrid as Grid}
         // triggerRender={triggerRender}
         // executeRenderLoop={executeRenderLoop}

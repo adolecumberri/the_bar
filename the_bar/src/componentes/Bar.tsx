@@ -9,6 +9,7 @@ import React, {
   useContext,
   useState,
   useCallback,
+  useMemo,
 } from "react";
 
 //Material UI
@@ -22,6 +23,7 @@ import { StyleContext, ImagesContext } from "../utility";
 import { Grid } from "../classes/Grid";
 import { Chair, Table } from "../classes/GridBoxesTypes";
 import { rand } from "../utility/Utility";
+import { MissionManager } from "../classes/Missions";
 
 const gridSprites = new Image();
 gridSprites.setAttribute("src", "../sprites/spritesheet.png");
@@ -45,14 +47,14 @@ const useStyles = makeStyles((tema: ITheme) => {
 
 interface IBarProps {
   barGrid: Grid;
-  missions: IMission[];
+  missionManager: MissionManager;
   // triggerRender: boolean;
   // executeRenderLoop?: any; //TODO: Experimental
 }
 
 const Bar: FC<IBarProps> = ({
   barGrid: { hashGrid: barGrid, triggerUpdate },
-  missions,
+  missionManager: { missions_displayed },
   // triggerRender,
 }) => {
   const { container, counter } = useStyles();
@@ -60,6 +62,18 @@ const Bar: FC<IBarProps> = ({
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
   // const { barTile } = useContext(ImagesContext);
 
+  const [hover, setHover] = useState(false);
+  const divDisplay = {
+    display: hover ? 'block' : 'none',
+    color: "#000000",
+  };
+  const handleMouseIn = () => {
+    setHover(true);
+  }
+  
+  const handleMouseOut = () => {
+    setHover(false);
+  }
   // const canvasRef = useRef<HTMLCanvasElement>(null);
   // const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
 
@@ -71,22 +85,31 @@ const Bar: FC<IBarProps> = ({
 
   const _drawMissions = () => {
     let solution: JSX.Element[] = [];
-    
-   
 
-    missions.forEach( (m, i) => {
+    missions_displayed.forEach((m, i) => {
       let divStyle = {
+        boxSizing: "border-box",
+        mozBoxSizing: "border-box",
+        webkitBoxSizing: "border-box",
         position: "absolute",
         width: `${TILE_SIZE * pixelSize}px`,
         height: `${TILE_SIZE * pixelSize}px`,
-        top: `${(TILE_SIZE * pixelSize) * Math.floor(rand(1))}px`,
-        left: `${(TILE_SIZE * pixelSize) * Math.floor(rand(10, 5))}px`,
+        top: `${(TILE_SIZE * pixelSize) * (m.location?.x as number)}px`, // Math.floor(rand(1))
+        left: `${(TILE_SIZE * pixelSize) * (m.location?.y as number)}px`, // Math.floor(rand(10, 5))
         backgroundColor: "gold",
         border: "1px solid #bbbbbb",
         imageRendering: "pixelated",
       };
-      let div = (
-        <div className="" style={{ ...divStyle } as any} />
+      let div = (<>
+        <div
+          key={`mission-${i}`}
+          className=""
+          style={{ ...divStyle } as any}
+          onMouseOver={handleMouseIn.bind(this)} 
+          onMouseOut={handleMouseOut.bind(this)}
+        />
+        <div style={divDisplay}>this is the tooltip!!</div>
+      </>
       );
       solution.push(div);
     });
@@ -115,7 +138,7 @@ const Bar: FC<IBarProps> = ({
         case "void":
           // div.props.style['background-color' as any] = box.color;
           div = (
-            <div className="" style={{ ...divStyle } as any} />
+            <div key={`table-${coord}`} className="" style={{ ...divStyle } as any} />
           );
           break;
 
@@ -124,9 +147,10 @@ const Bar: FC<IBarProps> = ({
           if (thisChair.isOccupied) {
             //silla ocupada
             let hero = thisChair.hero;
-            
+
             div = (
               <div
+                key={`table-${coord}`}
                 className=""
                 style={
                   {
@@ -135,23 +159,25 @@ const Bar: FC<IBarProps> = ({
                     // position: "relative",
                     // backgroundColor: barGrid[coord].color
                   } as any
-                } 
-                >
-                  <img 
-                    alt={`${hero?.name}-${hero?.surname}`} 
-                    src={(hero?.img?.img as HTMLImageElement).src }
-                    style={{
-                      height: "100%",
-                      position: "absolute",
-                      animation: `iddle-${thisChair.dir} 1s steps(${hero?.img.steps}) infinite`,
-                      // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
-                    }}
-                  />
-                </div>
+                }
+              >
+                <img
+                  key={`img-${coord}`}
+                  alt={`${hero?.name}-${hero?.surname}`}
+                  src={(hero?.img?.img as HTMLImageElement).src}
+                  style={{
+                    height: "100%",
+                    position: "absolute",
+                    animation: `iddle-${thisChair.dir} 1s steps(${hero?.img.steps}) infinite`,
+                    // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
+                  }}
+                />
+              </div>
             );
           } else {
             div = (
-              <div 
+              <div
+                key={`table-${coord}`}
                 className=""
                 style={
                   {
@@ -166,7 +192,8 @@ const Bar: FC<IBarProps> = ({
 
         case "table":
           div = (
-            <div 
+            <div
+              key={`table-${coord}`}
               className=""
               style={
                 {
@@ -174,8 +201,8 @@ const Bar: FC<IBarProps> = ({
                   backgroundColor: barGrid[coord].color
                 } as any
               } >
-                <span>{(barGrid[coord] as Table).tableId}</span>
-                </div>
+              <span>{(barGrid[coord] as Table).tableId}</span>
+            </div>
           );
 
           break;
@@ -186,9 +213,9 @@ const Bar: FC<IBarProps> = ({
     return solution;
   };
 
-  let missionsDisplayed = useCallback( () => {
+  // let missionsDisplayed = useCallback( () => {
 
-  }, [missions.length, pixelSize])
+  // }, [missions.length, pixelSize])
 
   return (
     <>

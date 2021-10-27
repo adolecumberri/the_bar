@@ -1,3 +1,5 @@
+import { ICoord } from ".";
+
 export interface IMission {
     id: number;
     title: string;
@@ -5,6 +7,7 @@ export interface IMission {
     fights: IMonsterFight[];
     grade: number;
     unique: boolean;
+    location?: ICoord;
 }
 
 export interface IMonsterFight{

@@ -1,4 +1,4 @@
-import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES } from "../interfaces";
+import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES, ICoord } from "../interfaces";
 import { ITable } from "../interfaces/ITables";
 
 
@@ -242,6 +242,71 @@ const TABLES_LOCATIONS: ITable[] = [
       }
     ]
   },
+];
+
+const MISSION_LOCATION: ICoord[] = [
+  {
+    id: 0,
+    x: 0,
+    y: 5
+  },
+  {
+   
+    id: 1,
+    x: 0,
+    y: 6
+  },
+  {
+    
+    id: 2,
+    x: 0,
+    y: 7
+  },
+  {
+    id: 3,
+    x: 0,
+    y: 8
+  },
+  {
+    id: 4,
+    x: 0,
+    y: 9
+  },
+  {
+    id: 5,
+    x: 0,
+    y: 10
+  },
+  {
+    id: 5,
+    x: 1,
+    y: 5
+  },
+  {
+    id: 6,
+    x: 1,
+    y: 6
+  },
+  {
+    id: 7,
+    x: 1,
+    y: 7
+  },
+  {
+    id: 8,
+    x: 1,
+    y: 8
+  },
+  {
+    id: 9,
+    x: 1,
+    y: 9
+  },
+  {
+    id: 10,
+    x: 1,
+    y: 10
+  },
 ]
 
 /* DELAYS */
@@ -249,7 +314,7 @@ const DELAYS = {
   MIN_CREW_CREATION_DELAY: 1000,
   MAX_CREW_CREATION_DELAY: 5000,
   ENTER_DELAY: 3000,
-  MISSION_APPEARING_DELAY: 1000,
+  MISSION_APPEARING_DELAY: 5000,
   MISSION_DELAY: 5000,
 }
 
@@ -273,4 +338,5 @@ export {
   DELAYS,
   TABLES_IDS,
   // MISIONS_INFO,
+  MISSION_LOCATION,
 };
