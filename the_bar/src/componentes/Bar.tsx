@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useCallback,
+  useReducer,
 } from "react";
 
 //Material UI
@@ -56,11 +57,15 @@ const Bar: FC<IBarProps> = ({
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
   // const { barTile } = useContext(ImagesContext);
 
-  const [hover, setHover] = useState(-1);
+  const [hoverMission, setHoverMission] = useState(-1);
   // const divDisplay: CSSProperties  = ;
   const showDiv = (divId: number) => {
-    setHover(divId);
+    setHoverMission(divId);
   }
+
+  const [hoverHero, setHoverHero] = useReducer( (state: any, action: any) => {
+    return action;
+  }, -1)
 
   // const canvasRef = useRef<HTMLCanvasElement>(null);
   // const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
@@ -98,7 +103,7 @@ const Bar: FC<IBarProps> = ({
             onMouseOut={() => { showDiv(-1) }}
           >
             {
-              hover === m.location?.id &&
+              hoverMission === m.location?.id &&
               (
                 <ToolTip>    {/* tittle */}
                   <div style={{ fontWeight: 700, marginBottom: `${4 * pixelSize}px` }}>
@@ -132,7 +137,7 @@ const Bar: FC<IBarProps> = ({
       // debugger;
       return solution;
     }
-    , [missions_displayed.length, hover]);
+    , [missions_displayed.length, hoverMission]);
 
 
 
@@ -191,6 +196,12 @@ const Bar: FC<IBarProps> = ({
                     // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
                   }}
                 />
+{/* TODO: actualizar heroes y despues crear el tooltip */}
+                  {/* {
+              hoverHero === hero. &&
+                <ToolTip>
+                  prueba
+                </ToolTip> */}
               </div>
             );
           } else {
