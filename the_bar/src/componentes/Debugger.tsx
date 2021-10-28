@@ -85,7 +85,7 @@ const Debugger: FC<IDebugger> = ({
       </>)}
       entry creation delay: {delay} <br />
       enter delay: {enterDelay} <br />
-      misº. creation delay: {missionDisplayDelay}
+      misº. creation delay: {missionDisplayDelay} < br/>
       {tables && tables.length && <>
         free tables: <br />
         <div className={tablesContainer}>

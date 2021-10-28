@@ -101,7 +101,7 @@ export const createRandomStats = () => {
     // añado imagen
     randHero.img = defaultImageContext[(randHero.className.toLocaleLowerCase() as keyof IImageContext)];
 
-    debugger;
+    // debugger;
     //console.log(`Random Hero: \n ${JSON.stringify(randHero.name)}`);
     // //console.timeEnd('createHero');
     return randHero as any;

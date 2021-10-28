@@ -14,8 +14,10 @@ import { Crew } from "./Crew";
 class GridBox {
   // this: IGridBox;
   key: string;
-  gX: number;
-  gY: number;
+  // gX: number;
+  // gY: number;
+  xCoord: number;
+  yCoord: number;
   x: number;
   y: number;
   width: number;
@@ -28,10 +30,10 @@ class GridBox {
   highlighted: boolean;
   constructor({
     key,
-    gX,
-    gY,
     x,
     y,
+    xCoord,
+    yCoord,
     width,
     height,
     type,
@@ -40,8 +42,10 @@ class GridBox {
     sprite,
   }: IGridBox) {
     this.key = key;
-    this.gX = gX;
-    this.gY = gY;
+    // this.gX = gX;
+    // this.gY = gY;
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -111,27 +115,27 @@ class Table extends GridBox {
   };
 
 
-  occupyTable = (crew: Crew) =>{
-      this.isOccupied = true;
-      this.crew = crew;
+  occupyTable = (crew: Crew) => {
+    this.isOccupied = true;
+    this.crew = crew;
 
     let heroes = crew.heros;
 
-    if(heroes.length !== this.chairs.length)
-    throw new Error(
-      `The number of Heroes is different of Chairs number in table.
+    if (heroes.length !== this.chairs.length)
+      throw new Error(
+        `The number of Heroes is different of Chairs number in table.
       Heores: ${heroes.length}
       Chairs: ${this.chairs.length}`
-    );
+      );
 
 
     //Al tener la misma longitud, puedo iterar por las sillas  y usar el index para los heroes.
-      this.chairs.forEach( (chair, i) => {
-          chair.occupyChair(heroes[i]);
-      });
+    this.chairs.forEach((chair, i) => {
+      chair.occupyChair(heroes[i]);
+    });
   }
 
-  
+
 
 };
 

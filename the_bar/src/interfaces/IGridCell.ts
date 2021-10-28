@@ -5,8 +5,10 @@ export type IAnyBox = IGridBox | IGridChair | IGridTable
 
 export interface IGridBox {
   key: string;
-  gX: number;
-  gY: number;
+  // gX: number;
+  // gY: number;
+  xCoord: number,
+  yCoord: number,
   x: number;
   y: number;
   width: number;

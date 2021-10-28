@@ -9,7 +9,7 @@ import { useWindowSize } from "../hooks";
 import { IPixelSize, ITheme } from "../interfaces";
 import { Bar } from ".";
 import { StyleContext } from "../utility";
-import { THEME, DELAYS } from "../constants/constants";
+import { THEME, DELAYS, CANVAS_COLS, CANVAS_HEIGHT, CANVAS_ROWS, CANVAS_WIDTH } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
@@ -46,7 +46,13 @@ const Screen: FC = () => {
 
   // const [triggerRender, setTriggerRender] = useState(false); //Trigger a canvas render
 
-  const [barGrid, setBarGrid] = useState<Grid>(new Grid());
+  const [barGrid, setBarGrid] = useState<Grid>(new Grid({
+    cols: CANVAS_COLS,
+    rows: CANVAS_ROWS,
+    t_height: canvasHeight * pixelSize,
+    t_width: canvasWidth * pixelSize,
+
+  }));
 
   //------CREWS.----------
   //TODO: metería esto en un hook personalizado, que creo que puede ser 
@@ -61,7 +67,7 @@ const Screen: FC = () => {
   let [timesTryingToEnter, setTimesTryingToEnter] = useState(0);
 
   //DELAYS
-  const [goToEntryDelay, setGoToEntryDelay] = useState(MIN_CREW_CREATION_DELAY);
+  const [crewCreationDelay, setCrewCreationDelay] = useState(MIN_CREW_CREATION_DELAY);
   const [checkEnterDelay, setCheckEnterDelay] = useState(ENTER_DELAY);
 
   //omito el setter. no re reestructura el mision manager.
@@ -86,35 +92,34 @@ const Screen: FC = () => {
 
   //grid initializer
   useEffect(() => {
-    let rows = 6,
-      cols = 16,
-      t_width = canvasWidth * pixelSize,
+    let t_width = canvasWidth * pixelSize,
       t_height = canvasHeight * pixelSize;
 
-    let grid = new Grid();
-    grid._initNewGridWithTables({ rows, cols, t_width, t_height });
+    // let grid = new Grid();
+    barGrid._updateBoxDimensions({ newWidth: t_width, newHeight: t_height });
 
-    setBarGrid(grid);
+    // setBarGrid(grid);
   }, [pixelSize]);
 
   //when crewsAtDoor changes, re-starts delay used in the interval of creation.
   useEffect(() => {
-    if (crewsAtDoor.length < 5) {
-      setGoToEntryDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
+    if (crewsAtDoor.length < 5 && crewCreationDelay > 0) {
+      setCrewCreationDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
     }
     //Reinicio el checkEnterDelay si esta a 0
-    if (checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
-  }, [ENTER_DELAY, MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY, checkEnterDelay, crewsAtDoor.length]);
+    // if (checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
+  }, [ENTER_DELAY, MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY, crewsAtDoor.length]);
 
-useEffect( () => {
+  //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
+  useEffect(() => {
+    console.log("checking enter", crewsAtDoor.length, barGrid.getFreeTables().length);
+    if (crewsAtDoor.length === 0 || barGrid.getFreeTables().length === 0) {
+      setCheckEnterDelay(0);
+    } else {
+      setCheckEnterDelay(ENTER_DELAY);
+    }
 
-  if(crewsAtDoor.length === 0 || barGrid.getFreeTables().length === 0){
-    setGoToEntryDelay(0);
-  }else{
-    setGoToEntryDelay(MIN_CREW_CREATION_DELAY);
-  }
-
-},  [MIN_CREW_CREATION_DELAY, crewsAtDoor.length, barGrid.getFreeTables().length]);
+  }, [crewsAtDoor.length, barGrid.getFreeTables().length]);
 
   //Mission controller.
   useEffect(() => {
@@ -133,18 +138,18 @@ useEffect( () => {
     console.log("entry interval", barGrid.getFreeTables().length, crewsAtDoor.length);
     //No hay mesass? paro la llegada a la puerta
     if (barGrid.getFreeTables().length === 0) {
-      setGoToEntryDelay(0)
+      setCrewCreationDelay(0)
       return;
     }
 
     if (crewsAtDoor.length < 5) {
       setCrewsAtDoor([...crewsAtDoor, create()]);
       //delay random desde el minimo hasta el máximo tiempo de creación
-      setGoToEntryDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
+      setCrewCreationDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
     } else if (crewsAtDoor.length === 5) {
-      setGoToEntryDelay(0);
+      setCrewCreationDelay(0);
     }
-  }, goToEntryDelay);
+  }, crewCreationDelay);
 
   useInterval(() => {
     if (crewsAtDoor.length === 0) {
@@ -156,13 +161,13 @@ useEffect( () => {
     let freeTables = barGrid.getFreeTablesBySize(crewToEnter?.heroNum);
 
 
-    console.log("crew interval", 
-    {
-      crewAtDoor:  crewsAtDoor.length,
-       crewToEnter, 
-       freeTables, 
-       timesTryingToEnter
-    });
+    console.log("crew interval",
+      {
+        crewAtDoor: crewsAtDoor.length,
+        crewToEnter,
+        freeTables,
+        timesTryingToEnter
+      });
 
 
     if (freeTables.length === 0 && timesTryingToEnter === 3) {
@@ -218,7 +223,7 @@ useEffect( () => {
           //   // setTriggerRender(!triggerRender);
           //   // setBarGrid(new Grid(barGrid?.hashGrid));
           // }}
-          delay={goToEntryDelay}
+          delay={crewCreationDelay}
           enterDelay={checkEnterDelay}
           missionDisplayDelay={missionManager.mission_creation_delay}
           missionsDisplayed={missionManager.missions_displayed.length}

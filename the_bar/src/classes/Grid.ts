@@ -5,9 +5,21 @@ import { Chair, Table, Void } from "./GridBoxesTypes";
 
 
 export class Grid {
-  constructor(customGrid?: IGridHash) {
-    this.hashGrid = customGrid as IGridHash;
+  t_width: number = 0;
+  cols: number = 0;
+  t_height: number = 0;
+  rows: number = 0;
+
+  constructor({ t_height, t_width, cols, rows }: { [x: string]: number }) {
+    this.rows = rows;
+    this.cols = cols;
+    this.t_height = t_height;
+    this.t_width = t_width;
+
+    this._initNewGridWithTables();
   }
+
+
   topMargin = 2;
   //las keys son col-row OR X-Y
   hashGrid: IGridHash = {};
@@ -18,7 +30,7 @@ export class Grid {
   tablesInfo = TABLES_LOCATIONS; //constant used to create the tables and chairs;
   _initNewVoidGrid = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
 
-    const { height, width } = this._loadBoxDimensions({ cols, rows, t_height, t_width })
+    const { height, width } = this._loadBoxDimensions()
     let gridHash: IGridHash = {};
 
     for (let Y = 0; Y <= rows - 1; Y++) {
@@ -28,7 +40,14 @@ export class Grid {
         let gridTypeConfig = GRID_CONFIG.void;
 
         let gridBox = new Void({
-          key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, ...gridTypeConfig
+          key,
+          xCoord: X,
+          yCoord: Y,
+          x: X * width,
+          y: (Y + this.topMargin) * height,
+          width,
+          height,
+          ...gridTypeConfig
         })
 
         gridHash[key] = gridBox;
@@ -53,10 +72,10 @@ export class Grid {
     return gridHash;
   };
 
-  _initNewGridWithTables = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
+  _initNewGridWithTables = () => {
 
     //Load cell-height and cell-width
-    const { height, width } = this._loadBoxDimensions({ cols, rows, t_height, t_width })
+    const { height, width } = this._loadBoxDimensions()
     let gridHash: IGridHash = {};
 
     //following Tables_locations scheme
@@ -70,8 +89,11 @@ export class Grid {
 
       //creation.
       let gridBox = new Table({
+        xCoord: X,
+        yCoord: Y,
         key,
-        ...this._loadBoxBasicVariables({ X, Y, height, width }),
+        x: X * width,
+        y: (Y + this.topMargin) * height,
         width,
         height,
         isOccupied: false,
@@ -96,7 +118,10 @@ export class Grid {
 
         let chairBox = new Chair({
           key,
-          ...this._loadBoxBasicVariables({ X, Y, height, width }),
+          xCoord: X,
+          yCoord: Y,
+          x: X * width,
+          y: (Y + this.topMargin) * height,
           width,
           height,
           tableId,
@@ -111,8 +136,8 @@ export class Grid {
     }
 
 
-    for (let Y = 0; Y <= rows - 1; Y++) {
-      for (let X = 0; X <= cols - 1; X++) {
+    for (let Y = 0; Y <= this.rows - 1; Y++) {
+      for (let X = 0; X <= this.cols - 1; X++) {
         //variables.
         let key = `${X}-${Y}`;
 
@@ -120,7 +145,12 @@ export class Grid {
           let gridTypeConfig = GRID_CONFIG.void;
 
           let gridBox = new Void({
-            key, ...this._loadBoxBasicVariables({ X, Y, height, width }), width, height, ...gridTypeConfig
+            key,
+            xCoord: X,
+            yCoord: Y,
+            x: X * width,
+            y: (Y + this.topMargin) * height,
+            width, height, ...gridTypeConfig
           })
           gridHash[key] = gridBox;
         }
@@ -134,37 +164,64 @@ export class Grid {
     // return gridHash;
   };
 
-  _loadBoxDimensions = ({ t_width, cols, t_height, rows }: {
-    t_width: number;
-    cols: number;
-    t_height: number;
-    rows: number;
-  }) => {
-    if (t_width % cols || t_height % (rows + this.topMargin))
+  _loadBoxDimensions = () => {
+    if (this.t_width % this.cols || this.t_height % (this.rows + this.topMargin))
       throw new Error(
         "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
       );
 
-    let width = t_width / cols;
-    let height = t_height / (rows + this.topMargin);
+    let width = this.t_width / this.cols;
+    let height = this.t_height / (this.rows + this.topMargin);
 
     return { width, height }
   }
 
-  _loadBoxBasicVariables = ({ X, Y, width, height }: {
-    X: number;
-    Y: number;
-    width: number;
-    height: number;
+  _updateBoxDimensions = ({ newWidth, newHeight }: {
+    newWidth: number;
+    newHeight: number;
   }) => {
+    if (newWidth % this.cols || newHeight % (this.rows + this.topMargin))
+      throw new Error(
+        "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
+      );
 
-    let gX = X,
-      gY = Y,
-      x = X * width,
-      y = (Y + this.topMargin) * height; // por la falsa pared
+    this.t_width = newWidth;
+    this.t_height = newHeight;
 
-    return { gX, gY, x, y }
+
+    let width = newWidth / this.cols;
+    let height = newHeight / (this.rows + this.topMargin);
+    let keys = Object.keys(this.hashGrid);
+
+    // x: X * width,
+    // y: (Y + this.topMargin) * height,
+
+    keys.forEach(key => {
+      this.hashGrid[key].width = width;
+      this.hashGrid[key].height = height;
+      this.hashGrid[key].x = this.hashGrid[key].xCoord * width;
+      this.hashGrid[key].y = (this.hashGrid[key].yCoord + this.topMargin) * height
+    });
+
+
+
+    // return { width, height }
   }
+
+  // _loadBoxBasicVariables = ({ X, Y, width, height }: {
+  //   X: number;
+  //   Y: number;
+  //   width: number;
+  //   height: number;
+  // }) => {
+
+  //   let gX = X,
+  //     gY = Y,
+  //     x = X * width,
+  //     y = (Y + this.topMargin) * height; // por la falsa pared
+
+  //   return { gX, gY, x, y }
+  // }
 
   highlight = (type: IGRID_VALUES) => {
     for (let cell in this.hashGrid) {
@@ -192,13 +249,13 @@ export class Grid {
   getFreeTables = () => {
     let solution: Table[] = [];
 
-    
-    if(!this.hashGrid) debugger;
+
+    if (!this.hashGrid) debugger;
 
     //si no hay hashGrid, devuelve un array vacio
-    if(!this.hashGrid) return [];
+    if (!this.hashGrid) return [];
 
-
+    // debugger;
     TABLES_LOCATIONS.forEach(({ row, col, chairs }) => {
       let key = `${col}-${row}`;
       if (!(this.hashGrid[key] as Table)) debugger;
@@ -215,7 +272,7 @@ export class Grid {
     let solution: Table[] = [];
 
     //si no hay hashGrid, devuelve un array vacio
-    if(!this.hashGrid) return [];
+    if (!this.hashGrid) return [];
 
 
     TABLES_LOCATIONS.forEach(({ row, col, chairs }) => {

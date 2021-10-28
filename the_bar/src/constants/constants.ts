@@ -1,7 +1,8 @@
 import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES, ICoord } from "../interfaces";
 import { ITable } from "../interfaces/ITables";
 
-
+const CANVAS_ROWS = 6;
+const CANVAS_COLS = 16;
 
 const TILE_SIZE = 20;
 const CANVAS_WIDTH = 320;
@@ -339,4 +340,6 @@ export {
   TABLES_IDS,
   // MISIONS_INFO,
   MISSION_LOCATION,
+  CANVAS_ROWS,
+  CANVAS_COLS
 };
