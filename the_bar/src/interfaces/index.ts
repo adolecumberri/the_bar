@@ -6,7 +6,7 @@ import { ISprite } from './ISprites';
 import { IGRID_VALUES, IGRID_TYPES, IDirections } from './IConstants';
 import { IGridHash } from './IGridHash';
 import { IImageContext, IImgAnimation } from './IImageContext';
-import { ICrew, ICrewStatus } from './Crew.interface';
+import { ICrew } from './Crew.interface';
 import {ITable, IChair} from './ITables';
 import { IHeroCreated } from './Hero.Interface';
 import { IMission, IMonsterFight } from './IMissions';
@@ -35,7 +35,6 @@ export type {
     IChair,
     IImgAnimation,
     IHeroCreated,
-    ICrewStatus,
     IMission,
     IMonsterFight
 }

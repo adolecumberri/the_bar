@@ -60,7 +60,7 @@ class GridBox {
 
 class Chair extends GridBox {
   isOccupied?: boolean;
-  hero?: IHeroCreated | null;
+  hero?: IHeroCreated;
   tableId: number;
   dir: "left" | "top" | "right" | "bottom";
   constructor(arg: IGridChair) {
@@ -69,6 +69,7 @@ class Chair extends GridBox {
     this.isOccupied = arg.isOccupied || false;
     this.walkable = true;
     this.tableId = arg.tableId;
+    this.hero = undefined;
   }
 
   occupyChair = (hero: any) => {
@@ -80,7 +81,7 @@ class Chair extends GridBox {
   releaseChair = () => {
     this.walkable = true;
     this.isOccupied = false;
-    this.hero = null;
+    this.hero = undefined;
   };
 };
 

@@ -1,11 +1,11 @@
 import { AnyHero } from '.';
 import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
-import { Hero } from '../commonHero';
+import { Hero } from '../Hero';
 
 export class Berserker extends Hero {
-	constructor(data: IHero) {
-		super({ ...data, curr_att_interval: data.att_interval });
-	}
+	// constructor(data: IHero) {
+	// 	super({ ...data, curr_att_interval: data.att_interval });
+	// }
 
 	//Propiedades.
 	heroEfects: IHeroEfects = {

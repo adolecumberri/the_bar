@@ -186,6 +186,7 @@ const Bar: FC<IBarProps> = ({
                 }
               >
                 <img
+                
                   key={`img-${coord}`}
                   alt={`${hero?.name}-${hero?.surname}`}
                   src={(hero?.img?.img as HTMLImageElement).src}
@@ -195,6 +196,8 @@ const Bar: FC<IBarProps> = ({
                     animation: `iddle-${thisChair.dir} 1s steps(${hero?.img.steps}) infinite`,
                     // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
                   }}
+                  // onMouseOver={() => { showDiv(hero..id as number) }}
+                  // onMouseOut={() => { showDiv(-1) }}
                 />
 {/* TODO: actualizar heroes y despues crear el tooltip */}
                   {/* {

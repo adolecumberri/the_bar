@@ -1,9 +1,11 @@
 
 import { TABLES_LOCATIONS } from "../constants";
 import { TABLES_IDS } from "../constants/constants";
-import { IHeroCreated, ICrewStatus, ITable } from "../interfaces";
-import { createHero } from "../utility/Utility";
+import { IHeroCreated, ITable } from "../interfaces";
+import { ICrewStatus } from "../interfaces/Crew.interface";
+// import { createHero } from "../utility/Utility";
 import { Table } from "./GridBoxesTypes";
+import { createRandomHero } from "./Hero";
 
 export class Crew {
     heroNum: number;
@@ -17,7 +19,7 @@ export class Crew {
     constructor(heroNum: number){
         this.heroNum = heroNum;
         for(let i = 0; i < heroNum; i++){
-            this.heros.push(createHero());
+            this.heros.push(createRandomHero());
         }
     }
 

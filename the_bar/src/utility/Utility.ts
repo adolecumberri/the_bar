@@ -62,47 +62,6 @@ export function randName(gender: number) {
   ];
 };
 
-let calculateFinalStats = (baseStats: any, classState: any) => {
-  let finalStat: any = {};
-  Object.keys(baseStats).forEach((a: string | any) => {
-    let value = baseStats[a] + classState[a] + Number.EPSILON;
-    finalStat[a] =
-      Math.round((Math.random() * (value * (1 + VARIATION) - value * (1 - VARIATION)) + value * (1 - VARIATION)) * 100) /
-      100;
-  });
-
-  finalStat['className'] = classState['className'];
-  return finalStat;
-};
-
-
-export const createHero = () => {
-  let basicStats = HERO_STATS[0];
-  let classStats = HERO_STATS.slice(1);
-
-  let id_class = rand(0, classStats.length - 1); //ES EL INDICE -> el valor es id_class + 1
-  let choosedClassStats = classStats[id_class];
-  let currGender = rand(0, 1);
-  let name = randName(Number(currGender));
-  let randHero: IHeroCreated = {
-    ...calculateFinalStats(basicStats, choosedClassStats),
-    id_class: id_class + 1,
-    gender: currGender,
-    name: name[0],
-    surname: name[1],
-  };
-  randHero["hp"] = Math.round(randHero["hp"]);
-  //randHero['currentHp'] = randHero.hp;
-  randHero["dmg"] = Math.round(randHero["dmg"]);
-  randHero["def"] = Math.round(randHero["def"]);
-
-  // añado imagen
-  randHero.img = defaultImageContext[(randHero.className.toLocaleLowerCase() as keyof IImageContext)]
-  //console.log(`Random Hero: \n ${JSON.stringify(randHero.name)}`);
-  // //console.timeEnd('createHero');
-  return randHero as IHeroCreated;
-};
-
 export const createCrew = () => {
   let crew = new Crew(rand(4, 2));
   return crew;
