@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useState, useContext, useCallback } from "react";
 
 //Material UI
@@ -63,11 +64,10 @@ const Screen: FC = () => {
   const [goToEntryDelay, setGoToEntryDelay] = useState(MIN_CREW_CREATION_DELAY);
   const [checkEnterDelay, setCheckEnterDelay] = useState(ENTER_DELAY);
 
-  const [missionManager, setmissionManager] = useState(new MissionManager());
+  //omito el setter. no re reestructura el mision manager.
+  const [missionManager] = useState(new MissionManager());
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createCrew, []);
-
-  const [randomGuy, setRandomGuy] = useState<any>();
 
   //set pixelSize
   useEffect(() => {
@@ -106,6 +106,16 @@ const Screen: FC = () => {
     if (checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
   }, [ENTER_DELAY, MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY, checkEnterDelay, crewsAtDoor.length]);
 
+useEffect( () => {
+
+  if(crewsAtDoor.length === 0 || barGrid.getFreeTables().length === 0){
+    setGoToEntryDelay(0);
+  }else{
+    setGoToEntryDelay(MIN_CREW_CREATION_DELAY);
+  }
+
+},  [MIN_CREW_CREATION_DELAY, crewsAtDoor.length, barGrid.getFreeTables().length]);
+
   //Mission controller.
   useEffect(() => {
     // console.log("execute info changer", missionManager.missions_displayed.length, missionManager.mission_creation_delay);
@@ -120,6 +130,7 @@ const Screen: FC = () => {
   }, [missionManager.missions_displayed.length])
 
   useInterval(() => {
+    console.log("entry interval", barGrid.getFreeTables().length, crewsAtDoor.length);
     //No hay mesass? paro la llegada a la puerta
     if (barGrid.getFreeTables().length === 0) {
       setGoToEntryDelay(0)
@@ -136,10 +147,22 @@ const Screen: FC = () => {
   }, goToEntryDelay);
 
   useInterval(() => {
-    if (crewsAtDoor.length === 0) setCheckEnterDelay(0);
+    if (crewsAtDoor.length === 0) {
+      setCheckEnterDelay(0);
+      return;
+    }
 
     let crewToEnter = crewsAtDoor[0];
     let freeTables = barGrid.getFreeTablesBySize(crewToEnter?.heroNum);
+
+
+    console.log("crew interval", 
+    {
+      crewAtDoor:  crewsAtDoor.length,
+       crewToEnter, 
+       freeTables, 
+       timesTryingToEnter
+    });
 
 
     if (freeTables.length === 0 && timesTryingToEnter === 3) {
@@ -172,6 +195,7 @@ const Screen: FC = () => {
   }, checkEnterDelay);
 
   useInterval(() => {
+    console.log("mision interval");
     missionManager.displayMission();
   }, missionManager.mission_creation_delay);
 

@@ -173,7 +173,7 @@ const Bar: FC<IBarProps> = ({
             //silla ocupada
             let hero = thisChair.hero as IHero;
 
-            div = (<>
+            div = (<div key={`hero-${coord}`}>
               <div
                 key={`table-${coord}`}
                 className=""
@@ -253,7 +253,7 @@ const Bar: FC<IBarProps> = ({
                 </ToolTip>
               }
 
-            </>
+            </div>
             );
           } else {
             div = (
