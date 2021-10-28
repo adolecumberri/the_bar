@@ -8,6 +8,7 @@ import {
   IGridHash,
   IHeroCreated,
 } from "../interfaces";
+import { IHero } from "../interfaces/Hero.Interface";
 import { Crew } from "./Crew";
 
 class GridBox {
@@ -60,7 +61,7 @@ class GridBox {
 
 class Chair extends GridBox {
   isOccupied?: boolean;
-  hero?: IHeroCreated;
+  hero?: IHero;
   tableId: number;
   dir: "left" | "top" | "right" | "bottom";
   constructor(arg: IGridChair) {

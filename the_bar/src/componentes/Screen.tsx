@@ -1,18 +1,18 @@
-import { FC, useEffect, useState, useContext, useCallback, useRef } from "react";
+import { FC, useEffect, useState, useContext, useCallback } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
 
 import { useWindowSize } from "../hooks";
 
-import { ICrew, IGridHash, IPixelSize, ITheme } from "../interfaces";
+import { IPixelSize, ITheme } from "../interfaces";
 import { Bar } from ".";
 import { StyleContext } from "../utility";
 import { THEME, DELAYS } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
-import { createHero, createCrew, rand } from "../utility/Utility";
+import { createCrew, rand } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
 import { Crew } from "../classes/Crew";
 import { MissionManager } from "../classes/Missions";
@@ -104,7 +104,7 @@ const Screen: FC = () => {
     }
     //Reinicio el checkEnterDelay si esta a 0
     if (checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
-  }, [crewsAtDoor.length]);
+  }, [ENTER_DELAY, MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY, checkEnterDelay, crewsAtDoor.length]);
 
   //Mission controller.
   useEffect(() => {

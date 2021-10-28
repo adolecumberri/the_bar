@@ -71,7 +71,7 @@ class MissionManager {
     displayMission = () => {
         //Uso spread operator para duplicar el objeto. Sino todas la localizaciones comparten referencia.
         let selectedMission = { ...this.missions_allowed[rand(this.missions_allowed.length - 1)] };
-        selectedMission.id = uniqueID;
+        selectedMission.id = uniqueID();
         //add missionDisplayed value to selectedMission.missionNumber, and later missionDisplayed + 1
         selectedMission.missionNumber = this.missionsDisplayed++;
         this.addLocationToMission(selectedMission);

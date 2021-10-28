@@ -1,122 +1,38 @@
 
-import { HERO_STATS, VARIATION } from '../constants';
 import { IImageContext, IImgAnimation } from '../interfaces';
 import { IHero, IHeroCreated } from '../interfaces/Hero.Interface';
 import { defaultImageContext } from '../utility/context';
+import { createRandomStats } from '../utility/hero.utils';
 import { rand, randName, uniqueID } from '../utility/Utility';
 import { AnyHero, Archer, Berserker, Defender, Fencer, Ninja, Paladin, Sniper, Soldier, Thieve } from './hero_classes';
 // import { StatsManager } from './fightStatsManager';
 
 
-let calculateFinalStats = (baseStats: any, classState: any) => {
-	let finalStat: any = {};
-	Object.keys(baseStats).forEach((a: string | any) => {
-	  let value = baseStats[a] + classState[a] + Number.EPSILON;
-	  finalStat[a] =
-		Math.round((Math.random() * (value * (1 + VARIATION) - value * (1 - VARIATION)) + value * (1 - VARIATION)) * 100) /
-		100;
-	});
-  
-	finalStat['className'] = classState['className'];
-	return finalStat;
-  };
-  
-  
-  export const createRandomHero = () => {
-	let basicStats = HERO_STATS[0];
-	let classStats = HERO_STATS.slice(1);
-  
-	let id_class = rand(0, classStats.length - 1); //ES EL INDICE -> el valor es id_class + 1
-	let choosedClassStats = classStats[id_class];
-	let currGender = rand(0, 1);
-	let name = randName(Number(currGender));
-	let randHero: IHeroCreated = {
-	  ...calculateFinalStats(basicStats, choosedClassStats),
-	  id_class: id_class + 1,
-	  gender: currGender,
-	  name: name[0],
-	  surname: name[1],
-	};
-	randHero["hp"] = Math.round(randHero["hp"]);
-	//randHero['currentHp'] = randHero.hp;
-	randHero["dmg"] = Math.round(randHero["dmg"]);
-	randHero["def"] = Math.round(randHero["def"]);
-  
-	// añado imagen
-	randHero.img = defaultImageContext[(randHero.className.toLocaleLowerCase() as keyof IImageContext)];
-
-	let newHero = switchClass(randHero);
-	//console.log(`Random Hero: \n ${JSON.stringify(randHero.name)}`);
-	// //console.timeEnd('createHero');
-	return newHero as any;
-  };
-
-let switchClass = (hero: any) => {
-	if(hero.id < 1 || hero.is > 9){
-		throw new Error(
-            `Error hero Id: ${hero.id} does not represent any hero type id.`
-          );
-	}
-	let solution: Archer | Berserker | Defender | Fencer | Ninja | Paladin | Sniper | Soldier | undefined = undefined;
-	switch (hero.id_class) {
-		case 1:
-			solution = new Archer();
-			break;
-		case 2:
-			solution = new Berserker();
-			break;
-		case 3:
-			solution = new Defender();
-			break;
-		case 4:
-			solution = new Fencer();
-			break;
-		case 5:
-			solution = new Ninja();
-			break;
-		case 6:
-			solution = new Paladin();
-			break;
-		case 7:
-			solution = new Sniper();
-			break;
-		case 8:
-			solution = new Soldier();
-			break;
-		case 9:
-			solution = new Thieve();
-			break;
-	}
-
-	return solution as Archer | Berserker | Defender | Fencer | Ninja | Paladin | Sniper | Soldier;
-};
-
-
 export class Hero {
-	isDead:boolean = false;
-	[x:string]: string | number | IImgAnimation | boolean | any;
+	isDead: boolean = false;
+	[x: string]: string | number | IImgAnimation | boolean | any;
 	constructor() {
-		let newData = createRandomHero();
+		let newData = createRandomStats();
 		const keys = Object.keys(newData);
 
-        keys.forEach((key, index) => {
-            this[key] = newData[key as keyof IHeroCreated];
-        });
+		keys.forEach((key, index) => {
+			this[key] = newData[key as keyof IHeroCreated];
+		});
 
 		this.curr_att_interval = newData.att_interval;
-        this.currentHp = newData.hp;
-        this.id = uniqueID;
+		this.currentHp = newData.hp;
+		this.id = uniqueID();
 		// this.heroStats = { ...data, curr_att_interval: data.att_interval };
 		// this.fightStats = new StatsManager(data.id);
 	}
-	
+
 	// fightStats: StatsManager; //Manager de stats. Easy
 	// heroStats: IHero;
 	// isDead = false;
 
-	start: () => void = () => {};
+	start: () => void = () => { };
 
-	end: () => void = () => {};
+	end: () => void = () => { };
 
 	attack: (dmgEf?: number) => number = (dmgEf = 0) => {
 		let { id, name, surname, accuracy, crit, critDmg, dmg } = this.heroStats;
@@ -216,3 +132,4 @@ export class Hero {
 	//function to load probabilities.
 	getProb: () => number = () => Math.random();
 }
+

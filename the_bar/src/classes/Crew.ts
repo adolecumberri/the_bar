@@ -3,13 +3,14 @@ import { TABLES_LOCATIONS } from "../constants";
 import { TABLES_IDS } from "../constants/constants";
 import { IHeroCreated, ITable } from "../interfaces";
 import { ICrewStatus } from "../interfaces/Crew.interface";
+import { IHero } from "../interfaces/Hero.Interface";
+import { createRandomHero } from "../utility/hero.utils";
 // import { createHero } from "../utility/Utility";
 import { Table } from "./GridBoxesTypes";
-import { createRandomHero } from "./Hero";
 
 export class Crew {
     heroNum: number;
-    heros: IHeroCreated[] = [];
+    heros: IHero[] = [];
     status: ICrewStatus = "waiting_to_enter";
     tableId: number | null = null;
     areSitted: boolean = false;

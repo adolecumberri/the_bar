@@ -19,6 +19,7 @@ import { Grid } from "../classes/Grid";
 import { Chair, Table } from "../classes/GridBoxesTypes";
 import { MissionManager } from "../classes/Missions";
 import { ToolTip } from ".";
+import { IHero } from "../interfaces/Hero.Interface";
 
 const gridSprites = new Image();
 gridSprites.setAttribute("src", "../sprites/spritesheet.png");
@@ -63,7 +64,7 @@ const Bar: FC<IBarProps> = ({
     setHoverMission(divId);
   }
 
-  const [hoverHero, setHoverHero] = useReducer( (state: any, action: any) => {
+  const [hoverHero, setHoverHero] = useReducer((state: any, action: any) => {
     return action;
   }, -1)
 
@@ -170,9 +171,9 @@ const Bar: FC<IBarProps> = ({
           let thisChair = barGrid[coord] as Chair;
           if (thisChair.isOccupied) {
             //silla ocupada
-            let hero = thisChair.hero;
+            let hero = thisChair.hero as IHero;
 
-            div = (
+            div = (<>
               <div
                 key={`table-${coord}`}
                 className=""
@@ -186,26 +187,73 @@ const Bar: FC<IBarProps> = ({
                 }
               >
                 <img
-                
+
                   key={`img-${coord}`}
-                  alt={`${hero?.name}-${hero?.surname}`}
-                  src={(hero?.img?.img as HTMLImageElement).src}
+                  alt={`${hero.name}-${hero.surname}`}
+                  src={(hero.img?.img as HTMLImageElement).src}
                   style={{
                     height: "100%",
                     position: "absolute",
-                    animation: `iddle-${thisChair.dir} 1s steps(${hero?.img.steps}) infinite`,
+                    animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
                     // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
                   }}
-                  // onMouseOver={() => { showDiv(hero..id as number) }}
-                  // onMouseOut={() => { showDiv(-1) }}
+                  onMouseOver={() => { setHoverHero(hero.id as number) }}
+                  onMouseOut={() => { setHoverHero(-1) }}
                 />
-{/* TODO: actualizar heroes y despues crear el tooltip */}
-                  {/* {
-              hoverHero === hero. &&
-                <ToolTip>
-                  prueba
-                </ToolTip> */}
+                {/* TODO: actualizar heroes y despues crear el tooltip */}
+
               </div>
+              {
+                hoverHero === hero.id &&
+                <ToolTip
+                  variation={{
+                    top: barGrid[coord].y,
+                    left: barGrid[coord].x,
+                  }}
+                >
+                  <div>
+
+                    <div>
+                      {hero.name} {hero.surname}
+                    </div>
+                    <div>
+                      {hero.className}
+                    </div>
+                    <div style={{display:"flex",  flexDirection:"column"}}>
+                      <span>
+                        hp: {hero.hp}
+                      </span>
+                      <span>
+                        dmg: {hero.dmg}
+                      </span>
+                      <span>
+                        crit: {hero.crit}
+                      </span>
+                      <span>
+                        critDmg: {hero.critDmg}
+                      </span>
+                      <span>
+                        def: {hero.def}
+                      </span>
+                      <span>
+                        accuracy: {hero.accuracy}
+                      </span>
+                      <span>
+                        evasion: {hero.evasion}
+                      </span>
+                      <span>
+                        att_interval: {hero.att_interval}
+                      </span>
+                      <span>
+                        reg: {hero.reg}
+                      </span>
+                    </div>
+
+                  </div>
+                </ToolTip>
+              }
+
+            </>
             );
           } else {
             div = (

@@ -67,6 +67,6 @@ export const createCrew = () => {
   return crew;
 }
 
-export const uniqueID = (() => {
+export const uniqueID = () => {
   return Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))
-})();
+};

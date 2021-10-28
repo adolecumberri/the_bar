@@ -1,4 +1,6 @@
-const HERO_STATS = [
+import { IHeroStats } from "../interfaces/Hero.Interface";
+
+const HERO_STATS: IHeroStats[] = [
   {
     "id_class": null,
     "className": null,
