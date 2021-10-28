@@ -6,6 +6,9 @@ import {
   useState,
   useCallback,
   useReducer,
+  ReactNode,
+  SetStateAction,
+  Dispatch,
 } from "react";
 
 //Material UI
@@ -18,8 +21,9 @@ import { StyleContext } from "../utility";
 import { Grid } from "../classes/Grid";
 import { Chair, Table } from "../classes/GridBoxesTypes";
 import { MissionManager } from "../classes/Missions";
-import { ToolTip } from ".";
+import { ToolTipGlobal } from ".";
 import { IHero } from "../interfaces/Hero.Interface";
+import React from "react";
 
 const gridSprites = new Image();
 gridSprites.setAttribute("src", "../sprites/spritesheet.png");
@@ -44,13 +48,14 @@ const useStyles = makeStyles((tema: ITheme) => {
 interface IBarProps {
   barGrid: Grid;
   missionManager: MissionManager;
-  // triggerRender: boolean;
-  // executeRenderLoop?: any; //TODO: Experimental
+  // showInToolTip: Dispatch<SetStateAction<ReactNode>>,
+  showInToolTip: any;
 }
 
 const Bar: FC<IBarProps> = ({
   barGrid: { hashGrid: barGrid, triggerUpdate },
   missionManager: { missions_displayed },
+  showInToolTip,
   // triggerRender,
 }) => {
   const { container, counter } = useStyles();
@@ -82,6 +87,25 @@ const Bar: FC<IBarProps> = ({
       let solution: JSX.Element[] = [];
 
       missions_displayed.forEach((m, i) => {
+        let toolTip = <>
+          <div style={{ fontWeight: 700, marginBottom: `${4 * pixelSize}px` }}>
+            {m.title}
+          </div>
+          <div>
+            {m.details}
+          </div>
+          <div>
+            {m.fights.map(f => {
+              let solution = <div
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                {f.monsters.map(m => <span>{m}</span>)}
+              </div>
+              return solution;
+            })
+            }
+          </div>
+        </>;
         let divStyle = {
           boxSizing: "border-box",
           MozBoxSizing: "border-box",
@@ -100,33 +124,17 @@ const Bar: FC<IBarProps> = ({
             key={`mission-${i}`}
             className=""
             style={{ ...divStyle } as any}
-            onMouseOver={() => { showDiv(m.location?.id as number) }}
+            onMouseOver={() => { showInToolTip(toolTip) }}
             onMouseOut={() => { showDiv(-1) }}
           >
-            {
+            {/* {
               hoverMission === m.location?.id &&
               (
-                <ToolTip>    {/* tittle */}
-                  <div style={{ fontWeight: 700, marginBottom: `${4 * pixelSize}px` }}>
-                    {m.title}
-                  </div>
-                  <div>
-                    {m.details}
-                  </div>
-                  <div>
-                    {m.fights.map(f => {
-                      let solution = <div
-                        style={{ display: "flex", justifyContent: "space-between" }}
-                      >
-                        {f.monsters.map(m => <span>{m}</span>)}
-                      </div>
-                      return solution;
-                    })
-                    }
-                  </div>
-                </ToolTip>
+                showInToolTip(toolTip
+            )
               )
-            }
+
+            } */}
           </div >
         );
         // el propio jsx.element necesita una key en las propiedades.
@@ -169,10 +177,51 @@ const Bar: FC<IBarProps> = ({
 
         case "chair":
           let thisChair = barGrid[coord] as Chair;
+
           if (thisChair.isOccupied) {
             //silla ocupada
             let hero = thisChair.hero as IHero;
+            let toolTip = <>
+              <div>
 
+                <div>
+                  {hero.name} {hero.surname}
+                </div>
+                <div>
+                  {hero.className}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span>
+                    hp: {hero.hp}
+                  </span>
+                  <span>
+                    dmg: {hero.dmg}
+                  </span>
+                  <span>
+                    crit: {hero.crit}
+                  </span>
+                  <span>
+                    critDmg: {hero.critDmg}
+                  </span>
+                  <span>
+                    def: {hero.def}
+                  </span>
+                  <span>
+                    accuracy: {hero.accuracy}
+                  </span>
+                  <span>
+                    evasion: {hero.evasion}
+                  </span>
+                  <span>
+                    att_interval: {hero.att_interval}
+                  </span>
+                  <span>
+                    reg: {hero.reg}
+                  </span>
+                </div>
+
+              </div>
+            </>;
             div = (<div key={`hero-${coord}`}>
               <div
                 key={`table-${coord}`}
@@ -197,61 +246,21 @@ const Bar: FC<IBarProps> = ({
                     animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
                     // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
                   }}
-                  onMouseOver={() => { setHoverHero(hero.id as number) }}
-                  onMouseOut={() => { setHoverHero(-1) }}
+                  onMouseOver={() => { showInToolTip(toolTip) }}
+                // onMouseOut={() => { setHoverHero(-1) }}
                 />
-                {/* TODO: actualizar heroes y despues crear el tooltip */}
+                {/* TODO: actualizar heroes y despues crear el ToolTipGlobal */}
 
               </div>
-              {
+              {/* {
                 hoverHero === hero.id &&
-                <ToolTip
-                  variation={{
-                    top: barGrid[coord].y,
-                    left: barGrid[coord].x,
-                  }}
-                >
-                  <div>
+                (
+                  showInToolTip(
+                    showInToolTip
+                  )
+                )
 
-                    <div>
-                      {hero.name} {hero.surname}
-                    </div>
-                    <div>
-                      {hero.className}
-                    </div>
-                    <div style={{display:"flex",  flexDirection:"column"}}>
-                      <span>
-                        hp: {hero.hp}
-                      </span>
-                      <span>
-                        dmg: {hero.dmg}
-                      </span>
-                      <span>
-                        crit: {hero.crit}
-                      </span>
-                      <span>
-                        critDmg: {hero.critDmg}
-                      </span>
-                      <span>
-                        def: {hero.def}
-                      </span>
-                      <span>
-                        accuracy: {hero.accuracy}
-                      </span>
-                      <span>
-                        evasion: {hero.evasion}
-                      </span>
-                      <span>
-                        att_interval: {hero.att_interval}
-                      </span>
-                      <span>
-                        reg: {hero.reg}
-                      </span>
-                    </div>
-
-                  </div>
-                </ToolTip>
-              }
+              } */}
 
             </div>
             );

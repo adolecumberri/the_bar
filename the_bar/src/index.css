@@ -4,8 +4,15 @@
     /* font-weight: bold; */
 }
 
+@font-face {
+    font-family: "arcade";
+    src: url("./fonts/ARCADECLASSIC.TTF") format("truetype");
+    /* font-weight: bold; */
+}
+
 * {
-    font-family: pixel, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: pixel, arcade, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    image-rendering: pixelated;
 }
 
 body {

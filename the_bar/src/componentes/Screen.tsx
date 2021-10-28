@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useEffect, useState, useContext, useCallback } from "react";
+import { FC, useEffect, useState, useContext, useCallback, ReactNode } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useWindowSize } from "../hooks";
 
 import { IPixelSize, ITheme } from "../interfaces";
-import { Bar } from ".";
+import { Bar, ToolTipGlobal } from ".";
 import { StyleContext } from "../utility";
 import { THEME, DELAYS, CANVAS_COLS, CANVAS_HEIGHT, CANVAS_ROWS, CANVAS_WIDTH } from "../constants/constants";
 import BarEntry from "./BarEntry";
@@ -72,6 +72,9 @@ const Screen: FC = () => {
 
   //omito el setter. no re reestructura el mision manager.
   const [missionManager] = useState(new MissionManager());
+
+  const [toolTipContent, setToolTipContent] = useState<any>(undefined)
+
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createCrew, []);
 
@@ -235,11 +238,14 @@ const Screen: FC = () => {
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
+        showInToolTip = {setToolTipContent}
           missionManager={missionManager}
           barGrid={barGrid as Grid}
         // triggerRender={triggerRender}
         // executeRenderLoop={executeRenderLoop}
         />
+        {toolTipContent &&
+          <ToolTipGlobal> {toolTipContent} </ToolTipGlobal>}
       </StyleContext.Provider>
     </>
   );

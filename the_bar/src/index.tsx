@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './animations.css';
 import './fonts/04b03.woff2';
+import './fonts/ARCADECLASSIC.TTF';
 import Screen from './componentes/Screen';
 
 ReactDOM.render(

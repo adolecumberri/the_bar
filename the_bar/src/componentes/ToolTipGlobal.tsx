@@ -1,6 +1,6 @@
 //Entrada del bar
 
-import React, { FC, useCallback, useContext, useEffect } from "react";
+import React, { FC, ReactNode, useCallback, useContext, useEffect } from "react";
 import { TILE_SIZE } from "../constants";
 import { StyleContext } from "../utility/context";
 import { uniqueID } from "../utility/Utility";
@@ -9,16 +9,17 @@ import { uniqueID } from "../utility/Utility";
 
 interface IToolTip {
     key?: string
-    variation?: {top: number, left: number}
+    // variation?: {top: number, left: number}
+    content?: ReactNode
 }
 
-const ToolTip: FC<IToolTip> = ({ children, key, variation }) => {
+const ToolTipGlobal: FC<IToolTip> = ({ children, key, content }) => {
 
-    const {top, left} = variation as  {
-        top: number;
-        left: number;
-    } || { top : 0, left: 0 }
-    const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+    // const {top, left} = variation as  {
+    //     top: number;
+    //     left: number;
+    // } || { top : 0, left: 0 }
+    const { pixelSize } = useContext(StyleContext);
 
     return (
         <>
@@ -28,22 +29,22 @@ const ToolTip: FC<IToolTip> = ({ children, key, variation }) => {
                 style={{
                     display: 'block',
                     position: "absolute",
-                    top: `${TILE_SIZE * pixelSize + 10 + top}px`,
-                    left: `${2 + pixelSize + left}px`,
-                    borderRadius: "4px",
+                    top: "0px",
+                    left: '0px',
                     boxSizing: "border-box",
                     backgroundColor: "white",
                     color: "#000000",
-                    // border: "1px solid black",
+                    border: "1px solid black",
                     padding: "16px",
                     zIndex: 2,
-                    minWidth: `${TILE_SIZE * pixelSize * 3}px`
+                    minWidth: `${TILE_SIZE * pixelSize * 3}px`,
+                    minHeight: `${TILE_SIZE * pixelSize * 8}px`
                 }}
             >
                 {/* tittle */}
                 {children}
             </div>
-            <div style={{
+            {/* <div style={{
                 width: `${6 * pixelSize}px`,
                 height: `${6 * pixelSize}px`,
                 background: "white",
@@ -57,9 +58,9 @@ const ToolTip: FC<IToolTip> = ({ children, key, variation }) => {
                 // borderLeft: "1px solid black"
 
             }}
-            ></div>
+            ></div> */}
         </>
     );
 };
 
-export default ToolTip;
+export default ToolTipGlobal;
