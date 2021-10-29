@@ -2,9 +2,6 @@ import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../Hero';
 
 export class Archer extends Hero {
-	// constructor(data: IHero) {
-	// 	super({ ...data, curr_att_interval: data.att_interval });
-	// }
 
 	//Propiedades.
 	heroEfects: IHeroEfects = {
@@ -18,12 +15,13 @@ export class Archer extends Hero {
 	skill: () => void = () => {
 		// this.fightStats.addSkillUses();
 		this.heroEfects.att_interval = -2;
+		
 	};
 	skillUsed = null;
 
 	//HIT
 	attack: () => number = () => {
-		let { id, name, surname, accuracy, crit, critDmg, dmg } = this.heroStats;
+		let { accuracy, crit, critDmg, dmg } = this as Hero;
 		let { dmg: dmgEf } = this.heroEfects;
 		let damage = 0;
 

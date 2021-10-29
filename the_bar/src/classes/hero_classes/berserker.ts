@@ -1,4 +1,4 @@
-import { AnyHero } from '.';
+
 import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../Hero';
 
@@ -48,7 +48,7 @@ export class Berserker extends Hero {
 		return damage;
 	};
 
-	defend: (enemi: AnyHero) => any = async (enemi) => {
+	defend: (enemi: IHero) => any = async (enemi) => {
 		let { id, hp, currentHp, name, surname, def, evasion } = this.heroStats;
 		let { def: defEffect } = this.heroEfects;
 		let finalDamage = 0;

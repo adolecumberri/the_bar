@@ -1,4 +1,5 @@
 import { IImgAnimation } from ".";
+import { Hero } from "../classes/Hero";
 import { Archer, Berserker, Defender, Fencer, Ninja, Paladin, Sniper, Soldier } from "../classes/hero_classes";
 
 export interface IHeroStats{
@@ -65,4 +66,4 @@ export interface IHeroEfects {
 }
 
 
-export type IHero = Archer | Berserker | Defender | Fencer | Ninja | Paladin | Sniper | Soldier;
+export type IHero = Archer | Berserker | Defender | Fencer | Ninja | Paladin | Sniper | Soldier | Hero;

@@ -1,4 +1,4 @@
-import { AnyHero } from '.';
+
 // import { connection } from '../../../config/database';
 import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../Hero';
@@ -25,7 +25,7 @@ export class Paladin extends Hero {
 	};
 	skillUsed = false;
 
-	defend: (enemi: AnyHero) => any = async (enemi) => {
+	defend: (enemi: IHero) => any = async (enemi) => {
 		let { id, hp, currentHp, name, surname, def, evasion } = this.heroStats;
 		let finalDamage = 0;
 
