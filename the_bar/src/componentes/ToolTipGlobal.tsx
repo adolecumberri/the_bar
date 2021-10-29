@@ -43,8 +43,8 @@ const ToolTipGlobal: FC<IToolTip> = ({ children, key, content, hidden }) => {
                     padding: "16px",
                     zIndex: 2,
                     minWidth: `${TILE_SIZE * pixelSize * 3}px`,
-                    maxWidth: `${TILE_SIZE * pixelSize * 3}px`,
-                    minHeight: `${TILE_SIZE * pixelSize * 6}px`
+                     maxWidth: `${TILE_SIZE * pixelSize * 6}px`,
+                    minHeight: `${TILE_SIZE * pixelSize * 4}px`
                 }}
             >
                 {/* tittle */}

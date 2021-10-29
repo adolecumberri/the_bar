@@ -160,7 +160,7 @@ const Bar: FC<IBarProps> = ({
       // debugger;
       return solution;
     }
-    , [missions_displayed.length, hoverMission]);
+    , [missions_displayed.length, hoverMission, pixelSize]);
 
 
 

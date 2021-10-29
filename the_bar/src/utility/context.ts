@@ -68,6 +68,14 @@ let urlsToLoad = [
     name: "52",
     src: require("../monsters/img/52.png").default,
   },
+  {
+    name: "53",
+    src: require("../monsters/img/53.png").default,
+  },
+  {
+    name: "59",
+    src: require("../monsters/img/59.png").default,
+  },
   
 ];
 
@@ -188,6 +196,24 @@ export let defaultImageContext: IImageContext = {
     name: "birdo",
     animationDir: "rgt",
     img: imgs[52],
+    xSize: 98,
+    ySize: 98,
+    steps: 1,
+    sheetType: 'horizontal',
+  },
+  53: {
+    name: "birdo+",
+    animationDir: "rgt",
+    img: imgs[53],
+    xSize: 98,
+    ySize: 98,
+    steps: 1,
+    sheetType: 'horizontal',
+  },
+  59: {
+    name: "dimitri",
+    animationDir: "rgt",
+    img: imgs[59],
     xSize: 98,
     ySize: 98,
     steps: 1,

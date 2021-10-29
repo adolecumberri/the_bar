@@ -17,7 +17,7 @@ class MissionManager {
     [x: string]: IMission[] | number | any;
 
     //max grado de mission permitido.
-    current_mission_grade_allowed: number = 0;
+    current_mission_grade_allowed: number = 4;
     //exp para que el mission Manager suba de nivel.
     expToNextLvl: number = 0;
 
@@ -60,15 +60,15 @@ class MissionManager {
 
     //cuando missionManager sube de nivel, se meten nuevas misiones.
     updateMISSIONSAllowed = () => {
+        // debugger;
+        this.missions_allowed = [];
+        for(let i = 0; i <= this.current_mission_grade_allowed; i++){
+            let grade = `grade${i}` as keyof typeof MissionManager;
+            this.missions_allowed.push(...this[grade] as any );
+        }
 
-        // this.current_missions_allowed = [];
-        // for(let i = 0; i <= this.current_mission_grade_allowed; i++){
-        //     let grade = `grade${i}` as keyof typeof MissionManager;
-        //     this.current_missions_allowed.push([...this[grade]] as any );
-        // }
-
-        let grade = `grade${this.current_mission_grade_allowed}` as keyof typeof MissionManager;
-        this.missions_allowed.push(...this[grade] as IMission[]);
+        // let grade = `grade${this.current_mission_grade_allowed}` as keyof typeof MissionManager;
+        // this.missions_allowed.push(...this[grade] as IMission[]);
 
     }
 
@@ -80,7 +80,7 @@ class MissionManager {
         //add missionDisplayed value to selectedMission.missionNumber, and later missionDisplayed + 1
         selectedMission.missionNumber = this.missionsDisplayed++;
         this.addLocationToMission(selectedMission);
-
+debugger;
 
         let a = selectedMission.fights.map(f => {
             return {
