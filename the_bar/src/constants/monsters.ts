@@ -1,4 +1,6 @@
-const MONSTERS = {
+import { IMonterRawStats } from "../interfaces/IMonster";
+
+const MONSTERS: { [x: string]: IMonterRawStats } = {
     "52": {
         name: 'birdo',
         evolution: false,

@@ -24,6 +24,7 @@ import { MissionManager } from "../classes/Missions";
 import { ToolTipGlobal } from ".";
 import { IHero } from "../interfaces/Hero.Interface";
 import React from "react";
+import { Monster } from "../classes/Monster";
 
 const gridSprites = new Image();
 gridSprites.setAttribute("src", "../sprites/spritesheet.png");
@@ -99,7 +100,20 @@ const Bar: FC<IBarProps> = ({
               let solution = <div
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
-                {f.monsters.map(m => <span>{m}</span>)}
+                {(f.monsters as Monster[]).map(({img: {img}, id, name}) =>  
+                <img
+                  key={`img-${id}`}
+                  alt={`${name}`}
+                  src={(img as HTMLImageElement).src}
+                  style={{
+                    height: "100%",
+                    // position: "absolute",
+                    // animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
+                    // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
+                  }}
+                  // onMouseOver={() => { showInToolTip(toolTip) }}
+                  // onMouseOut={() => { showInToolTip(undefined) }}
+                />)}
               </div>
               return solution;
             })
@@ -125,7 +139,7 @@ const Bar: FC<IBarProps> = ({
             className=""
             style={{ ...divStyle } as any}
             onMouseOver={() => { showInToolTip(toolTip) }}
-            onMouseOut={() => { showInToolTip(undefined) }}
+            // onMouseOut={() => { showInToolTip(undefined) }}
           >
             {/* {
               hoverMission === m.location?.id &&
@@ -236,7 +250,6 @@ const Bar: FC<IBarProps> = ({
                 }
               >
                 <img
-
                   key={`img-${coord}`}
                   alt={`${hero.name}-${hero.surname}`}
                   src={(hero.img?.img as HTMLImageElement).src}

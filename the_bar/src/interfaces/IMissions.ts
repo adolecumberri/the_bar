@@ -1,4 +1,5 @@
 import { ICoord } from ".";
+import { Monster } from "../classes/Monster";
 
 export interface IMission {
     id: number;
@@ -13,5 +14,5 @@ export interface IMission {
 
 export interface IMonsterFight{
     exp: number;
-    monsters: number[];
+    monsters: number[] | Monster[];
 };

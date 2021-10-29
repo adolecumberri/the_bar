@@ -1,6 +1,8 @@
 
 import { IImgAnimation } from '../interfaces';
 import { IHero, IHeroCreated } from '../interfaces/Hero.Interface';
+import { IMonterRawStats } from '../interfaces/IMonster';
+import { createMonsterStatsById } from '../utility';
 import { createRandomStats } from '../utility/hero.utils';
 import { uniqueID } from '../utility/Utility';
 // import { StatsManager } from './fightStatsManager';
@@ -9,12 +11,12 @@ import { uniqueID } from '../utility/Utility';
 export class Monster {
 	isDead: boolean = false;
 	[x: string]: string | number | IImgAnimation | boolean | any;
-	constructor() {
-		let newData = createRandomStats();
+	constructor(id: number | string) {
+		let newData = createMonsterStatsById(typeof id === "number" ? ""+id : id);
 		const keys = Object.keys(newData);
 
 		keys.forEach((key, index) => {
-			this[key] = newData[key as keyof IHeroCreated];
+			this[key] = newData[key as keyof IMonterRawStats];
 		});
 
 		this.curr_att_interval = newData.att_interval;

@@ -21,3 +21,22 @@ export interface IMonterStats {
     att_interval: number;
     reg: number;
 }
+
+// stats directos de la constante de monstruos.
+export interface IMonterRawStats {
+    name: string;
+    evolution: boolean;
+    type: string;
+    grade: number;
+    id: number;
+    accuracy: number;
+    att_interval: number;
+    crit: number;
+    critDmg: number;
+    def: number;
+    dmg: number;
+    evasion: number;
+    hp: number;
+    reg: number;
+    img?: IImgAnimation;
+}

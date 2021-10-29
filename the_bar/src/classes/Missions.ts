@@ -1,7 +1,9 @@
 import { MISSIONS } from "../constants";
 import { DELAYS, MISSION_LOCATION } from "../constants/constants";
+import MONSTERS from "../constants/monsters";
 import { ICoord, IMission } from "../interfaces";
 import { rand, uniqueID } from "../utility/Utility";
+import { Monster } from "./Monster";
 
 
 
@@ -18,6 +20,9 @@ class MissionManager {
     current_mission_grade_allowed: number = 0;
     //exp para que el mission Manager suba de nivel.
     expToNextLvl: number = 0;
+
+    monsters = MONSTERS;
+
     //delay para aparicion de missiones.
     mission_creation_delay: number = DELAYS.MISSION_APPEARING_DELAY;
     default_mission_creation_delay: number = DELAYS.MISSION_APPEARING_DELAY;
@@ -75,6 +80,16 @@ class MissionManager {
         //add missionDisplayed value to selectedMission.missionNumber, and later missionDisplayed + 1
         selectedMission.missionNumber = this.missionsDisplayed++;
         this.addLocationToMission(selectedMission);
+
+
+        let a = selectedMission.fights.map(f => {
+            return {
+                exp: f.exp,
+                monsters: f.monsters.map(m => new Monster(m as number)),
+            }
+        });
+
+        selectedMission.fights = a;
         // this.missions_displayed.push(selectedMission);
         this.missions_displayed = [...this.missions_displayed, selectedMission];
     }

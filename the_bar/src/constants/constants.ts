@@ -10,6 +10,9 @@ const CANVAS_HEIGHT = 160;
 // entre el tamaño son
 // 40 x 20
 
+
+const MONSTERS_VARIATION = 0.15;
+
 const THEME: ITheme = {
   pixelSize: 2,
   canvasWidth: 320,
@@ -341,5 +344,6 @@ export {
   // MISIONS_INFO,
   MISSION_LOCATION,
   CANVAS_ROWS,
-  CANVAS_COLS
+  CANVAS_COLS,
+  MONSTERS_VARIATION,
 };
