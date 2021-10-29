@@ -10,16 +10,21 @@ import { uniqueID } from "../utility/Utility";
 interface IToolTip {
     key?: string
     // variation?: {top: number, left: number}
-    content?: ReactNode
+    content?: ReactNode,
+    hidden: boolean
 }
 
-const ToolTipGlobal: FC<IToolTip> = ({ children, key, content }) => {
+const ToolTipGlobal: FC<IToolTip> = ({ children, key, content, hidden }) => {
 
     // const {top, left} = variation as  {
     //     top: number;
     //     left: number;
     // } || { top : 0, left: 0 }
     const { pixelSize } = useContext(StyleContext);
+
+    if (hidden) {
+        return <></>;
+    }
 
     return (
         <>
@@ -29,7 +34,7 @@ const ToolTipGlobal: FC<IToolTip> = ({ children, key, content }) => {
                 style={{
                     display: 'block',
                     position: "absolute",
-                    top: "0px",
+                    bottom: "0px",
                     left: '0px',
                     boxSizing: "border-box",
                     backgroundColor: "white",
@@ -38,7 +43,8 @@ const ToolTipGlobal: FC<IToolTip> = ({ children, key, content }) => {
                     padding: "16px",
                     zIndex: 2,
                     minWidth: `${TILE_SIZE * pixelSize * 3}px`,
-                    minHeight: `${TILE_SIZE * pixelSize * 8}px`
+                    maxWidth: `${TILE_SIZE * pixelSize * 3}px`,
+                    minHeight: `${TILE_SIZE * pixelSize * 6}px`
                 }}
             >
                 {/* tittle */}

@@ -116,7 +116,7 @@ const Screen: FC = () => {
   //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
   useEffect(() => {
     console.log("checking enter", crewsAtDoor.length, barGrid.getFreeTables().length);
-    if (crewsAtDoor.length === 0 || barGrid.getFreeTables().length === 0) {
+    if (crewsAtDoor.length === 0 && barGrid.getFreeTables().length === 0) {
       setCheckEnterDelay(0);
     } else {
       setCheckEnterDelay(ENTER_DELAY);
@@ -238,14 +238,14 @@ const Screen: FC = () => {
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
-        showInToolTip = {setToolTipContent}
+          showInToolTip={setToolTipContent}
           missionManager={missionManager}
           barGrid={barGrid as Grid}
         // triggerRender={triggerRender}
         // executeRenderLoop={executeRenderLoop}
         />
-        {toolTipContent &&
-          <ToolTipGlobal> {toolTipContent} </ToolTipGlobal>}
+
+        <ToolTipGlobal hidden={toolTipContent === undefined}> {toolTipContent} </ToolTipGlobal>
       </StyleContext.Provider>
     </>
   );

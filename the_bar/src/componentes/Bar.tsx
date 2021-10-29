@@ -125,7 +125,7 @@ const Bar: FC<IBarProps> = ({
             className=""
             style={{ ...divStyle } as any}
             onMouseOver={() => { showInToolTip(toolTip) }}
-            onMouseOut={() => { showDiv(-1) }}
+            onMouseOut={() => { showInToolTip(undefined) }}
           >
             {/* {
               hoverMission === m.location?.id &&
@@ -247,7 +247,7 @@ const Bar: FC<IBarProps> = ({
                     // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
                   }}
                   onMouseOver={() => { showInToolTip(toolTip) }}
-                // onMouseOut={() => { setHoverHero(-1) }}
+                  onMouseOut={() => { showInToolTip(undefined) }}
                 />
                 {/* TODO: actualizar heroes y despues crear el ToolTipGlobal */}
 
