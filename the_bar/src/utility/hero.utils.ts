@@ -104,8 +104,10 @@ export const createRandomStats = () => {
     // debugger;
     //console.log(`Random Hero: \n ${JSON.stringify(randHero.name)}`);
     // //console.timeEnd('createHero');
-    return randHero as any;
+    return randHero as IHeroCreated;
 };
+
+
 
 export const createRandomHero = () => {
     // if (hero.id < 1 || hero.is > 9) {

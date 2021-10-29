@@ -106,17 +106,17 @@ const Screen: FC = () => {
 
   //when crewsAtDoor changes, re-starts delay used in the interval of creation.
   useEffect(() => {
-    if (crewsAtDoor.length < 5 && crewCreationDelay > 0) {
+    if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0) {
       setCrewCreationDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
     }
     //Reinicio el checkEnterDelay si esta a 0
-    // if (checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
-  }, [ENTER_DELAY, MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY, crewsAtDoor.length]);
+    if (checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
+  }, [ crewsAtDoor.length, barGrid.getFreeTables().length]);
 
   //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
   useEffect(() => {
     console.log("checking enter", crewsAtDoor.length, barGrid.getFreeTables().length);
-    if (crewsAtDoor.length === 0 && barGrid.getFreeTables().length === 0) {
+    if (crewsAtDoor.length === 0 ) {
       setCheckEnterDelay(0);
     } else {
       setCheckEnterDelay(ENTER_DELAY);
@@ -142,10 +142,7 @@ const Screen: FC = () => {
     //No hay mesass? paro la llegada a la puerta
     if (barGrid.getFreeTables().length === 0) {
       setCrewCreationDelay(0)
-      return;
-    }
-
-    if (crewsAtDoor.length < 5) {
+    }else if (crewsAtDoor.length < 5) {
       setCrewsAtDoor([...crewsAtDoor, create()]);
       //delay random desde el minimo hasta el máximo tiempo de creación
       setCrewCreationDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));

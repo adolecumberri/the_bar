@@ -31,5 +31,6 @@ export interface IImageContext {
   'thieve': IImgAnimation;
   // 'generalCrew': IImgAnimation;
   'crew': IImgAnimation;
+  [X: number]: IImgAnimation;
 
 }//TODO: borrar barBackground. unused
