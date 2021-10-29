@@ -1,10 +1,8 @@
 
-import { IImageContext, IImgAnimation } from '../interfaces';
+import { IImgAnimation } from '../interfaces';
 import { IHero, IHeroCreated } from '../interfaces/Hero.Interface';
-import { defaultImageContext } from '../utility/context';
 import { createRandomStats } from '../utility/hero.utils';
-import { rand, randName, uniqueID } from '../utility/Utility';
-import { AnyHero, Archer, Berserker, Defender, Fencer, Ninja, Paladin, Sniper, Soldier, Thieve } from './hero_classes';
+import { uniqueID } from '../utility/Utility';
 // import { StatsManager } from './fightStatsManager';
 
 
@@ -22,8 +20,6 @@ export class Hero {
 		this.curr_att_interval = newData.att_interval;
 		this.currentHp = newData.hp;
 		this.id = uniqueID();
-		// this.heroStats = { ...data, curr_att_interval: data.att_interval };
-		// this.fightStats = new StatsManager(data.id);
 	}
 
 	// fightStats: StatsManager; //Manager de stats. Easy
@@ -34,102 +30,97 @@ export class Hero {
 
 	end: () => void = () => { };
 
-	attack: (dmgEf?: number) => number = (dmgEf = 0) => {
-		let { id, name, surname, accuracy, crit, critDmg, dmg } = this.heroStats;
-		let damage = 0;
+	attack = (dmgEf = 0) => {
+        let { accuracy, crit, critDmg, dmg, variation } = this;
 
-		if (accuracy > this.getProb()) {
-			//golpeo?
-			if (crit > this.getProb()) {
-				// this.fightStats.addCrit();
-				//critico
-				damage = this.rand((dmg + dmgEf) * (critDmg + 1) * 0.85, (dmg + dmgEf) * (critDmg + 1) * 1.15);
-			} else {
-				// this.fightStats.addHit();
-				damage = this.rand((dmg + dmgEf) * 0.85, (dmg + dmgEf) * 1.15);
-			}
-		} else {
-			// this.fightStats.addMiss();
-		}
-		this.calcNextTurn();
-		return damage;
-	};
+        let damageApplied = dmg + dmgEf;
 
-	defend: (enemi: AnyHero) => any = async (enemi) => {
-		let { id, hp, currentHp, name, surname, def, evasion } = this.heroStats;
-		let finalDamage = 0;
+        let minVar = 1 - variation;
+        let maxVar = 1 + variation;
+        let damage = 0;
 
-		if (evasion <= this.getProb()) {
-			//Evade o no.
-			let enemiAttack = enemi.attack();
-			let attMultiplier = 40 / (40 + def);
-			finalDamage = Math.round(enemiAttack * attMultiplier);
+        if (accuracy > this.getProb()) {
+            //golpeo?
+            if (crit > this.getProb()) {
+                //critico
+                damage = this.rand(damageApplied * (critDmg + 1) * maxVar, damageApplied * (critDmg + 1) * minVar);
+            } else {
+                // normal hit
+                damage = this.rand(damageApplied * maxVar, damageApplied * minVar);
+            }
+        } else {
+            // miss
+        }
+        this.calcNextTurn();
+        return damage;
+    };
 
-			//Stats
-			// enemi.fightStats.set('total_damage', enemi.fightStats.get('total_damage') + finalDamage);
-			// this.fightStats.addHitReceived();
-		} else {
-			enemi.calcNextTurn(enemi.heroEfects.att_interval);
 
-			//stats
-			// this.fightStats.addEvasion();
-		}
+    //enemi es class Monster
+    defend = (enemi: IHero) => {
+        let { currentHp, def, evasion } = this;
+        let finalDamage = 0;
 
-		this.heroStats.currentHp = currentHp - finalDamage >= 0 ? currentHp - finalDamage : 0; //
-		//stats
-		// this.fightStats.set('currhp', this.heroStats.currentHp);
-		if (this.heroStats.currentHp === 0) {
-			this.isDead = true;
-		}
-	};
+        //Evade o no.
+        if (evasion <= this.getProb()) {
+            let enemiAttack = enemi.attack();
+            let attMultiplier = 40 / (40 + def);
+            finalDamage = Math.round(enemiAttack * attMultiplier);
 
-	//does hero dies after straightDamage?
-	straightDamage: (damage: number) => void = (damage) => {
-		let { id, hp, name, surname } = this.heroStats;
-		this.heroStats.currentHp = this.heroStats.currentHp - damage >= 0 ? this.heroStats.currentHp - damage : 0;
+        } else {
+            //al no atacar, no calcula el siguiente turno
+            enemi.calcNextTurn(enemi.att_interval);
+        }
 
-		//stats
-		// this.fightStats.addHitReceived();
-		// this.fightStats.set('currhp', this.heroStats.currentHp);
-		if (this.heroStats.currentHp === 0) {
-			this.isDead = true;
-		}
-	};
+        this.currentHp = currentHp - finalDamage >= 0 ? currentHp - finalDamage : 0; //
 
-	//HERO DIES
-	heroDies: () => Promise<unknown> = async () => {
-		// console.log('entro en muerte');
-		// if (this.heroStats.id_class === 2) {
-		// 	console.log('Berserk dies');
-		// } else {
-		// 	console.log('Archer dies');
-		// }
-	};
+        if (currentHp === 0) {
+            this.dies();
+            enemi.addKill();
+        }
+    };
 
-	//HERO WINS
-	heroKills: () => Promise<unknown> = async () => {
-		// if (this.heroStats.id_class === 2) {
-		// 	console.log('Berserk kills');
-		// } else {
-		// 	console.log('Archer kills');
-		// }
-		// console.log('entro en victoria');
-		// 
-	};
+    //daño directo sin pasar por armadura
+    straightDamage = (damage: number) => {
+        let { currentHp } = this;
+        this.currentHp = currentHp - damage >= 0 ? currentHp - damage : 0;
 
-	//calculo siguiente turno. Habilidades de velocidad lo sobreescribiran.
-	calcNextTurn: (att_intervalEf?: number) => void = (att_intervalEf = 0) => {
-		let { curr_att_interval, att_interval } = this.heroStats;
-		let new_att_interval = (curr_att_interval as number) + (att_interval + att_intervalEf);
-		this.heroStats.curr_att_interval =
-			new_att_interval > Number(this.heroStats.curr_att_interval) ? new_att_interval : Number(curr_att_interval) + 1;
-	};
+        if (currentHp === 0) {
+            this.dies();
+        }
+    };
 
-	//function to generate rand numbers
-	rand: (min: number, max: number) => number = (min: number, max: number) =>
-		Math.round(Math.random() * (max - min) + min);
+    //HERO DIES
+    dies = () => {
+        this.isDead = true;
+    };
 
-	//function to load probabilities.
-	getProb: () => number = () => Math.random();
+    //HERO WINS
+    addKill = () => {
+        this.kills = this.kills + 1;
+    };
+
+    revive = () => {
+        this.isDead = false;
+        this.kills = 0;
+        this.curr_att_interval = this.att_interval;
+        this.currentHp = this.hp;
+    }
+
+    //calculo siguiente turno. Habilidades de velocidad lo sobreescribiran.
+    calcNextTurn = (att_intervalEf = 0) => {
+        let { curr_att_interval, att_interval } = this;
+        let new_att_interval = parseInt(curr_att_interval) + (att_interval + att_intervalEf);
+
+        //no entiendo esta linea. la parte del "else" no tienen sentido.
+        this.curr_att_interval =
+            new_att_interval > parseInt(curr_att_interval) ? new_att_interval : parseInt(curr_att_interval) + 1;
+    };
+
+    rand = (max: number, min = 0) =>
+        Math.round(Math.random() * (max - min) + min);
+
+    //function to load probabilities.
+    getProb = () => Math.random();
 }
 
