@@ -1,5 +1,5 @@
 // import { connection } from '../../../config/database';
-import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
+import { IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../Hero';
 
 export class Ninja extends Hero {
@@ -42,7 +42,7 @@ export class Ninja extends Hero {
 
 	//HIT
 	attack: () => number = () => {
-		let { id, name, surname, accuracy, crit, critDmg, dmg } = this.heroStats;
+		let { accuracy, crit, critDmg, dmg } = this.heroStats;
 		let damage = 0;
 
 		if (this.skillProb < this.getProb()) {

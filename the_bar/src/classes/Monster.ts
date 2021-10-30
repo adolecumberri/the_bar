@@ -1,9 +1,8 @@
 
 import { IImgAnimation } from '../interfaces';
-import { IHero, IHeroCreated } from '../interfaces/Hero.Interface';
+import { IHero } from '../interfaces/Hero.Interface';
 import { IMonterRawStats } from '../interfaces/IMonster';
 import { createMonsterStatsById } from '../utility';
-import { createRandomStats } from '../utility/hero.utils';
 import { uniqueID } from '../utility/Utility';
 // import { StatsManager } from './fightStatsManager';
 

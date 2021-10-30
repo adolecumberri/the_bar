@@ -24,7 +24,7 @@ export class Fencer extends Hero {
 	skillUsed = false;
 
 	defend: (enemi: IHero) => any = async (enemi) => {
-		let { id, hp, currentHp, name, surname, def, evasion } = this.heroStats;
+		let { currentHp, def, evasion } = this.heroStats;
 		let finalDamage = 0;
 
 		if (evasion <= this.getProb()) {

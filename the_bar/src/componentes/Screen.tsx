@@ -1,15 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useEffect, useState, useContext, useCallback, ReactNode } from "react";
+import { FC, useEffect, useState, useContext, useCallback } from "react";
 
 //Material UI
-import { makeStyles } from "@material-ui/styles";
 
 import { useWindowSize } from "../hooks";
 
-import { IPixelSize, ITheme } from "../interfaces";
+import { IPixelSize } from "../interfaces";
 import { Bar, ToolTipGlobal } from ".";
 import { StyleContext } from "../utility";
-import { THEME, DELAYS, CANVAS_COLS, CANVAS_HEIGHT, CANVAS_ROWS, CANVAS_WIDTH } from "../constants/constants";
+import { THEME, DELAYS, CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
@@ -18,35 +17,19 @@ import useInterval from "../hooks/useInterval";
 import { Crew } from "../classes/Crew";
 import { MissionManager } from "../classes/Missions";
 
-const useStyles = makeStyles((theme: ITheme) => ({
-  screen: {
-    width: "80%",
-    height: "80%",
-    border: "1px solid black",
-  },
-  topRow: {
-    display: "flex",
-    height: "20%",
-  },
-  bottomRow: {
-    display: "flex",
-    height: "80%",
-  },
-}));
 
 const Screen: FC = () => {
-  const { screen, topRow, bottomRow } = useStyles();
 
   const { canvasHeight, canvasWidth } = useContext(StyleContext);
 
-  const [windowWidth, windowHeight] = useWindowSize();
+  const [windowWidth] = useWindowSize();
 
   const [pixelSize, setPixelSize] = useState(pixelSizeQuery(windowWidth));
   const [themeState, setThemeState] = useState(THEME);
 
   // const [triggerRender, setTriggerRender] = useState(false); //Trigger a canvas render
 
-  const [barGrid, setBarGrid] = useState<Grid>(new Grid({
+  const [barGrid] = useState<Grid>(new Grid({
     cols: CANVAS_COLS,
     rows: CANVAS_ROWS,
     t_height: canvasHeight * pixelSize,

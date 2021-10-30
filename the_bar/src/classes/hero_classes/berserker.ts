@@ -24,7 +24,7 @@ export class Berserker extends Hero {
 	skillUsed = false;
 
 	attack: () => number = () => {
-		let { id, name, surname, accuracy, crit, critDmg, dmg } = this.heroStats;
+		let { accuracy, crit, critDmg, dmg } = this.heroStats;
 		let { dmg: dmgEf } = this.heroEfects;
 		let damage = 0;
 
@@ -49,7 +49,7 @@ export class Berserker extends Hero {
 	};
 
 	defend: (enemi: IHero) => any = async (enemi) => {
-		let { id, hp, currentHp, name, surname, def, evasion } = this.heroStats;
+		let { hp, currentHp, def, evasion } = this.heroStats;
 		let { def: defEffect } = this.heroEfects;
 		let finalDamage = 0;
 

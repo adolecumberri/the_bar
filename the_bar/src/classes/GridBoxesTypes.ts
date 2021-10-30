@@ -6,7 +6,6 @@ import {
   IGRID_VALUES,
   IChair,
   IGridHash,
-  IHeroCreated,
 } from "../interfaces";
 import { IHero } from "../interfaces/Hero.Interface";
 import { Crew } from "./Crew";

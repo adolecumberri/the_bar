@@ -1,6 +1,6 @@
 
 import { GRID_CONFIG, TABLES_LOCATIONS } from "../constants/constants";
-import { IGridConstructor, IGridHash, IGRID_VALUES, IGridTable } from "../interfaces";
+import { IGridConstructor, IGridHash, IGRID_VALUES } from "../interfaces";
 import { Chair, Table, Void } from "./GridBoxesTypes";
 
 

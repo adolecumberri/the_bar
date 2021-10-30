@@ -1,6 +1,6 @@
 import React from "react";
-import { CANVAS_HEIGHT, CANVAS_WIDTH, THEME } from "../constants/constants";
-import { IImageContext, IImgAnimation, ITheme } from "../interfaces";
+import { THEME } from "../constants/constants";
+import { IImageContext, ITheme } from "../interfaces";
 
 let urlsToLoad = [
   {

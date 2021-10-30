@@ -1,11 +1,6 @@
 
-import { useContext } from "react";
-import { ImagesContext } from ".";
 import { Crew } from "../classes/Crew";
-import { HERO_STATS, MALE_NAMES, SURNAMES, VARIATION, WOMAN_NAMES } from "../constants";
-import { IImageContext } from "../interfaces";
-import { IHeroCreated } from "../interfaces/Hero.Interface";
-import { defaultImageContext } from "./context";
+import { MALE_NAMES, SURNAMES, WOMAN_NAMES } from "../constants";
 
 
 export class Counter {

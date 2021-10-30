@@ -1,4 +1,4 @@
-import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
+import { IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../Hero';
 
 export class Archer extends Hero {

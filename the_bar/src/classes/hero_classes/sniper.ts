@@ -1,5 +1,5 @@
 // import { connection } from '../../../config/database';
-import { IHero, IHeroEfects } from '../../interfaces/Hero.Interface';
+import { IHeroEfects } from '../../interfaces/Hero.Interface';
 import { Hero } from '../Hero';
 
 export class Sniper extends Hero {
@@ -20,7 +20,7 @@ export class Sniper extends Hero {
 	skillUsed = true;
 
 	attack: (dmgEf?: number) => number = (dmgEf = 0) => {
-		let { id, name, surname, accuracy, crit, critDmg, dmg } = this.heroStats;
+		let { accuracy, crit, critDmg, dmg } = this.heroStats;
 		let damage = 0;
 
 		if (this.skillUsed ) {

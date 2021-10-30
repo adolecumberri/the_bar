@@ -3,27 +3,19 @@
 import {
   FC,
   useContext,
-  useState,
   useCallback,
-  useReducer,
-  ReactNode,
-  SetStateAction,
-  Dispatch,
 } from "react";
 
 //Material UI
 import { makeStyles } from "@material-ui/styles";
 
 import { TILE_SIZE } from "../constants/constants";
-import { ITheme } from "../interfaces";
 import { useRenderCounter } from "../hooks";
 import { StyleContext } from "../utility";
 import { Grid } from "../classes/Grid";
 import { Chair, Table } from "../classes/GridBoxesTypes";
 import { MissionManager } from "../classes/Missions";
-import { ToolTipGlobal } from ".";
 import { IHero } from "../interfaces/Hero.Interface";
-import React from "react";
 import { Monster } from "../classes/Monster";
 
 const gridSprites = new Image();
@@ -33,7 +25,7 @@ gridSprites.setAttribute("src", "../sprites/spritesheet.png");
 //   gridSprites.setAttribute("src", "../sprites/spritesheet.png");
 // }
 
-const useStyles = makeStyles((tema: ITheme) => {
+const useStyles = makeStyles(() => {
   return {
     container: {
       backgroundColor: "burlywood",
@@ -54,7 +46,7 @@ interface IBarProps {
 }
 
 const Bar: FC<IBarProps> = ({
-  barGrid: { hashGrid: barGrid, triggerUpdate },
+  barGrid: { hashGrid: barGrid },
   missionManager: { missions_displayed },
   showInToolTip,
   // triggerRender,
@@ -62,20 +54,6 @@ const Bar: FC<IBarProps> = ({
   const { container, counter } = useStyles();
 
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
-  // const { barTile } = useContext(ImagesContext);
-
-  const [hoverMission, setHoverMission] = useState(-1);
-  // const divDisplay: CSSProperties  = ;
-  const showDiv = (divId: number) => {
-    setHoverMission(divId);
-  }
-
-  const [hoverHero, setHoverHero] = useReducer((state: any, action: any) => {
-    return action;
-  }, -1)
-
-  // const canvasRef = useRef<HTMLCanvasElement>(null);
-  // const frameId = useRef(-1); //Para poder parar las animaciones. cancelAnimationFrame(frameId);
 
   const [count] = useRenderCounter();
 
@@ -141,14 +119,7 @@ const Bar: FC<IBarProps> = ({
             onMouseOver={() => { showInToolTip(toolTip) }}
             // onMouseOut={() => { showInToolTip(undefined) }}
           >
-            {/* {
-              hoverMission === m.location?.id &&
-              (
-                showInToolTip(toolTip
-            )
-              )
-
-            } */}
+           
           </div >
         );
         // el propio jsx.element necesita una key en las propiedades.
@@ -160,7 +131,7 @@ const Bar: FC<IBarProps> = ({
       // debugger;
       return solution;
     }
-    , [missions_displayed.length, hoverMission, pixelSize]);
+    , [missions_displayed, pixelSize, showInToolTip]);
 
 
 

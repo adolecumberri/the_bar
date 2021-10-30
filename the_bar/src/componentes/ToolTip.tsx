@@ -1,6 +1,6 @@
 //Entrada del bar
 
-import React, { FC, useCallback, useContext, useEffect } from "react";
+import { FC, useContext } from "react";
 import { TILE_SIZE } from "../constants";
 import { StyleContext } from "../utility/context";
 import { uniqueID } from "../utility/Utility";
@@ -18,7 +18,7 @@ const ToolTip: FC<IToolTip> = ({ children, key, variation }) => {
         top: number;
         left: number;
     } || { top : 0, left: 0 }
-    const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+    const { pixelSize } = useContext(StyleContext);
 
     return (
         <>

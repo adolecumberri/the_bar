@@ -1,6 +1,6 @@
 //Entrada del bar
 
-import React, { FC, ReactNode, useCallback, useContext, useEffect } from "react";
+import React, { FC, ReactNode, useContext } from "react";
 import { TILE_SIZE } from "../constants";
 import { StyleContext } from "../utility/context";
 import { uniqueID } from "../utility/Utility";
