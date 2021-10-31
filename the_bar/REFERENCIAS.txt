@@ -20,3 +20,20 @@ https://levelup.gitconnected.com/rpg-game-with-react-redux-html5-part-1-build-a-
 // Ejemplo de path finding y react.
 
 https://github.com/spcbrn/game_r
+
+
+//Leyendo sobre el offset:
+https://developer.mozilla.org/es/docs/Web/API/Element/animate
+
+//Escribiendo path svg style
+https://www.w3.org/TR/SVG/painting.html#FillRuleProperty
+https://freefrontend.com/css-motion-path-examples/
+https://developer.mozilla.org/en-US/docs/Web/CSS/offset-path
+
+//controlar animacioned.
+https://css-tricks.com/controlling-css-animations-transitions-javascript/
+https://www.smashingmagazine.com/2013/04/css3-transitions-thank-god-specification/
+https://animo.js.org/
+
+//offset Clase Maestra
+https://danielcwilson.com/blog/2020/01/motion-path-quirks/
