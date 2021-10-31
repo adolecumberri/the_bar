@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useEffect, useState, useContext, useCallback } from "react";
+import { FC, useEffect, useState, useContext, useCallback, useReducer, ReactNode, Reducer } from "react";
 
 //Material UI
 
@@ -56,7 +56,17 @@ const Screen: FC = () => {
   //omito el setter. no re reestructura el mision manager.
   const [missionManager] = useState(new MissionManager());
 
-  const [toolTipContent, setToolTipContent] = useState<any>(undefined)
+  const [toolTipContent, setToolTipContent] = useReducer(
+    (
+      _state: any, 
+      newState: ReactNode | undefined
+    ) => {
+    if(newState === undefined){
+      setTimeout( () =>{}, 3000);
+    }
+
+    return newState;
+  }, undefined)
 
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createCrew, []);
