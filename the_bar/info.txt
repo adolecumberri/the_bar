@@ -1,46 +1,4 @@
 
 
-
-Voy a hacer un tamaño fijo a los 1200px.
-porque tengo que añadir un tamaño fijo al canvas para evitar las lineas borrosas.
-así que el tamaño integro del bar oscilara con breakpoints.
-
-
-
-CSS para los sprites:
-
-canvas {
-
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-crist-edges;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-
-}
-
-ejemplo animacion:
-
-/*1 Solo enseñar un frame */
-overflow: hidden;
-
-/*2 mover sprites*/
-@keyframes walkdown {
-    0% {
-        transform: translate3d(0,0,0)
-    }
-    100%{
-        transform: translate3d(-100%,0,0)
-    }
-}
-
-/*3 crear animacion en saltos de 'step'*/
-
-.walking-down {
-    animation:
-        walkDown 0.5s spets(4) infinite;
-}
-
-
-/* los heroes tienen que ser....*/
-
-como la resolucion en la que trabajo tiene un tamaño de pixel x4, los heroes tienen que tener un tamaño original de 20x20.
+offset-path
+path() van a ser las cosas que muevan a los heroes de un lado a otro.
