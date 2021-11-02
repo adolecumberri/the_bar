@@ -5,7 +5,7 @@ import { FC, useEffect, useState, useContext, useCallback, useReducer, ReactNode
 
 import { useWindowSize } from "../hooks";
 
-import { IPixelSize } from "../interfaces";
+import { IMission, IPixelSize } from "../interfaces";
 import { Bar, ToolTipGlobal } from ".";
 import { StyleContext } from "../utility";
 import { THEME, DELAYS, CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
@@ -60,7 +60,7 @@ const Screen: FC = () => {
   const [toolTipContent, setToolTipContent] = useState(undefined)
 
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
-  const create = useCallback(createCrew, []);
+  const create = useCallback((assignMission: () => IMission) => createCrew(assignMission), []);
 
   //set pixelSize
   useEffect(() => {
@@ -119,12 +119,18 @@ const Screen: FC = () => {
 
   }, [missionManager.missions_displayed.length])
 
+  const assignMission = useCallback( () => {
+      //doy una mision
+      let missionSelected = missionManager.getMissionDisplayed();
+      return missionSelected;
+  }, [missionManager.missions_displayed.length, crewsInside.length])
+
   useInterval(() => {
     //No hay mesass? paro la llegada a la puerta
     if (barGrid.getFreeTables().length === 0) {
       setCrewCreationDelay(0)
     } else if (crewsAtDoor.length < 5) {
-      setCrewsAtDoor([...crewsAtDoor, create()]);
+      setCrewsAtDoor([...crewsAtDoor, create(assignMission)]);
       //delay random desde el minimo hasta el máximo tiempo de creación
       setCrewCreationDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
     } else if (crewsAtDoor.length === 5) {
@@ -162,7 +168,7 @@ const Screen: FC = () => {
       const crewEntering = crewsAtDoor.shift();
       //añado el equipo a los equipos de dentro.
       setCrewsInside([...crewsInside, crewEntering as Crew]);
-      //reestructuro los equipos de la puerta
+      //reestructuro los equipos de la puerta con uno menos.
       setCrewsAtDoor([...crewsAtDoor]);
       // debugger;
     }
@@ -174,7 +180,6 @@ const Screen: FC = () => {
 
 
   let showInToolTipWithTimer = (value: any) => {
-
     clearTimeout(timer as number);
     if (value === undefined) {
       timer = setTimeout(() => {
@@ -183,9 +188,6 @@ const Screen: FC = () => {
     } else {
       setToolTipContent(value)
     }
-
-
-
   }
 
   return (

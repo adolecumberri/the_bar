@@ -123,7 +123,6 @@ const Bar: FC<IBarProps> = ({
         solution.push(div);
       });
 
-      debugger;
       return solution;
     }
     , [missions_displayed, pixelSize, showInToolTip]);
@@ -276,7 +275,7 @@ const Bar: FC<IBarProps> = ({
 
           break;
       }
-      debugger;
+      
       solution.push(div);
     }
 

@@ -1,6 +1,7 @@
 
 import { Crew } from "../classes/Crew";
 import { MALE_NAMES, SURNAMES, WOMAN_NAMES } from "../constants";
+import { IMission } from "../interfaces";
 
 
 export class Counter {
@@ -57,8 +58,9 @@ export function randName(gender: number) {
   ];
 };
 
-export const createCrew = () => {
-  let crew = new Crew(rand(4, 2));
+export const createCrew = (assignMission: () => IMission) => {
+  let id = uniqueID();
+  let crew = new Crew({ heroNum: rand(4, 2), id, assignMission });
   return crew;
 }
 

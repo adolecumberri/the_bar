@@ -123,6 +123,14 @@ class MissionManager {
         mission.location = undefined;
 
     }
+
+    getMissionDisplayed = () => {
+        let selectedMission = this.missions_allowed.splice(
+            Math.floor(rand(this.missions_allowed.length - 1)),
+            1
+        )[0];
+        return selectedMission;
+    }
     // crewTomission = () =>{
 
     // }    

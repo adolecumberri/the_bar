@@ -1,8 +1,7 @@
+import { IMission } from ".";
 
 
-export interface ICrew {
-
-}
+export interface ICrew { heroNum: number, id: number, assignMission: () => IMission };
 
 // export interface ICrewStatus {
 //     WAITING_TO_ENTER: 1,
