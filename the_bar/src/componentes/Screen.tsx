@@ -17,7 +17,8 @@ import useInterval from "../hooks/useInterval";
 import { Crew } from "../classes/Crew";
 import { MissionManager } from "../classes/Missions";
 
-
+// const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+let timer: NodeJS.Timeout | number = 0;
 const Screen: FC = () => {
 
   const { canvasHeight, canvasWidth } = useContext(StyleContext);
@@ -56,17 +57,7 @@ const Screen: FC = () => {
   //omito el setter. no re reestructura el mision manager.
   const [missionManager] = useState(new MissionManager());
 
-  const [toolTipContent, setToolTipContent] = useReducer(
-    (
-      _state: any, 
-      newState: ReactNode | undefined
-    ) => {
-    if(newState === undefined){
-      setTimeout( () =>{}, 3000);
-    }
-
-    return newState;
-  }, undefined)
+  const [toolTipContent, setToolTipContent] = useState(undefined)
 
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
   const create = useCallback(createCrew, []);
@@ -104,12 +95,11 @@ const Screen: FC = () => {
     }
     //Reinicio el checkEnterDelay si esta a 0
     if (checkEnterDelay !== ENTER_DELAY) setCheckEnterDelay(ENTER_DELAY);
-  }, [ crewsAtDoor.length, barGrid.getFreeTables().length]);
+  }, [crewsAtDoor.length, barGrid.getFreeTables().length]);
 
   //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
   useEffect(() => {
-    console.log("checking enter", crewsAtDoor.length, barGrid.getFreeTables().length);
-    if (crewsAtDoor.length === 0 ) {
+    if (crewsAtDoor.length === 0) {
       setCheckEnterDelay(0);
     } else {
       setCheckEnterDelay(ENTER_DELAY);
@@ -119,7 +109,6 @@ const Screen: FC = () => {
 
   //Mission controller.
   useEffect(() => {
-    // console.log("execute info changer", missionManager.missions_displayed.length, missionManager.mission_creation_delay);
     if (missionManager.missions_displayed.length > 6) {
       missionManager.stopMissionCreationDelay();
     } else {
@@ -131,11 +120,10 @@ const Screen: FC = () => {
   }, [missionManager.missions_displayed.length])
 
   useInterval(() => {
-    console.log("entry interval", barGrid.getFreeTables().length, crewsAtDoor.length);
     //No hay mesass? paro la llegada a la puerta
     if (barGrid.getFreeTables().length === 0) {
       setCrewCreationDelay(0)
-    }else if (crewsAtDoor.length < 5) {
+    } else if (crewsAtDoor.length < 5) {
       setCrewsAtDoor([...crewsAtDoor, create()]);
       //delay random desde el minimo hasta el máximo tiempo de creación
       setCrewCreationDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
@@ -153,19 +141,8 @@ const Screen: FC = () => {
     let crewToEnter = crewsAtDoor[0];
     let freeTables = barGrid.getFreeTablesBySize(crewToEnter?.heroNum);
 
-
-    console.log("crew interval",
-      {
-        crewAtDoor: crewsAtDoor.length,
-        crewToEnter,
-        freeTables,
-        timesTryingToEnter
-      });
-
-
     if (freeTables.length === 0 && timesTryingToEnter === 3) {
       //No hay mesas y lo intentan 3 veces. El equipo se va.
-      // console.log("3 veces");
       const crewGone = crewsAtDoor.shift();
       setCrewsGone([...crewsGone, crewGone as Crew]);
       setCrewsAtDoor([...crewsAtDoor]);
@@ -173,7 +150,6 @@ const Screen: FC = () => {
 
       //no hay mesas. intentos +1
       setTimesTryingToEnter(timesTryingToEnter + 1);
-      // console.log("intentando: " + timesTryingToEnter);
 
     } else if (freeTables.length > 0) {
       //hay mesa. el equipo entra
@@ -193,9 +169,24 @@ const Screen: FC = () => {
   }, checkEnterDelay);
 
   useInterval(() => {
-    console.log("mision interval");
     missionManager.displayMission();
   }, missionManager.mission_creation_delay);
+
+
+  let showInToolTipWithTimer = (value: any) => {
+
+    clearTimeout(timer as number);
+    if (value === undefined) {
+      timer = setTimeout(() => {
+        setToolTipContent(value)
+      }, 1500);
+    } else {
+      setToolTipContent(value)
+    }
+
+
+
+  }
 
   return (
     <>
@@ -228,7 +219,7 @@ const Screen: FC = () => {
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
-          showInToolTip={setToolTipContent}
+          showInToolTip={showInToolTipWithTimer}
           missionManager={missionManager}
           barGrid={barGrid as Grid}
         // triggerRender={triggerRender}

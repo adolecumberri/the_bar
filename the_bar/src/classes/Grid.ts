@@ -51,24 +51,9 @@ export class Grid {
         })
 
         gridHash[key] = gridBox;
-        //  let gridBox = new GridBoxesTypes.GridBox({
-        //    key,
-        //    gX,
-        //    gY,
-        //    x,
-        //    y,
-        //    width,
-        //    height,
-        //    ...gridTypeConfig,
-        //  });
-
-        //  console.log(gridBox);
-        //  if (!game.heroPosition && (utils._randInt(1, 20) > 15) && gridBox.type === 'walkable') game.heroPosition = gridBox;
-
 
       }
     }
-    console.log({ gridHash });
     return gridHash;
   };
 
@@ -159,7 +144,6 @@ export class Grid {
 
       }
     }
-    console.log({ gridHash });
     this.hashGrid = gridHash;
     // return gridHash;
   };
@@ -207,21 +191,6 @@ export class Grid {
 
     // return { width, height }
   }
-
-  // _loadBoxBasicVariables = ({ X, Y, width, height }: {
-  //   X: number;
-  //   Y: number;
-  //   width: number;
-  //   height: number;
-  // }) => {
-
-  //   let gX = X,
-  //     gY = Y,
-  //     x = X * width,
-  //     y = (Y + this.topMargin) * height; // por la falsa pared
-
-  //   return { gX, gY, x, y }
-  // }
 
   highlight = (type: IGRID_VALUES) => {
     for (let cell in this.hashGrid) {

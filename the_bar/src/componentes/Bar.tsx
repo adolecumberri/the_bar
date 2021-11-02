@@ -18,13 +18,6 @@ import { MissionManager } from "../classes/Missions";
 import { IHero } from "../interfaces/Hero.Interface";
 import { Monster } from "../classes/Monster";
 
-const gridSprites = new Image();
-gridSprites.setAttribute("src", "../sprites/spritesheet.png");
-// window.onload = function() {
-//   debugger;
-//   gridSprites.setAttribute("src", "../sprites/spritesheet.png");
-// }
-
 const useStyles = makeStyles(() => {
   return {
     container: {
@@ -66,8 +59,10 @@ const Bar: FC<IBarProps> = ({
       let solution: JSX.Element[] = [];
 
       missions_displayed.forEach((m, i) => {
-        let toolTip = <>
-          <div style={{ fontWeight: 700, marginBottom: `${4 * pixelSize}px` }}>
+        let toolTip = <div>
+          <div
+            key={`tooltip-${m.id}`}
+            style={{ fontWeight: 700, marginBottom: `${4 * pixelSize}px` }}>
             {m.title}
           </div>
           <div>
@@ -78,26 +73,27 @@ const Bar: FC<IBarProps> = ({
               let solution = <div
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
-                {(f.monsters as Monster[]).map(({img: {img}, id, name}) =>  
-                <img
-                  key={`img-${id}`}
-                  alt={`${name}`}
-                  src={(img as HTMLImageElement).src}
-                  style={{
-                    height: "100%",
-                    // position: "absolute",
-                    // animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
-                    // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
-                  }}
+                {(f.monsters as Monster[]).map(({ img: { img }, id, name }) =>
+                  <img
+                    key={`img-${id}`}
+                    alt={`${name}`}
+                    src={(img as HTMLImageElement).src}
+                    style={{
+                      height: "100%",
+                      // position: "absolute",
+                      // animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
+                      // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
+                    }}
                   // onMouseOver={() => { showInToolTip(toolTip) }}
                   // onMouseOut={() => { showInToolTip(undefined) }}
-                />)}
+                  />)}
               </div>
               return solution;
             })
             }
           </div>
-        </>;
+        </div>;
+
         let divStyle = {
           boxSizing: "border-box",
           MozBoxSizing: "border-box",
@@ -117,9 +113,9 @@ const Bar: FC<IBarProps> = ({
             className=""
             style={{ ...divStyle } as any}
             onMouseOver={() => { showInToolTip(toolTip) }}
-            // onMouseOut={() => { showInToolTip(undefined) }}
+            onMouseOut={() => { showInToolTip(undefined) }}
           >
-           
+
           </div >
         );
         // el propio jsx.element necesita una key en las propiedades.
@@ -127,8 +123,7 @@ const Bar: FC<IBarProps> = ({
         solution.push(div);
       });
 
-
-      // debugger;
+      debugger;
       return solution;
     }
     , [missions_displayed, pixelSize, showInToolTip]);
@@ -167,7 +162,7 @@ const Bar: FC<IBarProps> = ({
             //silla ocupada
             let hero = thisChair.hero as IHero;
             let toolTip = <>
-              <div>
+              <div key={`tooltip-${barGrid[coord].key}`}>
 
                 <div>
                   {hero.name} {hero.surname}
@@ -281,6 +276,7 @@ const Bar: FC<IBarProps> = ({
 
           break;
       }
+      debugger;
       solution.push(div);
     }
 

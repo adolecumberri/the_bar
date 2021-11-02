@@ -6,14 +6,26 @@ import { createRandomHero } from "../utility/hero.utils";
 // import { createHero } from "../utility/Utility";
 
 export class Crew {
+
+    crewStatus = {
+        WAITING_TO_ENTER: 1,
+        ENTERING: 2,
+        SITTING: 3,
+        SITTED: 4,
+        SEARCHING_MISION: 5,
+        IN_A_MISSION: 6,
+        HEALING: 7,
+    }
+
     heroNum: number;
     heros: IHero[] = [];
-    status: ICrewStatus = "waiting_to_enter";
+    status: number = this.crewStatus.WAITING_TO_ENTER;
     tableId: number | null = null;
     areSitted: boolean = false;
     onMission: boolean = false;
     missionId: number | null = null;
     hasEntered: boolean = false;
+   
     constructor(heroNum: number){
         this.heroNum = heroNum;
         for(let i = 0; i < heroNum; i++){

@@ -27,6 +27,7 @@ class GridBox {
   sprite: ISprite;
   initialColor: string;
   highlighted: boolean;
+  hero?: IHero;
   constructor({
     key,
     x,

@@ -20,13 +20,6 @@ import { useRenderCounter } from "../hooks";
 import { StyleContext, ImagesContext } from "../utility";
 import { Grid } from "../classes/Grid";
 
-const gridSprites = new Image();
-gridSprites.setAttribute("src", "../sprites/spritesheet.png");
-// window.onload = function() {
-//   debugger;
-//   gridSprites.setAttribute("src", "../sprites/spritesheet.png");
-// }
-
 const useStyles = makeStyles((tema: ITheme) => {
   console.log(tema);
   return {

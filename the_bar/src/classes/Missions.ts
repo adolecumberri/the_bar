@@ -80,7 +80,7 @@ class MissionManager {
         //add missionDisplayed value to selectedMission.missionNumber, and later missionDisplayed + 1
         selectedMission.missionNumber = this.missionsDisplayed++;
         this.addLocationToMission(selectedMission);
-debugger;
+// debugger;
 
         let a = selectedMission.fights.map(f => {
             return {
