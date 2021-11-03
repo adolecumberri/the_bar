@@ -151,7 +151,8 @@ const Screen: FC = () => {
   const assignMission = useCallback(() => {
     //doy una mision
     let missionSelected = missionManager.getMissionDisplayed();
-    missionManager.removeLocationFromMission(missionSelected);
+    //TODO: eliminar esto de aqui. get Mission displayed ya elimina la localizacion.
+    // missionManager.removeLocationFromMission(missionSelected);
     return missionSelected;
   }, [missionManager.missions_displayed.length, crewsInside.length]);
 
