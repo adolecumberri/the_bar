@@ -43,6 +43,9 @@ interface IDebugger {
   crewsGone: number,
   crewsInQueue: number,
   crewsAtMission: number,
+  totalCrewsGone: number,
+  totalMissiosnCreated: number,
+  totalCrewsCreated: number,
 }
 
 const Debugger: FC<IDebugger> = ({ 
@@ -56,7 +59,10 @@ const Debugger: FC<IDebugger> = ({
   crewsInside, 
   crewsInQueue, 
   crewsGone,
-  missionsDisplayed
+  missionsDisplayed,
+  totalCrewsGone,
+  totalMissiosnCreated,
+  totalCrewsCreated,
 }) => {
   const { container, tableInfo, tablesContainer } = useStyles();
 
@@ -104,7 +110,11 @@ const Debugger: FC<IDebugger> = ({
       crewsInside: {crewsInside} <br/>
       crewsAtDoor: {crewsInQueue} <br />
       crewsGone: {crewsGone} <br />
-      missionsDisplayed: {missionsDisplayed}
+      missionsDisplayed: {missionsDisplayed} <br />
+
+      totalCrewsGone: {totalCrewsGone}<br />
+          totalMissiosnCreated: {totalMissiosnCreated}<br />
+          totalCrewsCreated: {totalCrewsCreated}<br />
     </div>
   );
 };

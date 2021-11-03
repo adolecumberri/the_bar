@@ -256,6 +256,21 @@ export class Grid {
     return solution;
   }
 
+  liberateTableFromCrew = (tableId: number) => {
+    //consigo la key de la mesa seleccionada.
+    let tableKey = this.tables.find( t => t.tableId === tableId)?.key as string;
+    //saco la mesa.
+    let table = (this.hashGrid[tableKey] as Table);
+    if(!table) debugger;
+    //quito el equipo.
+    table.crew = undefined;
+    //quito los heroes de las sillas
+    table.chairs.forEach( c => {
+      c.releaseChair();
+    });
+
+  }
+
 }
 
 // export interface IGrid {

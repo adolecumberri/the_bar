@@ -36,19 +36,27 @@ export class Crew {
     hasEntered: boolean = false;
 
     assignMission: () => IMission;
-
+    liberateTableFromCrew: (tableId: number) => void;
+    setCrewAtMission: any;
     timer: NodeJS.Timeout | number = 0;
 
-
-
     constructor(
-        { heroNum, id, assignMission }: ICrew) {
+        { 
+            heroNum, 
+            id, 
+            assignMission,
+            liberateTableFromCrew,
+            setCrewAtMission,
+            
+        }: ICrew) {
         this.heroNum = heroNum;
         for (let i = 0; i < heroNum; i++) {
             this.heros.push(createRandomHero());
         }
         this.id = id;
         this.assignMission = assignMission;
+        this.liberateTableFromCrew = liberateTableFromCrew;
+        this.setCrewAtMission = setCrewAtMission;
     }
 
     asignTableByTableId = (tableId: number | null) => {
@@ -104,12 +112,16 @@ export class Crew {
                 this.hasEntered = true;
                 this.onMission = false;
                 console.log(`crew id-${this.id} is now Searching Mission.`);
+
                 this.wait({
                     callback: () => {
                         let newMission = this.assignMission();
                         this.mission = newMission;
-                        this.setState(this.crewStatus.GOING_OUT);
                         //liberar mesa y liberar grid.
+
+                        
+
+                        this.setState(this.crewStatus.GOING_OUT);
                     },
                     time: this.timers.SEARCHING_MISION
                 });
@@ -123,10 +135,11 @@ export class Crew {
                 this.onMission = true;
 
                 console.log(`crew id-${this.id} is going out.`);
+                this.liberateTableFromCrew(this.tableId as number);
                 this.wait({
                     callback: () => {
                         //CODIGO PARA LIBERAR LAS MESAS.
-                        
+                        this.setCrewAtMission(this);
                         console.log("equipo fuera");
                     },
                     time: this.timers.GOING_OUT

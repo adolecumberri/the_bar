@@ -1,7 +1,13 @@
 import { IMission } from ".";
 
 
-export interface ICrew { heroNum: number, id: number, assignMission: () => IMission };
+export interface ICrew { 
+    heroNum: number, 
+    id: number, 
+    assignMission: () => IMission ,
+    liberateTableFromCrew: (tableId: number) => void,
+    setCrewAtMission: any //react setState function.
+};
 
 // export interface ICrewStatus {
 //     WAITING_TO_ENTER: 1,

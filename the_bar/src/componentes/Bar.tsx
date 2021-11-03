@@ -160,6 +160,7 @@ const Bar: FC<IBarProps> = ({
           if (thisChair.isOccupied) {
             //silla ocupada
             let hero = thisChair.hero as IHero;
+            if(!hero) debugger;
             let toolTip = <>
               <div key={`tooltip-${barGrid[coord].key}`}>
 

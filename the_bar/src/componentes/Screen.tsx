@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useEffect, useState, useContext, useCallback, useReducer, ReactNode, Reducer } from "react";
+import { FC, useEffect, useState, useContext, useCallback, useReducer, ReactNode, Reducer, useRef } from "react";
 
 //Material UI
 
@@ -47,6 +47,7 @@ const Screen: FC = () => {
   const [crewsGone, setCrewsGone] = useState<Crew[]>([]);
   const [crewsInside, setCrewsInside] = useState<Crew[]>([]);
   const [crewsAtDoor, setCrewsAtDoor] = useState<Crew[]>([]);
+  const [crewsAtMission, setCrewsAtMission] = useState<Crew[]>([]);
   // let {current: timesTryingToEnter} = useRef(0);
   let [timesTryingToEnter, setTimesTryingToEnter] = useState(0);
 
@@ -54,13 +55,27 @@ const Screen: FC = () => {
   const [crewCreationDelay, setCrewCreationDelay] = useState(MIN_CREW_CREATION_DELAY);
   const [checkEnterDelay, setCheckEnterDelay] = useState(ENTER_DELAY);
 
+  const totalCrewsCreated = useRef(0);
+  const totalMissiosnCreated = useRef(0);
+  const totalCrewsGone = useRef(0);
+
   //omito el setter. no re reestructura el mision manager.
   const [missionManager] = useState(new MissionManager());
 
   const [toolTipContent, setToolTipContent] = useState(undefined)
 
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
-  const create = useCallback((assignMission: () => IMission) => createCrew(assignMission), []);
+  const create = useCallback(
+    (
+      assignMission: () => IMission,
+      liberateTableFromCrew: (tableId: number) => void,
+      setCrewAtMission: any,
+    ) => createCrew(
+        assignMission, 
+        liberateTableFromCrew, 
+        setCrewAtMission
+      ),
+    []);
 
   //set pixelSize
   useEffect(() => {
@@ -119,13 +134,26 @@ const Screen: FC = () => {
 
   }, [missionManager.missions_displayed.length])
 
+  //funcion para Crew, que manda al equipo a la mission.
+  const setCrewAtMission = useCallback( (crew: Crew) => {
+    // Añado la crew a la lista de crews en missiones.
+    setCrewsAtMission( [...crewsAtMission, crew]);
+    // Filtro la crew de las que estan dentro.
+    setCrewsInside( [...crewsInside.filter( c => c.id !== crew.id)] );
+  }, [crewsAtMission.length, crewsInside.length]);
+
+  const liberateTableFromCrew = useCallback((tableId: number) => {
+    barGrid.liberateTableFromCrew(tableId);
+    // crewsAtMissions()
+  }, [barGrid.getFreeTables().length, crewsInside.length]);
 
   //funcion pasada al equipo, para asignarles una mision desde el mission Manager
-  const assignMission = useCallback( () => {
-      //doy una mision
-      let missionSelected = missionManager.getMissionDisplayed();
-      return missionSelected;
-  }, [missionManager.missions_displayed.length, crewsInside.length])
+  const assignMission = useCallback(() => {
+    //doy una mision
+    let missionSelected = missionManager.getMissionDisplayed();
+    missionManager.removeLocationFromMission(missionSelected);
+    return missionSelected;
+  }, [missionManager.missions_displayed.length, crewsInside.length]);
 
 
   //intervalo para añadir equipos a la puerta
@@ -134,7 +162,12 @@ const Screen: FC = () => {
     if (barGrid.getFreeTables().length === 0) {
       setCrewCreationDelay(0)
     } else if (crewsAtDoor.length < 5) {
-      setCrewsAtDoor([...crewsAtDoor, create(assignMission)]);
+      setCrewsAtDoor([...crewsAtDoor, 
+      create( //crea nuevo grupo en la puerta. Le paso funciones que van en la clase.
+        assignMission, 
+        liberateTableFromCrew, 
+        setCrewAtMission
+      )]);
       //delay random desde el minimo hasta el máximo tiempo de creación
       setCrewCreationDelay(rand(MAX_CREW_CREATION_DELAY, MIN_CREW_CREATION_DELAY));
     } else if (crewsAtDoor.length === 5) {
@@ -223,7 +256,10 @@ const Screen: FC = () => {
           crewsGone={crewsGone.length}
           crewsInside={crewsInside.length}
           crewsInQueue={crewsAtDoor.length}
-          crewsAtMission={[].length}
+          crewsAtMission={crewsAtMission.length}
+          totalCrewsGone={totalCrewsGone.current}
+          totalMissiosnCreated={totalMissiosnCreated.current}
+          totalCrewsCreated={totalCrewsCreated.current}
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar

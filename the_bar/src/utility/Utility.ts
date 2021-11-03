@@ -58,9 +58,13 @@ export function randName(gender: number) {
   ];
 };
 
-export const createCrew = (assignMission: () => IMission) => {
+export const createCrew = (
+  assignMission: () => IMission, 
+  liberateTableFromCrew: (tableId: number) => void,
+  setCrewAtMission: any
+) => {
   let id = uniqueID();
-  let crew = new Crew({ heroNum: rand(4, 2), id, assignMission });
+  let crew = new Crew({ heroNum: rand(4, 2), id, assignMission, liberateTableFromCrew, setCrewAtMission });
   return crew;
 }
 

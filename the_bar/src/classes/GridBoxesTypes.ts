@@ -95,7 +95,7 @@ class Table extends GridBox {
   chairsLocation: IChair[] = [];
   chairs: Chair[] = [];
   isOccupied: boolean;
-  crew: Crew | null = null;
+  crew?: Crew;
   constructor(arg: IGridTable) {
     super(arg);
     this.walkable = false;
