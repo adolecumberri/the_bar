@@ -1,4 +1,5 @@
 import { IMission } from ".";
+import { DelayManager } from "../classes/DelayManager";
 
 
 export interface ICrew { 
@@ -6,7 +7,8 @@ export interface ICrew {
     id: number, 
     assignMission: () => IMission ,
     liberateTableFromCrew: (tableId: number) => void,
-    setCrewAtMission: any //react setState function.
+    sendCrewOnAMission: any //react setState function.
+    delayManager: DelayManager,
 };
 
 // export interface ICrewStatus {

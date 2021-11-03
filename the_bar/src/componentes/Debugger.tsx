@@ -31,9 +31,9 @@ const useStyles = makeStyles((Theme: ITheme) => ({
 }));
 
 interface IDebugger {
-  highlightTables?: () => void,
-  highlightChairs?: () => void,
-  stopHighlighting?: () => void,
+  // highlightTables?: () => void,
+  // highlightChairs?: () => void,
+  // stopHighlighting?: () => void,
   delay: number,
   enterDelay: number,
   missionDisplayDelay: number,
@@ -46,29 +46,35 @@ interface IDebugger {
   totalCrewsGone: number,
   totalMissiosnCreated: number,
   totalCrewsCreated: number,
+  // controlGlobalDelays: any,
+  // intervalsAllowed: boolean,
+  stopDelays: () => void,
+  startDelays: () => void,
 }
 
-const Debugger: FC<IDebugger> = ({ 
-  highlightChairs, 
-  highlightTables, 
-  stopHighlighting, 
-  delay, 
-  enterDelay, 
+const Debugger: FC<IDebugger> = ({
+  // highlightChairs,
+  // highlightTables,
+  // stopHighlighting,
+  delay,
+  enterDelay,
   missionDisplayDelay,
-  tables, 
-  crewsInside, 
-  crewsInQueue, 
+  tables,
+  crewsInside,
+  crewsInQueue,
   crewsGone,
   missionsDisplayed,
   totalCrewsGone,
   totalMissiosnCreated,
   totalCrewsCreated,
+  stopDelays,
+  startDelays
 }) => {
   const { container, tableInfo, tablesContainer } = useStyles();
 
   return (
     <div className={container}>
-      {highlightChairs && (<>
+      {/* {highlightChairs && (<>
         <label> chairs: <input type="button" name="debbug"
           onClick={(e) => {
             highlightChairs && highlightChairs();
@@ -88,10 +94,10 @@ const Debugger: FC<IDebugger> = ({
             stopHighlighting && stopHighlighting();
           }}
         ></input></label><br />
-      </>)}
+      </>)} */}
       entry creation delay: {delay} <br />
       enter delay: {enterDelay} <br />
-      misº. creation delay: {missionDisplayDelay} < br/>
+      misº. creation delay: {missionDisplayDelay} < br />
       {tables && tables.length && <>
         free tables: <br />
         <div className={tablesContainer}>
@@ -107,14 +113,24 @@ const Debugger: FC<IDebugger> = ({
         </div>
       </>}
 
-      crewsInside: {crewsInside} <br/>
+      crewsInside: {crewsInside} <br />
       crewsAtDoor: {crewsInQueue} <br />
       crewsGone: {crewsGone} <br />
       missionsDisplayed: {missionsDisplayed} <br />
 
       totalCrewsGone: {totalCrewsGone}<br />
-          totalMissiosnCreated: {totalMissiosnCreated}<br />
-          totalCrewsCreated: {totalCrewsCreated}<br />
+      totalMissiosnCreated: {totalMissiosnCreated}<br />
+      totalCrewsCreated: {totalCrewsCreated}<br />
+      <label>
+      <input type="radio" name="startStop" onClick={() => stopDelays() } 
+      />
+Stop
+      </label>
+      <label>
+      <input type="radio" name="startStop" onClick={() => startDelays() } 
+      />
+Start
+      </label>
     </div>
   );
 };

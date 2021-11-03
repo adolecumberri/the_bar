@@ -313,15 +313,6 @@ const MISSION_LOCATION: ICoord[] = [
   },
 ]
 
-/* DELAYS */
-const DELAYS = {
-  MIN_CREW_CREATION_DELAY: 500,
-  MAX_CREW_CREATION_DELAY: 700,
-  ENTER_DELAY: 300,
-  MISSION_APPEARING_DELAY: 500,
-  MISSION_DELAY: 500,
-}
-
 //TODO: sustituir esta constante por un objeto funcional.
 // const MISSIONS_INFO = {
 //   current_grade_allowed: 0,
@@ -339,7 +330,6 @@ export {
   GRID_CONFIG,
   HERO_TYPE,
   TABLES_LOCATIONS,
-  DELAYS,
   TABLES_IDS,
   // MISIONS_INFO,
   MISSION_LOCATION,

@@ -136,6 +136,18 @@ class Table extends GridBox {
   }
 
 
+  unOccupyTable = () => {
+    //desocupado.
+    this.isOccupied = false;
+     //quito el equipo.
+     this.crew = undefined;
+     //quito los heroes de las sillas
+     this.chairs.forEach( c => {
+       c.releaseChair();
+     });
+  }
+
+
 
 };
 

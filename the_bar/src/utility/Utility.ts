@@ -1,5 +1,6 @@
 
 import { Crew } from "../classes/Crew";
+import { DelayManager } from "../classes/DelayManager";
 import { MALE_NAMES, SURNAMES, WOMAN_NAMES } from "../constants";
 import { IMission } from "../interfaces";
 
@@ -61,10 +62,11 @@ export function randName(gender: number) {
 export const createCrew = (
   assignMission: () => IMission, 
   liberateTableFromCrew: (tableId: number) => void,
-  setCrewAtMission: any
+  sendCrewOnAMission: any,
+  delayManager: DelayManager
 ) => {
   let id = uniqueID();
-  let crew = new Crew({ heroNum: rand(4, 2), id, assignMission, liberateTableFromCrew, setCrewAtMission });
+  let crew = new Crew({ heroNum: rand(4, 2), id, assignMission, liberateTableFromCrew, sendCrewOnAMission, delayManager });
   return crew;
 }
 

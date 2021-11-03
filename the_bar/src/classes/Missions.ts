@@ -1,8 +1,9 @@
 import { MISSIONS } from "../constants";
-import { DELAYS, MISSION_LOCATION } from "../constants/constants";
+import { MISSION_LOCATION } from "../constants/constants";
 import MONSTERS from "../constants/monsters";
 import { ICoord, IMission } from "../interfaces";
 import { rand, uniqueID } from "../utility/Utility";
+import { DelayManager } from "./DelayManager";
 import { Monster } from "./Monster";
 
 
@@ -25,12 +26,12 @@ class MissionManager {
 
     monsters = MONSTERS;
 
-    //delay para aparicion de missiones.
-    mission_creation_delay: number = DELAYS.MISSION_APPEARING_DELAY;
-    default_mission_creation_delay: number = DELAYS.MISSION_APPEARING_DELAY;
+    // //delay para aparicion de missiones.
+    // mission_creation_delay: number = 0;
+    // default_mission_creation_delay: number = 0;
 
-    //delay para hacer las missiones. (lo que tarda en hacerse)
-    mission_delay: number = DELAYS.MISSION_DELAY;
+    // //delay para hacer las missiones. (lo que tarda en hacerse)
+    // mission_delay: number = 0;
 
     //Array de missiones disponibles.
     missions_allowed: IMission[] = [];
@@ -45,7 +46,17 @@ class MissionManager {
     mission_location_used: ICoord[] = [];
 
     totalMissionsDisplayed: number = 0;
-    constructor() {
+    DelayManager: DelayManager;
+    constructor(DelayManager: DelayManager) {
+
+
+        // this.mission_creation_delay = DelayManager.delays.MISSION_APPEARING_DELAY;
+        // this.default_mission_creation_delay = DelayManager.delays.MISSION_APPEARING_DELAY;
+    
+        // //delay para hacer las missiones. (lo que tarda en hacerse)
+        // this.mission_delay = DelayManager.delays.MISSION_DELAY;
+
+        this.DelayManager = DelayManager;
 
         this.grade0 = MISSIONS[0];
         this.grade1 = MISSIONS[1];
@@ -103,11 +114,13 @@ if(selectedMission.fights === undefined) debugger;
     }
 
     stopMissionCreationDelay = () => {
-        this.mission_creation_delay = 0;
+        // this.mission_creation_delay = 0;
+        this.DelayManager.delays.MISSION_CREATION_DELAY = 0;
     }
 
     restartMissionCreationDelay = () => {
-        this.mission_creation_delay = this.default_mission_creation_delay;
+        // this.mission_creation_delay = this.default_mission_creation_delay;
+        this.DelayManager.delays.MISSION_CREATION_DELAY = this.DelayManager.DEFAULT_DELAYS.MISSION_CREATION_DELAY;
     }
 
     addLocationToMission = (mission: IMission) => {
@@ -127,7 +140,7 @@ if(selectedMission.fights === undefined) debugger;
 
     removeLocationFromMission = (mission: IMission) => {
         if(!mission.location) debugger;
-        
+
         // meto la localizacion en el bar como "disponible"
         this.mission_location_available.push(mission.location as any as ICoord);
 

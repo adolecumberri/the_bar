@@ -262,17 +262,9 @@ export class Grid {
     //saco la mesa.
     let table = (this.hashGrid[tableKey] as Table);
     if(!table) debugger;
-    //quito el equipo.
-    table.crew = undefined;
-    //quito los heroes de las sillas
-    table.chairs.forEach( c => {
-      c.releaseChair();
-    });
 
+    //desocupar
+    table.unOccupyTable();
   }
 
 }
-
-// export interface IGrid {
-//   Grid:typeof Grid;
-// }

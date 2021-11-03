@@ -3,9 +3,12 @@ import { TABLES_IDS } from "../constants/constants";
 import { IMission, ICrew } from "../interfaces";
 import { IHero } from "../interfaces/Hero.Interface";
 import { createRandomHero } from "../utility/hero.utils";
+import { DelayManager } from "./DelayManager";
 // import { createHero } from "../utility/Utility";
 
 export class Crew {
+    //tipado global para cualquier cosa.
+    [x: string]: any;
 
     crewStatus = {
         WAITING_TO_ENTER: 1,
@@ -18,11 +21,11 @@ export class Crew {
         HEALING: 8,
     }
 
-    timers = {
-        SITTING: 1500,
-        SEARCHING_MISION: 1500,
-        GOING_OUT: 2000,
-    }
+    // timers = {
+    //     SITTING: 1500,
+    //     SEARCHING_MISION: 1500,
+    //     GOING_OUT: 2000,
+    // }
 
     id: number = 0;
     heroNum: number;
@@ -37,17 +40,17 @@ export class Crew {
 
     assignMission: () => IMission;
     liberateTableFromCrew: (tableId: number) => void;
-    setCrewAtMission: any;
+    sendCrewOnAMission: any;
     timer: NodeJS.Timeout | number = 0;
-
+    DelayManager: DelayManager;
     constructor(
         { 
             heroNum, 
             id, 
             assignMission,
             liberateTableFromCrew,
-            setCrewAtMission,
-            
+            sendCrewOnAMission,
+            delayManager,
         }: ICrew) {
         this.heroNum = heroNum;
         for (let i = 0; i < heroNum; i++) {
@@ -56,7 +59,8 @@ export class Crew {
         this.id = id;
         this.assignMission = assignMission;
         this.liberateTableFromCrew = liberateTableFromCrew;
-        this.setCrewAtMission = setCrewAtMission;
+        this.sendCrewOnAMission = sendCrewOnAMission;
+        this.DelayManager = delayManager;
     }
 
     asignTableByTableId = (tableId: number | null) => {
@@ -102,7 +106,7 @@ export class Crew {
 
                 this.wait({
                     callback: () => this.setState(this.crewStatus.SEARCHING_MISION),
-                    time: this.timers.SITTING
+                    time: this.DelayManager.delays.SITTING
                 });
 
                 break;
@@ -123,7 +127,7 @@ export class Crew {
 
                         this.setState(this.crewStatus.GOING_OUT);
                     },
-                    time: this.timers.SEARCHING_MISION
+                    time: this.DelayManager.delays.SEARCHING_MISION
                 });
 
                
@@ -139,10 +143,10 @@ export class Crew {
                 this.wait({
                     callback: () => {
                         //CODIGO PARA LIBERAR LAS MESAS.
-                        this.setCrewAtMission(this);
+                        this.sendCrewOnAMission(this);
                         console.log("equipo fuera");
                     },
-                    time: this.timers.GOING_OUT
+                    time: this.DelayManager.delays.GOING_OUT
                 });
                 break;
             case this.crewStatus.IN_A_MISSION:
