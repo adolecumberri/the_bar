@@ -16,6 +16,8 @@ class MissionManager {
     // grade4: IMission[] = [];
     [x: string]: IMission[] | number | any;
 
+    MAX_NUMBER_OF_MISSIONS_DISPLAYED: number = 7;
+
     //max grado de mission permitido.
     current_mission_grade_allowed: number = 4;
     //exp para que el mission Manager suba de nivel.
@@ -74,6 +76,7 @@ class MissionManager {
 
     //genera una mision para desplegar.
     displayMission = () => {
+        if(this.missions_displayed.length >= this.MAX_NUMBER_OF_MISSIONS_DISPLAYED) new Error( `not more than ${this.MAX_NUMBER_OF_MISSIONS_DISPLAYED} missions displayed at the same time allowed`);
         //Uso spread operator para duplicar el objeto. Sino todas la localizaciones comparten referencia.
         let selectedMission = { ...this.missions_allowed[rand(this.missions_allowed.length - 1)] };
         selectedMission.id = uniqueID();
@@ -125,10 +128,25 @@ class MissionManager {
     }
 
     getMissionDisplayed = () => {
-        let selectedMission = this.missions_allowed.splice(
-            Math.floor(rand(this.missions_allowed.length - 1)),
+        debugger;
+        let selectedMission = this.missions_displayed.splice(
+            Math.floor(rand(this.missions_displayed.length - 1)),
             1
         )[0];
+
+
+        //elimino la localizacion en el bar como "usada"
+        this.mission_location_used = [...this.mission_location_used.filter( (m) => m.id !== selectedMission.location?.id )];
+
+        //meto la localizacion en el bar como "disponible"
+        this.mission_location_available.push(selectedMission.location as ICoord);
+        
+        //elimino la localizacion. Se van a hacerla.
+        selectedMission.location = undefined;
+
+        //Reestructuro mission_displayed para repintarla.
+        this.missions_displayed = [...this.missions_displayed];
+   debugger;
         return selectedMission;
     }
     // crewTomission = () =>{

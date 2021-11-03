@@ -109,7 +109,7 @@ const Screen: FC = () => {
 
   //Mission controller.
   useEffect(() => {
-    if (missionManager.missions_displayed.length > 6) {
+    if (missionManager.missions_displayed.length >= 7) {
       missionManager.stopMissionCreationDelay();
     } else {
       if (missionManager.mission_creation_delay === 0) {
@@ -119,12 +119,16 @@ const Screen: FC = () => {
 
   }, [missionManager.missions_displayed.length])
 
+
+  //funcion pasada al equipo, para asignarles una mision desde el mission Manager
   const assignMission = useCallback( () => {
       //doy una mision
       let missionSelected = missionManager.getMissionDisplayed();
       return missionSelected;
   }, [missionManager.missions_displayed.length, crewsInside.length])
 
+
+  //intervalo para añadir equipos a la puerta
   useInterval(() => {
     //No hay mesass? paro la llegada a la puerta
     if (barGrid.getFreeTables().length === 0) {
@@ -138,6 +142,7 @@ const Screen: FC = () => {
     }
   }, crewCreationDelay);
 
+  //intervalo para entrar en el bar
   useInterval(() => {
     if (crewsAtDoor.length === 0) {
       setCheckEnterDelay(0);
@@ -174,6 +179,7 @@ const Screen: FC = () => {
     }
   }, checkEnterDelay);
 
+  //intervalo para creación de misiones.
   useInterval(() => {
     missionManager.displayMission();
   }, missionManager.mission_creation_delay);

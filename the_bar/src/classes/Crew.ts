@@ -19,9 +19,9 @@ export class Crew {
     }
 
     timers = {
-        SITTING: 10000,
-        SEARCHING_MISION: 10000,
-        GOING_OUT: 5000,
+        SITTING: 1500,
+        SEARCHING_MISION: 1500,
+        GOING_OUT: 2000,
     }
 
     id: number = 0;
@@ -109,6 +109,7 @@ export class Crew {
                         let newMission = this.assignMission();
                         this.mission = newMission;
                         this.setState(this.crewStatus.GOING_OUT);
+                        //liberar mesa y liberar grid.
                     },
                     time: this.timers.SEARCHING_MISION
                 });
@@ -125,6 +126,7 @@ export class Crew {
                 this.wait({
                     callback: () => {
                         //CODIGO PARA LIBERAR LAS MESAS.
+                        
                         console.log("equipo fuera");
                     },
                     time: this.timers.GOING_OUT

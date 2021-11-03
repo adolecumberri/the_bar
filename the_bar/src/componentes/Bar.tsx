@@ -125,7 +125,7 @@ const Bar: FC<IBarProps> = ({
 
       return solution;
     }
-    , [missions_displayed, pixelSize, showInToolTip]);
+    , [missions_displayed.length, pixelSize, showInToolTip]);
 
 
 
