@@ -6,8 +6,16 @@ import { rand } from "../utility/Utility";
 
 class DelayManager {
 
-    isStopped: "YES" | "NO" = "NO";
+    
 
+    // isStopped: boolean: false;
+    setIsStopped: any;
+    getIsStopped: any;
+
+    constructor( [getter, setter]: [getter: () => boolean, setter: React.Dispatch<React.SetStateAction<boolean>>]){
+        this.getIsStopped = getter;
+        this.setIsStopped = setter;
+    }
     DEFAULT_DELAYS: IDelays = {
         MIN_CREW_CREATION_DELAY: 500,
         MAX_CREW_CREATION_DELAY: 700,
@@ -28,7 +36,7 @@ class DelayManager {
 
     startDelay = (delayName: keyof IDelays) => {
         //si estan parados los timers nada. return void.
-        if (this.isStopped === "YES") return;
+        if (this.getIsStopped) return;
 debugger;
         //si el timer es CREW_CREATION_DELAY, genero numero random.
         if (delayName === "CREW_CREATION_DELAY") {
@@ -43,7 +51,7 @@ debugger;
 
     stopDelay = (delayName: keyof IDelays) => {
         //si estan parados los timers nada. return void.
-        if (this.isStopped === "YES") return;
+        if (this.getIsStopped) return;
         //paro el timer que sea.
         this.delays[delayName] = 0;
     }
@@ -98,7 +106,7 @@ debugger;
         this.delays = { ...this.delays };
 
         //reinicio el delayManager.
-        this.isStopped = "NO";
+        this.setIsStopped(false);
     }
 
     //stop all delays
@@ -114,7 +122,7 @@ debugger;
         this.delays = { ...this.delays };
 
         //paro timers.
-        this.isStopped = "YES";
+        this.setIsStopped(true)
     }
 
 

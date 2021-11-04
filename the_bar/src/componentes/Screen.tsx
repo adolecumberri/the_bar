@@ -52,7 +52,18 @@ const Screen: FC = () => {
   // let {current: timesTryingToEnter} = useRef(0);
   let [timesTryingToEnter, setTimesTryingToEnter] = useState(0);
 
-  const [delayManager] = useState(new DelayManager());
+  const [areDelaisStopped, setAreDelaisStopped] = useState(false);
+  const getDelaisAreStopped = () => {
+    return areDelaisStopped;
+  }
+
+
+  const [delayManager] = useState(new DelayManager(
+    [
+      getDelaisAreStopped,
+      setAreDelaisStopped
+    ]
+  ));
 
   //DELAYS
   // const [crewCreationDelay, setCrewCreationDelay] = useState(delayManager.delays.MIN_CREW_CREATION_DELAY);
@@ -74,11 +85,11 @@ const Screen: FC = () => {
       liberateTableFromCrew: (tableId: number) => void,
       sendCrewOnAMission: any,
     ) => createCrew(
-        assignMission, 
-        liberateTableFromCrew, 
-        sendCrewOnAMission,
-        delayManager
-      ),
+      assignMission,
+      liberateTableFromCrew,
+      sendCrewOnAMission,
+      delayManager
+    ),
     []);
 
   //set pixelSize
@@ -125,10 +136,10 @@ const Screen: FC = () => {
 
     }
 
-     //si entro aqui y el checkEnterDelay esta apagado, lo reinicio.
-     if ( !delayManager.delays.ENTER_DELAY ) delayManager.startDelay("ENTER_DELAY");
+    //si entro aqui y el checkEnterDelay esta apagado, lo reinicio.
+    if (!delayManager.delays.ENTER_DELAY) delayManager.startDelay("ENTER_DELAY");
 
-  }, [crewsAtDoor.length, barGrid.getFreeTables().length, delayManager.isStopped]);
+  }, [crewsAtDoor.length, barGrid.getFreeTables().length, areDelaisStopped]);
 
   //Mission controller.
   useEffect(() => {
@@ -140,19 +151,19 @@ const Screen: FC = () => {
       }
     }
 
-  }, [missionManager.missions_displayed.length, delayManager.isStopped])
+  }, [missionManager.missions_displayed.length, areDelaisStopped])
 
   //triggers render.
   useEffect(() => {
-console.log("triggers render. IsStopped: " + delayManager.isStopped);
-  }, [delayManager.isStopped]);
+    console.log("triggers render. IsStopped: " + areDelaisStopped);
+  }, [areDelaisStopped]);
 
   //funcion para Crew, que manda al equipo a la mission.
-  const sendCrewOnAMission = useCallback( (crew: Crew) => {
+  const sendCrewOnAMission = useCallback((crew: Crew) => {
     // Añado la crew a la lista de crews en missiones.
-    setCrewsAtMission( [...crewsAtMission, crew]);
+    setCrewsAtMission([...crewsAtMission, crew]);
     // Filtro la crew de las que estan dentro.
-    setCrewsInside( [...crewsInside.filter( c => c.id !== crew.id)] );
+    setCrewsInside([...crewsInside.filter(c => c.id !== crew.id)]);
   }, [crewsAtMission.length, crewsInside.length]);
 
   const liberateTableFromCrew = useCallback((tableId: number) => {
@@ -166,7 +177,7 @@ console.log("triggers render. IsStopped: " + delayManager.isStopped);
     //doy una mision
     let missionSelected = missionManager.getMissionDisplayed();
     return missionSelected;
-  }, [missionManager.missions_displayed.length, crewsInside.length ]);
+  }, [missionManager.missions_displayed.length, crewsInside.length]);
 
 
   //intervalo para añadir equipos a la puerta
@@ -176,10 +187,10 @@ console.log("triggers render. IsStopped: " + delayManager.isStopped);
       // delayManager.stopsCreationDelay();
       delayManager.stopDelay("CREW_CREATION_DELAY");
     } else if (crewsAtDoor.length < 5) {
-      setCrewsAtDoor([...crewsAtDoor, 
+      setCrewsAtDoor([...crewsAtDoor,
       create( //crea nuevo grupo en la puerta. Le paso funciones que van en la clase.
-        assignMission, 
-        liberateTableFromCrew, 
+        assignMission,
+        liberateTableFromCrew,
         sendCrewOnAMission
       )]);
       totalCrewsCreated.current++;
@@ -190,9 +201,9 @@ console.log("triggers render. IsStopped: " + delayManager.isStopped);
       // delayManager.stopsCreationDelay();
       delayManager.stopDelay("CREW_CREATION_DELAY");
     }
-  }, 
-  // !delayManager.stopped ? crewCreationDelay : 0
-  delayManager.delays.CREW_CREATION_DELAY
+  },
+    // !delayManager.stopped ? crewCreationDelay : 0
+    delayManager.delays.CREW_CREATION_DELAY
   );
 
   //intervalo para entrar en el bar
@@ -231,11 +242,11 @@ console.log("triggers render. IsStopped: " + delayManager.isStopped);
       setCrewsAtDoor([...crewsAtDoor]);
       // debugger;
     }
-  }, delayManager.delays.ENTER_DELAY );
+  }, delayManager.delays.ENTER_DELAY);
 
   //intervalo para creación de misiones.
   useInterval(() => {
-    if(missionManager.missions_displayed.length < missionManager.MAX_NUMBER_OF_MISSIONS_DISPLAYED){
+    if (missionManager.missions_displayed.length < missionManager.MAX_NUMBER_OF_MISSIONS_DISPLAYED) {
       missionManager.displayMission();
       totalMissiosnCreated.current++;
     }
@@ -272,7 +283,7 @@ console.log("triggers render. IsStopped: " + delayManager.isStopped);
           //   // setTriggerRender(!triggerRender);
           //   // setBarGrid(new Grid(barGrid?.hashGrid));
           // }}
-          delay={ delayManager.delays.CREW_CREATION_DELAY }
+          delay={delayManager.delays.CREW_CREATION_DELAY}
           enterDelay={delayManager.delays.ENTER_DELAY}
           missionDisplayDelay={delayManager.delays.MISSION_CREATION_DELAY}
           missionsDisplayed={missionManager.missions_displayed.length}
@@ -285,8 +296,8 @@ console.log("triggers render. IsStopped: " + delayManager.isStopped);
           totalMissiosnCreated={totalMissiosnCreated.current}
           totalCrewsCreated={totalCrewsCreated.current}
           stopDelays={delayManager.stopDelays}
-          startDelays = {delayManager.startDelays}
-          delayManagerIsStopped = {delayManager.isStopped}
+          startDelays={delayManager.startDelays}
+          areDelaisStopped={areDelaisStopped}
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar
