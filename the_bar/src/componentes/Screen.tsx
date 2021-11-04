@@ -55,8 +55,8 @@ const Screen: FC = () => {
   const [delayManager] = useState(new DelayManager());
 
   //DELAYS
-  const [crewCreationDelay, setCrewCreationDelay] = useState(delayManager.delays.MIN_CREW_CREATION_DELAY);
-  const [checkEnterDelay, setCheckEnterDelay] = useState(delayManager.delays.ENTER_DELAY);
+  // const [crewCreationDelay, setCrewCreationDelay] = useState(delayManager.delays.MIN_CREW_CREATION_DELAY);
+  // const [checkEnterDelay, setCheckEnterDelay] = useState(delayManager.delays.ENTER_DELAY);
 
   const totalCrewsCreated = useRef(0);
   const totalMissiosnCreated = useRef(0);
@@ -112,20 +112,23 @@ const Screen: FC = () => {
   useEffect(() => {
     // menos de 5 equipos en puerta y mesas libres? activo el timer para crear grupos.
     if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0) {
-      setCrewCreationDelay(rand(delayManager.delays.MAX_CREW_CREATION_DELAY, delayManager.delays.MIN_CREW_CREATION_DELAY));
+      delayManager.startDelay("CREW_CREATION_DELAY");
     }
 
     //no hay crews en la puerta? apago el timer para entrar. sino ro reinicio.
     if (crewsAtDoor.length === 0) {
-      setCheckEnterDelay(0);
+      // delayManager.stopsEnterDelay();
+      delayManager.stopDelay("ENTER_DELAY");
     } else {
-      setCheckEnterDelay(delayManager.delays.ENTER_DELAY);
+      // delayManager.startEnterDelay();
+      delayManager.startDelay("ENTER_DELAY");
+
     }
 
      //si entro aqui y el checkEnterDelay esta apagado, lo reinicio.
-     if (checkEnterDelay !== delayManager.delays.ENTER_DELAY) setCheckEnterDelay(delayManager.delays.ENTER_DELAY);
+     if ( !delayManager.delays.ENTER_DELAY ) delayManager.startDelay("ENTER_DELAY");
 
-  }, [crewsAtDoor.length, barGrid.getFreeTables().length]);
+  }, [crewsAtDoor.length, barGrid.getFreeTables().length, delayManager.isStopped]);
 
   //Mission controller.
   useEffect(() => {
@@ -137,7 +140,7 @@ const Screen: FC = () => {
       }
     }
 
-  }, [missionManager.missions_displayed.length])
+  }, [missionManager.missions_displayed.length, delayManager.isStopped])
 
   //funcion para Crew, que manda al equipo a la mission.
   const sendCrewOnAMission = useCallback( (crew: Crew) => {
@@ -165,7 +168,8 @@ const Screen: FC = () => {
   useInterval(() => {
     //No hay mesass? paro la llegada a la puerta
     if (barGrid.getFreeTables().length === 0) {
-      setCrewCreationDelay(0)
+      // delayManager.stopsCreationDelay();
+      delayManager.stopDelay("CREW_CREATION_DELAY");
     } else if (crewsAtDoor.length < 5) {
       setCrewsAtDoor([...crewsAtDoor, 
       create( //crea nuevo grupo en la puerta. Le paso funciones que van en la clase.
@@ -175,21 +179,22 @@ const Screen: FC = () => {
       )]);
       totalCrewsCreated.current++;
       //delay random desde el minimo hasta el máximo tiempo de creación
-      setCrewCreationDelay(
-        rand(
-          delayManager.delays.MAX_CREW_CREATION_DELAY, 
-          delayManager.delays.MIN_CREW_CREATION_DELAY
-        )
-      );
+      // delayManager.newCreationDelay();
+      delayManager.startDelay("CREW_CREATION_DELAY");
     } else if (crewsAtDoor.length === 5) {
-      setCrewCreationDelay(0);
+      // delayManager.stopsCreationDelay();
+      delayManager.stopDelay("CREW_CREATION_DELAY");
     }
-  }, !delayManager.stopped ? crewCreationDelay : 0);
+  }, 
+  // !delayManager.stopped ? crewCreationDelay : 0
+  delayManager.delays.CREW_CREATION_DELAY
+  );
 
   //intervalo para entrar en el bar
   useInterval(() => {
     if (crewsAtDoor.length === 0) {
-      setCheckEnterDelay(0);
+      // delayManager.stopsEnterDelay();
+      delayManager.stopDelay("ENTER_DELAY");
       return;
     }
 
@@ -221,7 +226,7 @@ const Screen: FC = () => {
       setCrewsAtDoor([...crewsAtDoor]);
       // debugger;
     }
-  }, !delayManager.stopped  ? checkEnterDelay : 0);
+  }, delayManager.delays.ENTER_DELAY );
 
   //intervalo para creación de misiones.
   useInterval(() => {
@@ -262,8 +267,8 @@ const Screen: FC = () => {
           //   // setTriggerRender(!triggerRender);
           //   // setBarGrid(new Grid(barGrid?.hashGrid));
           // }}
-          delay={crewCreationDelay}
-          enterDelay={checkEnterDelay}
+          delay={ delayManager.delays.CREW_CREATION_DELAY }
+          enterDelay={delayManager.delays.ENTER_DELAY}
           missionDisplayDelay={delayManager.delays.MISSION_CREATION_DELAY}
           missionsDisplayed={missionManager.missions_displayed.length}
           tables={barGrid.hashGrid && barGrid.getFreeTables()}

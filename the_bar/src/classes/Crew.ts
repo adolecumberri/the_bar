@@ -102,7 +102,7 @@ export class Crew {
                 this.areSitted = true;
                 this.hasEntered = true;
                 this.onMission = false;
-                console.log(`crew id-${this.id} is now Sitted.`);
+                // console.log(`crew id-${this.id} is now Sitted.`);
 
                 this.wait({
                     callback: () => this.setState(this.crewStatus.SEARCHING_MISION),
@@ -115,7 +115,7 @@ export class Crew {
                 this.areSitted = true;
                 this.hasEntered = true;
                 this.onMission = false;
-                console.log(`crew id-${this.id} is now Searching Mission.`);
+                // console.log(`crew id-${this.id} is now Searching Mission.`);
 
                 this.wait({
                     callback: () => {
@@ -138,13 +138,13 @@ export class Crew {
                 this.hasEntered = true;
                 this.onMission = true;
 
-                console.log(`crew id-${this.id} is going out.`);
+                // console.log(`crew id-${this.id} is going out.`);
                 this.liberateTableFromCrew(this.tableId as number);
                 this.wait({
                     callback: () => {
                         //CODIGO PARA LIBERAR LAS MESAS.
                         this.sendCrewOnAMission(this);
-                        console.log("equipo fuera");
+                        // console.log("equipo fuera");
                     },
                     time: this.DelayManager.delays.GOING_OUT
                 });

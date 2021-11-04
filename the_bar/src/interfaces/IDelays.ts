@@ -10,4 +10,5 @@ export interface IDelays {
     SITTING: number;
     SEARCHING_MISION: number;
     GOING_OUT: number;
+    CREW_CREATION_DELAY: number;
 }

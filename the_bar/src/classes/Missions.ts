@@ -107,7 +107,7 @@ if(selectedMission.fights === undefined) debugger;
             }
         });
 
-        console.log("DISPLAY MISSION :" + this.missions_displayed.length);
+        // console.log("DISPLAY MISSION :" + this.missions_displayed.length);
         selectedMission.fights = a;
         // this.missions_displayed.push(selectedMission);
         this.missions_displayed = [...this.missions_displayed, selectedMission];
