@@ -50,6 +50,7 @@ interface IDebugger {
   // intervalsAllowed: boolean,
   stopDelays: () => void,
   startDelays: () => void,
+  delayManagerIsStopped: "YES" | "NO",
 }
 
 const Debugger: FC<IDebugger> = ({
@@ -68,7 +69,8 @@ const Debugger: FC<IDebugger> = ({
   totalMissiosnCreated,
   totalCrewsCreated,
   stopDelays,
-  startDelays
+  startDelays,
+  delayManagerIsStopped
 }) => {
   const { container, tableInfo, tablesContainer } = useStyles();
 
@@ -122,12 +124,14 @@ const Debugger: FC<IDebugger> = ({
       totalMissiosnCreated: {totalMissiosnCreated}<br />
       totalCrewsCreated: {totalCrewsCreated}<br />
       <label>
-      <input type="radio" name="startStop" onClick={() => stopDelays() } 
+      <input type="radio" name="startStop" onChange={(e) => stopDelays() }
+      checked={delayManagerIsStopped === "YES"} 
       />
 Stop
       </label>
       <label>
-      <input type="radio" name="startStop" onClick={() => startDelays() } 
+      <input type="radio" name="startStop" onChange={(e) => startDelays() } 
+       checked={delayManagerIsStopped === "NO"} 
       />
 Start
       </label>

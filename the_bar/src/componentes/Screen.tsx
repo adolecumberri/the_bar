@@ -142,6 +142,11 @@ const Screen: FC = () => {
 
   }, [missionManager.missions_displayed.length, delayManager.isStopped])
 
+  //triggers render.
+  useEffect(() => {
+console.log("triggers render. IsStopped: " + delayManager.isStopped);
+  }, [delayManager.isStopped]);
+
   //funcion para Crew, que manda al equipo a la mission.
   const sendCrewOnAMission = useCallback( (crew: Crew) => {
     // Añado la crew a la lista de crews en missiones.
@@ -161,7 +166,7 @@ const Screen: FC = () => {
     //doy una mision
     let missionSelected = missionManager.getMissionDisplayed();
     return missionSelected;
-  }, [missionManager.missions_displayed.length, crewsInside.length]);
+  }, [missionManager.missions_displayed.length, crewsInside.length ]);
 
 
   //intervalo para añadir equipos a la puerta
@@ -281,6 +286,7 @@ const Screen: FC = () => {
           totalCrewsCreated={totalCrewsCreated.current}
           stopDelays={delayManager.stopDelays}
           startDelays = {delayManager.startDelays}
+          delayManagerIsStopped = {delayManager.isStopped}
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar

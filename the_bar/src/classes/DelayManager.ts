@@ -6,7 +6,7 @@ import { rand } from "../utility/Utility";
 
 class DelayManager {
 
-    isStopped: boolean = false;
+    isStopped: "YES" | "NO" = "NO";
 
     DEFAULT_DELAYS: IDelays = {
         MIN_CREW_CREATION_DELAY: 500,
@@ -28,7 +28,7 @@ class DelayManager {
 
     startDelay = (delayName: keyof IDelays) => {
         //si estan parados los timers nada. return void.
-        if (this.isStopped) return;
+        if (this.isStopped === "YES") return;
 debugger;
         //si el timer es CREW_CREATION_DELAY, genero numero random.
         if (delayName === "CREW_CREATION_DELAY") {
@@ -43,7 +43,7 @@ debugger;
 
     stopDelay = (delayName: keyof IDelays) => {
         //si estan parados los timers nada. return void.
-        if (this.isStopped) return;
+        if (this.isStopped === "YES") return;
         //paro el timer que sea.
         this.delays[delayName] = 0;
     }
@@ -84,10 +84,21 @@ debugger;
 
     //Start all delays
     startDelays = () => {
-        //reinicio timers.
-        this.delays = { ...this.DEFAULT_DELAYS }
+        // //reinicio timers.
+        // this.delays = { ...this.DEFAULT_DELAYS }
+
+//TODO: comprobar porque el codigo de arriba no re-renderiza
+
+        // saco keys
+        let keys = Object.keys(this.DEFAULT_DELAYS);
+        // itero por keys, vaciando valores.
+        keys.forEach(key => {
+            this.delays[key as keyof IDelays] = this.DEFAULT_DELAYS[key as keyof IDelays];
+        });
+        this.delays = { ...this.delays };
+
         //reinicio el delayManager.
-        this.isStopped = false;
+        this.isStopped = "NO";
     }
 
     //stop all delays
@@ -103,7 +114,7 @@ debugger;
         this.delays = { ...this.delays };
 
         //paro timers.
-        this.isStopped = true;
+        this.isStopped = "YES";
     }
 
 
