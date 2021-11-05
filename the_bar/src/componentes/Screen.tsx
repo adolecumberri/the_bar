@@ -122,7 +122,7 @@ const Screen: FC = () => {
   //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
   useEffect(() => {
     // menos de 5 equipos en puerta y mesas libres? activo el timer para crear grupos.
-    if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0) {
+    if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0 && !areDelaisStopped) {
       delayManager.startDelay("CREW_CREATION_DELAY");
     }
 
@@ -146,7 +146,7 @@ const Screen: FC = () => {
     if (missionManager.missions_displayed.length >= 7) {
       missionManager.stopMissionCreationDelay();
     } else {
-      if (delayManager.delays.MISSION_CREATION_DELAY === 0) {
+      if (delayManager.delays.MISSION_CREATION_DELAY === 0 && !areDelaisStopped) {
         missionManager.restartMissionCreationDelay();
       }
     }
@@ -158,17 +158,36 @@ const Screen: FC = () => {
     console.log("triggers render. IsStopped: " + areDelaisStopped);
   }, [areDelaisStopped]);
 
+
+const crewsAtMissionHandler = (crew: Crew) => {
+  // Añado la crew a la lista de crews en missiones.
+  setCrewsAtMission([...crewsAtMission, crew]);
+  // Filtro la crew de las que estan dentro.
+  debugger;
+  let crewsFiltered =  [...crewsInside.filter(
+    c => {
+      
+      return c.id !== crew.id
+    }
+  )];
+  debugger;
+  setCrewsInside(
+    crewsFiltered
+  );
+}
+
   //funcion para Crew, que manda al equipo a la mission.
-  const sendCrewOnAMission = useCallback((crew: Crew) => {
-    // Añado la crew a la lista de crews en missiones.
-    setCrewsAtMission([...crewsAtMission, crew]);
-    // Filtro la crew de las que estan dentro.
-    setCrewsInside([...crewsInside.filter(c => c.id !== crew.id)]);
-  }, [crewsAtMission.length, crewsInside.length]);
+  const sendCrewOnAMission = (crew: Crew) => {
+//llamo a una funcion que se recompone.
+// si llamo a esta funcion, se llama a una instanci de la misma con valores obsoletos de los hooks.
+//No Funciona.
+    crewsAtMissionHandler(crew);
+  
+  };
+  // , [crewsAtMission.length, crewsInside.length]);
 
   const liberateTableFromCrew = useCallback((tableId: number) => {
     barGrid.liberateTableFromCrew(tableId);
-    totalCrewsGone.current++;
     // crewsAtMissions()
   }, [barGrid.getFreeTables().length, crewsInside.length]);
 

@@ -115,12 +115,14 @@ if(selectedMission.fights === undefined) debugger;
 
     stopMissionCreationDelay = () => {
         // this.mission_creation_delay = 0;
-        this.DelayManager.delays.MISSION_CREATION_DELAY = 0;
+        this.DelayManager.stopDelay("MISSION_CREATION_DELAY")
+        // this.DelayManager.delays.MISSION_CREATION_DELAY = 0;
     }
 
     restartMissionCreationDelay = () => {
         // this.mission_creation_delay = this.default_mission_creation_delay;
-        this.DelayManager.delays.MISSION_CREATION_DELAY = this.DelayManager.DEFAULT_DELAYS.MISSION_CREATION_DELAY;
+        this.DelayManager.startDelay("MISSION_CREATION_DELAY");
+        // this.DelayManager.delays.MISSION_CREATION_DELAY = this.DelayManager.DEFAULT_DELAYS.MISSION_CREATION_DELAY;
     }
 
     addLocationToMission = (mission: IMission) => {
