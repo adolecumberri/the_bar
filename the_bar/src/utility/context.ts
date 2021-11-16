@@ -95,7 +95,7 @@ urlsToLoad.forEach(({ name, src }) => {
 export let defaultImageContext: IImageContext = {
   archer: {
     name: "archer",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.hero2,
     xSize: 20,
     ySize: 20,
@@ -104,7 +104,7 @@ export let defaultImageContext: IImageContext = {
   },
   ninja: {
     name: "ninja",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.hero2,
     xSize: 20,
     ySize: 20,
@@ -113,7 +113,7 @@ export let defaultImageContext: IImageContext = {
   },
   berserker: {
     name: "berserker",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.hero1,
     xSize: 20,
     ySize: 20,
@@ -122,7 +122,7 @@ export let defaultImageContext: IImageContext = {
   },
   deffender: {
     name: "deffender",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.hero1,
     xSize: 20,
     ySize: 20,
@@ -131,7 +131,7 @@ export let defaultImageContext: IImageContext = {
   },
   fencer: {
     name: "fencer",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.hero3,
     xSize: 20,
     ySize: 20,
@@ -140,7 +140,7 @@ export let defaultImageContext: IImageContext = {
   },
   paladin: {
     name: "paladin",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.hero1,
     xSize: 20,
     ySize: 20,
@@ -149,7 +149,7 @@ export let defaultImageContext: IImageContext = {
   },
   sniper: {
     name: "sniper",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.hero2,
     xSize: 20,
     ySize: 20,
@@ -158,7 +158,7 @@ export let defaultImageContext: IImageContext = {
   },
   soldier: {
     name: "soldier",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.hero3,
     xSize: 20,
     ySize: 20,
@@ -176,7 +176,7 @@ export let defaultImageContext: IImageContext = {
   },
   // generalCrew: {
   //   name: "crew",
-  //   animationDir: "rgt",
+  //   animationDir: "right",
   //   img: imgs.thieve,
   //   xSize: 96,
   //   ySize: 96,
@@ -185,7 +185,7 @@ export let defaultImageContext: IImageContext = {
   // }
   crew: {
     name: "crew",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs.crew,
     xSize: 20,
     ySize: 20,
@@ -194,7 +194,7 @@ export let defaultImageContext: IImageContext = {
   },
   52: {
     name: "birdo",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs[52],
     xSize: 98,
     ySize: 98,
@@ -203,7 +203,7 @@ export let defaultImageContext: IImageContext = {
   },
   53: {
     name: "birdo+",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs[53],
     xSize: 98,
     ySize: 98,
@@ -212,7 +212,7 @@ export let defaultImageContext: IImageContext = {
   },
   59: {
     name: "dimitri",
-    animationDir: "rgt",
+    animationDir: "right",
     img: imgs[59],
     xSize: 98,
     ySize: 98,

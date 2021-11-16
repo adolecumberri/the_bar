@@ -299,8 +299,10 @@ const Screen: FC = () => {
           showInToolTip={showInToolTipWithTimer}
           // missionManager={missionManager}
           barGrid={barGrid as Grid}
+          crewsInside = {crewsInside} 
+          setCrewsInside = {setCrewsInside}
+
         // triggerRender={triggerRender}
-        // executeRenderLoop={executeRenderLoop}
         />
 
         <ToolTipGlobal hidden={toolTipContent === undefined}> {toolTipContent} </ToolTipGlobal>

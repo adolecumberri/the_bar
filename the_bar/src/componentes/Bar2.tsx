@@ -18,6 +18,7 @@ import { Chair, Table } from "../classes/GridBoxesTypes";
 import { MissionManager } from "../classes/Missions";
 import { IHero } from "../interfaces/Hero.Interface";
 import { Monster } from "../classes/Monster";
+import { Crew } from "../classes/Crew2";
 
 const useStyles = makeStyles(() => {
   return {
@@ -37,12 +38,15 @@ interface IBarProps {
   // missionManager: MissionManager;
   // // showInToolTip: Dispatch<SetStateAction<ReactNode>>,
   showInToolTip: any;
+  crewsInside: Crew[];
+  setCrewsInside: React.Dispatch<React.SetStateAction<Crew[]>>
 }
 
 const Bar: FC<IBarProps> = ({
   barGrid: { hashGrid: barGrid },
   // missionManager: { missions_displayed },
   showInToolTip,
+  crewsInside,
   // triggerRender,
 }) => {
   const { container, counter } = useStyles();
@@ -201,6 +205,50 @@ const Bar: FC<IBarProps> = ({
       </div>
     </>, [loadChairTooltip]);
 
+  const loadHeroTooltip = useCallback((hero: IHero) =>
+    <>
+      <div key={`tooltip-${hero.key}`}>
+
+        <div>
+          {hero.name} {hero.surname}
+        </div>
+        <div>
+          {hero.className}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <span>
+            hp: {hero.hp}
+          </span>
+          <span>
+            dmg: {hero.dmg}
+          </span>
+          <span>
+            crit: {hero.crit}
+          </span>
+          <span>
+            critDmg: {hero.critDmg}
+          </span>
+          <span>
+            def: {hero.def}
+          </span>
+          <span>
+            accuracy: {hero.accuracy}
+          </span>
+          <span>
+            evasion: {hero.evasion}
+          </span>
+          <span>
+            att_interval: {hero.att_interval}
+          </span>
+          <span>
+            reg: {hero.reg}
+          </span>
+        </div>
+
+      </div>
+    </>
+    , []);
+
   /* recursively draw each grid object */
   const _drawGrid = () => {
     let solution = [];
@@ -229,91 +277,6 @@ const Bar: FC<IBarProps> = ({
         case "chair": {
           let thisChair = barGrid[coord] as Chair;
 
-          // if (thisChair.isOccupied) {
-          //   //silla ocupada
-          //   let hero = thisChair.hero as IHero;
-          //   if (!hero) debugger;
-          //   let toolTip = <>
-          //     <div key={`tooltip-${barGrid[coord].key}`}>
-
-          //       <div>
-          //         {hero.name} {hero.surname}
-          //       </div>
-          //       <div>
-          //         {hero.className}
-          //       </div>
-          //       <div style={{ display: "flex", flexDirection: "column" }}>
-          //         <span>
-          //           hp: {hero.hp}
-          //         </span>
-          //         <span>
-          //           dmg: {hero.dmg}
-          //         </span>
-          //         <span>
-          //           crit: {hero.crit}
-          //         </span>
-          //         <span>
-          //           critDmg: {hero.critDmg}
-          //         </span>
-          //         <span>
-          //           def: {hero.def}
-          //         </span>
-          //         <span>
-          //           accuracy: {hero.accuracy}
-          //         </span>
-          //         <span>
-          //           evasion: {hero.evasion}
-          //         </span>
-          //         <span>
-          //           att_interval: {hero.att_interval}
-          //         </span>
-          //         <span>
-          //           reg: {hero.reg}
-          //         </span>
-          //       </div>
-
-          //     </div>
-          //   </>;
-          //   div = (<div key={`hero-${coord}`}>
-          //     <div
-          //       key={`table-${coord}`}
-          //       className=""
-          //       style={
-          //         {
-          //           ...divStyle,
-          //           overflow: "hidden",
-          //         } as any
-          //       }
-          //     >
-          //       <img
-          //         key={`img-${coord}`}
-          //         alt={`${hero.name}-${hero.surname}`}
-          //         src={(hero.img?.img as HTMLImageElement).src}
-          //         style={{
-          //           height: "100%",
-          //           position: "absolute",
-          //           animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
-          //           // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
-          //         }}
-          //         onMouseOver={() => { showInToolTip(toolTip) }}
-          //         onMouseOut={() => { showInToolTip(undefined) }}
-          //       />
-          //       {/* TODO: actualizar heroes y despues crear el ToolTipGlobal */}
-
-          //     </div>
-          //     {/* {
-          //         hoverHero === hero.id &&
-          //         (
-          //           showInToolTip(
-          //             showInToolTip
-          //           )
-          //         )
-
-          //       } */}
-
-          //   </div>
-          //   );
-          // } else {
           let toolTip = loadChairTooltip(thisChair);
           div = (
             <div
@@ -329,7 +292,6 @@ const Bar: FC<IBarProps> = ({
               onMouseOut={() => { showInToolTip(undefined) }}
             />
           );
-          // }
         }
 
           break;
@@ -364,6 +326,74 @@ const Bar: FC<IBarProps> = ({
     return solution;
   };
 
+
+  const _drawHeros = () => {
+    let solution: JSX.Element[] = [];
+
+    
+
+    crewsInside.forEach(crew => {
+
+      crew.heros.forEach(hero => {
+        //el grid que esta bajo la imagen del hero.
+        let correspondantGrid = barGrid[`${hero.coords.xCoord}-${hero.coords.yCoord}`];
+        let divStyle = {
+          position: "absolute",
+          width: correspondantGrid.width,
+          height: correspondantGrid.height,
+          top: hero.coords.y,
+          left: hero.coords.x,
+          border: "1px solid #bbbbbb",
+          imageRendering: "pixelated",
+        };
+        
+        //silla ocupada
+        if (!hero) debugger;
+        let toolTip = loadHeroTooltip(hero);
+        solution.push( (<div key={`hero-${hero.id}`}>
+          <div
+            key={`table-${crew.coords.x}-${crew.coords.y}`}
+            className=""
+            style={
+              {
+                ...divStyle,
+                overflow: "hidden",
+              } as any
+            }
+          >
+            <img
+              key={`img-${hero.id}`}
+              alt={`${hero.name}-${hero.surname}`}
+              src={(hero.img?.img as HTMLImageElement).src}
+              style={{
+                height: "100%",
+                position: "absolute",
+                animation: `iddle-${(correspondantGrid as Chair).dir} 1s steps(${hero.img.steps}) infinite`,
+                // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
+              }}
+              onMouseOver={() => { showInToolTip(toolTip) }}
+              onMouseOut={() => { showInToolTip(undefined) }}
+            />
+            {/* TODO: actualizar heroes y despues crear el ToolTipGlobal */}
+
+          </div>
+          {/* {
+        hoverHero === hero.id &&
+        (
+          showInToolTip(
+            showInToolTip
+          )
+        )
+
+      } */}
+
+        </div>
+        ));
+      })
+    })
+
+    return solution;
+  }
   // let missionsDisplayed = useCallback( () => {
   // }, [missions.length, pixelSize])
 
@@ -382,6 +412,7 @@ const Bar: FC<IBarProps> = ({
         <span className={counter}>{count}</span>
         {/* {_drawMissions()} */}
         {_drawGrid()}
+        {_drawHeros()}
       </div>
     </>
   );
