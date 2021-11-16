@@ -4,11 +4,11 @@ import './index.css';
 import './animations.css';
 import './fonts/04b03.woff2';
 import './fonts/ARCADECLASSIC.TTF';
-import Screen from './componentes/Screen';
+import Screen from './componentes/ScreenWithComponents';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Screen />
+    <Screen/>
   </React.StrictMode>,
   document.getElementById('root')
 );

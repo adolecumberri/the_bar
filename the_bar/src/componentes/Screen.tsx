@@ -79,18 +79,7 @@ const Screen: FC = () => {
   const [toolTipContent, setToolTipContent] = useState(undefined)
 
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
-  const create = useCallback(
-    (
-      assignMission: () => IMission,
-      liberateTableFromCrew: (tableId: number) => void,
-      sendCrewOnAMission: any,
-    ) => createCrew(
-      assignMission,
-      liberateTableFromCrew,
-      sendCrewOnAMission,
-      delayManager
-    ),
-    []);
+
 
   //set pixelSize
   useEffect(() => {
@@ -198,6 +187,18 @@ const crewsAtMissionHandler = (crew: Crew) => {
     return missionSelected;
   }, [missionManager.missions_displayed.length, crewsInside.length]);
 
+  const create = useCallback(
+    (
+      assignMission: () => IMission,
+      liberateTableFromCrew: (tableId: number) => void,
+      sendCrewOnAMission: any,
+    ) => createCrew(
+      assignMission,
+      liberateTableFromCrew,
+      sendCrewOnAMission,
+      delayManager
+    ),
+    [assignMission, liberateTableFromCrew, sendCrewOnAMission, delayManager]);
 
   //intervalo para añadir equipos a la puerta
   useInterval(() => {
