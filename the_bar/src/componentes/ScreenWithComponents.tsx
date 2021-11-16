@@ -12,7 +12,7 @@ import { THEME, CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
-import { createCrew, rand, uniqueID } from "../utility/Utility";
+import { rand, uniqueID } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
 import { Crew } from "../classes/Crew2";
 import { MissionManager } from "../classes/Missions";
@@ -106,28 +106,32 @@ const Screen: FC = () => {
     // setBarGrid(grid);
   }, [pixelSize]);
 
-//   // //when crewsAtDoor changes, re-starts delay used in the interval of creation.
-//   //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
-//   useEffect(() => {
-//     // menos de 5 equipos en puerta y mesas libres? activo el timer para crear grupos.
-//     if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0 && !areDelaisStopped) {
-//       delayManager.startDelay("CREW_CREATION_DELAY");
-//     }
+  //when crewsAtDoor changes, re-starts delay used in the interval of creation.
+  //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
+  useEffect(() => {
+    console.log("entro");
+    console.log(crewsAtDoor.length);
+    console.log(barGrid.getFreeTables().length);
+    console.log(!areDelaisStopped);
+    if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0 && !areDelaisStopped) {
+      // menos de 5 equipos en puerta Y mesas libres? activo el timer para crear grupos.
+      delayManager.startDelay("CREW_CREATION_DELAY"); 
+    }else {
+      delayManager.stopDelay("CREW_CREATION_DELAY");
+    }
 
-//     //no hay crews en la puerta? apago el timer para entrar. sino ro reinicio.
-//     if (crewsAtDoor.length === 0) {
-//       // delayManager.stopsEnterDelay();
-//       delayManager.stopDelay("ENTER_DELAY");
-//     } else {
-//       // delayManager.startEnterDelay();
-//       delayManager.startDelay("ENTER_DELAY");
+  
+    if (crewsAtDoor.length === 0) {
+        //no hay crews en la puerta? apago el timer para entrar. sino ro reinicio.
+      delayManager.stopDelay("ENTER_DELAY");
+    } else {   
+      delayManager.startDelay("ENTER_DELAY");
+    }
 
-//     }
+    //si entro aqui y el checkEnterDelay esta apagado, lo reinicio.
+    if (!delayManager.delays.ENTER_DELAY) delayManager.startDelay("ENTER_DELAY");
 
-//     //si entro aqui y el checkEnterDelay esta apagado, lo reinicio.
-//     if (!delayManager.delays.ENTER_DELAY) delayManager.startDelay("ENTER_DELAY");
-
-//   }, [crewsAtDoor.length, barGrid.getFreeTables().length, areDelaisStopped]);
+  }, [crewsAtDoor.length, barGrid.getFreeTables().length, areDelaisStopped, !!delayManager.delays.CREW_CREATION_DELAY]);
 
 //   //Mission controller.
 //   useEffect(() => {
@@ -186,41 +190,25 @@ const Screen: FC = () => {
 //     return missionSelected;
 //   }, [missionManager.missions_displayed.length, crewsInside.length]);
 
-//!TODO: estas funciones las debe controlar un componente.
-  const create = useCallback(
-    (
-      // assignMission: () => IMission,
-      // liberateTableFromCrew: (tableId: number) => void,
-      // sendCrewOnAMission: any,
-    ) => createCrew(
-      // assignMission,
-      // liberateTableFromCrew,
-      // sendCrewOnAMission,
-      delayManager
-    ),
-    [ delayManager]);
 
   //intervalo para añadir equipos a la puerta
   useInterval(() => {
-    
-    if (barGrid.getFreeTables().length === 0) {
+    console.log("interval", barGrid.getFreeTables().length, crewsAtDoor.length === 5);
+    if (barGrid.getFreeTables().length === 0 || crewsAtDoor.length === 5) {
       //No hay mesass? paro la llegada a la puerta
+      //TODO: no lanza trigger render. así que si no cambia un estado, realmente no se ve que se para
       delayManager.stopDelay("CREW_CREATION_DELAY");
 
     } else if (crewsAtDoor.length < 5) {
 
+      totalCrewsCreated.current++;
       //creo Crew
       let id = uniqueID();
       let newCrew = new Crew({ heroNum: rand(4, 2), id, delayManager });
       setCrewsAtDoor([...crewsAtDoor, newCrew ]);
       
-      totalCrewsCreated.current++;
       //delay random desde el minimo hasta el máximo tiempo de creación
       delayManager.startDelay("CREW_CREATION_DELAY");
-
-    } else if (crewsAtDoor.length === 5) {
-
-      delayManager.stopDelay("CREW_CREATION_DELAY");
 
     }
   },
@@ -289,7 +277,7 @@ const Screen: FC = () => {
   return (
     <>
       <StyleContext.Provider value={themeState}>
-        {/* <Debugger
+        <Debugger
           delay={delayManager.delays.CREW_CREATION_DELAY}
           enterDelay={delayManager.delays.ENTER_DELAY}
           missionDisplayDelay={delayManager.delays.MISSION_CREATION_DELAY}
@@ -305,7 +293,7 @@ const Screen: FC = () => {
           stopDelays={delayManager.stopDelays}
           startDelays={delayManager.startDelays}
           areDelaisStopped={areDelaisStopped}
-        /> */}
+        />
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar2
           showInToolTip={showInToolTipWithTimer}

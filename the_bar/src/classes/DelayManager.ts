@@ -34,8 +34,7 @@ class DelayManager {
 
     startDelay = (delayName: keyof IDelays) => {
         //si estan parados los timers nada. return void.
-        if (this.getIsStopped) return;
-debugger;
+        if (this.getIsStopped()) return;
         //si el timer es CREW_CREATION_DELAY, genero numero random.
         if (delayName === "CREW_CREATION_DELAY") {
             this.delays[delayName] = rand(
@@ -49,7 +48,7 @@ debugger;
 
     stopDelay = (delayName: keyof IDelays) => {
         //si estan parados los timers nada. return void.
-        if (this.getIsStopped) return;
+        if (this.getIsStopped()) return;
         //paro el timer que sea.
         this.delays[delayName] = 0;
     }

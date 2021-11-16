@@ -61,6 +61,7 @@ export function randName(gender: number) {
   ];
 };
 
+//TODO: remove.
 export const createCrewOld = (
   assignMission: () => IMission, 
   liberateTableFromCrew: (tableId: number) => void,
@@ -70,14 +71,6 @@ export const createCrewOld = (
   let id = uniqueID();
   let crew = new CrewOld({ heroNum: rand(4, 2), id, assignMission, liberateTableFromCrew, sendCrewOnAMission, delayManager });
   return crew;
-}
-
-export const createCrew = (
-  delayManager: DelayManager
-) => {
-  let id = uniqueID();
-  let crew = new Crew({ heroNum: rand(4, 2), id, delayManager });
-  return crew as any;
 }
 
 
