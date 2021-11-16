@@ -204,6 +204,7 @@ const Bar: FC<IBarProps> = ({
   /* recursively draw each grid object */
   const _drawGrid = () => {
     let solution = [];
+
     for (let coord in barGrid) {
 
       let divStyle = {
@@ -225,113 +226,115 @@ const Bar: FC<IBarProps> = ({
           );
           break;
 
-        case "chair":
+        case "chair": {
           let thisChair = barGrid[coord] as Chair;
 
-          if (thisChair.isOccupied) {
-            //silla ocupada
-            let hero = thisChair.hero as IHero;
-            if (!hero) debugger;
-            let toolTip = <>
-              <div key={`tooltip-${barGrid[coord].key}`}>
+          // if (thisChair.isOccupied) {
+          //   //silla ocupada
+          //   let hero = thisChair.hero as IHero;
+          //   if (!hero) debugger;
+          //   let toolTip = <>
+          //     <div key={`tooltip-${barGrid[coord].key}`}>
 
-                <div>
-                  {hero.name} {hero.surname}
-                </div>
-                <div>
-                  {hero.className}
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <span>
-                    hp: {hero.hp}
-                  </span>
-                  <span>
-                    dmg: {hero.dmg}
-                  </span>
-                  <span>
-                    crit: {hero.crit}
-                  </span>
-                  <span>
-                    critDmg: {hero.critDmg}
-                  </span>
-                  <span>
-                    def: {hero.def}
-                  </span>
-                  <span>
-                    accuracy: {hero.accuracy}
-                  </span>
-                  <span>
-                    evasion: {hero.evasion}
-                  </span>
-                  <span>
-                    att_interval: {hero.att_interval}
-                  </span>
-                  <span>
-                    reg: {hero.reg}
-                  </span>
-                </div>
+          //       <div>
+          //         {hero.name} {hero.surname}
+          //       </div>
+          //       <div>
+          //         {hero.className}
+          //       </div>
+          //       <div style={{ display: "flex", flexDirection: "column" }}>
+          //         <span>
+          //           hp: {hero.hp}
+          //         </span>
+          //         <span>
+          //           dmg: {hero.dmg}
+          //         </span>
+          //         <span>
+          //           crit: {hero.crit}
+          //         </span>
+          //         <span>
+          //           critDmg: {hero.critDmg}
+          //         </span>
+          //         <span>
+          //           def: {hero.def}
+          //         </span>
+          //         <span>
+          //           accuracy: {hero.accuracy}
+          //         </span>
+          //         <span>
+          //           evasion: {hero.evasion}
+          //         </span>
+          //         <span>
+          //           att_interval: {hero.att_interval}
+          //         </span>
+          //         <span>
+          //           reg: {hero.reg}
+          //         </span>
+          //       </div>
 
-              </div>
-            </>;
-            div = (<div key={`hero-${coord}`}>
-              <div
-                key={`table-${coord}`}
-                className=""
-                style={
-                  {
-                    ...divStyle,
-                    overflow: "hidden",
-                  } as any
-                }
-              >
-                <img
-                  key={`img-${coord}`}
-                  alt={`${hero.name}-${hero.surname}`}
-                  src={(hero.img?.img as HTMLImageElement).src}
-                  style={{
-                    height: "100%",
-                    position: "absolute",
-                    animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
-                    // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
-                  }}
-                  onMouseOver={() => { showInToolTip(toolTip) }}
-                  onMouseOut={() => { showInToolTip(undefined) }}
-                />
-                {/* TODO: actualizar heroes y despues crear el ToolTipGlobal */}
+          //     </div>
+          //   </>;
+          //   div = (<div key={`hero-${coord}`}>
+          //     <div
+          //       key={`table-${coord}`}
+          //       className=""
+          //       style={
+          //         {
+          //           ...divStyle,
+          //           overflow: "hidden",
+          //         } as any
+          //       }
+          //     >
+          //       <img
+          //         key={`img-${coord}`}
+          //         alt={`${hero.name}-${hero.surname}`}
+          //         src={(hero.img?.img as HTMLImageElement).src}
+          //         style={{
+          //           height: "100%",
+          //           position: "absolute",
+          //           animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
+          //           // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
+          //         }}
+          //         onMouseOver={() => { showInToolTip(toolTip) }}
+          //         onMouseOut={() => { showInToolTip(undefined) }}
+          //       />
+          //       {/* TODO: actualizar heroes y despues crear el ToolTipGlobal */}
 
-              </div>
-              {/* {
-                  hoverHero === hero.id &&
-                  (
-                    showInToolTip(
-                      showInToolTip
-                    )
-                  )
-  
-                } */}
+          //     </div>
+          //     {/* {
+          //         hoverHero === hero.id &&
+          //         (
+          //           showInToolTip(
+          //             showInToolTip
+          //           )
+          //         )
 
-            </div>
-            );
-          } else {
-            let toolTip = loadChairTooltip(thisChair);
-            div = (
-              <div
-                key={`table-${coord}`}
-                className=""
-                style={
-                  {
-                    ...divStyle,
-                    backgroundColor: barGrid[coord].color
-                  } as any
-                }
-                onMouseOver={() => { showInToolTip(toolTip) }}
-                onMouseOut={() => { showInToolTip(undefined) }}
-              />
-            );
-          }
+          //       } */}
+
+          //   </div>
+          //   );
+          // } else {
+          let toolTip = loadChairTooltip(thisChair);
+          div = (
+            <div
+              key={`table-${coord}`}
+              className=""
+              style={
+                {
+                  ...divStyle,
+                  backgroundColor: barGrid[coord].color
+                } as any
+              }
+              onMouseOver={() => { showInToolTip(toolTip) }}
+              onMouseOut={() => { showInToolTip(undefined) }}
+            />
+          );
+          // }
+        }
+
           break;
 
-        case "table":
+        case "table": {
           let thisTable = barGrid[coord] as Table;
           let toolTip = loadTableTooltip(thisTable);
 
@@ -351,6 +354,7 @@ const Bar: FC<IBarProps> = ({
               <span>{(barGrid[coord] as Table).tableId}</span>
             </div>
           );
+        }
           break;
       }
 

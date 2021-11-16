@@ -5,6 +5,7 @@ import { ICrewOld } from "../interfaces/Crew.interface";
 import { IHero } from "../interfaces/Hero.Interface";
 import { createRandomHero } from "../utility/hero.utils";
 import { DelayManager } from "./DelayManager";
+import { Table } from "./GridBoxesTypes";
 // import { createHero } from "../utility/Utility";
 
 export class Crew {
@@ -36,6 +37,8 @@ export class Crew {
 
     timer: NodeJS.Timeout | number = 0;
     DelayManager: DelayManager;
+
+    coords = {x: 0, y: 0, xCoord: 0, yCoord: 0} //x-y son col-row. xCoord-yCoord son pixeles desplazados.
     constructor(
         { 
             heroNum, 
@@ -50,17 +53,41 @@ export class Crew {
         this.DelayManager = delayManager;
     }
 
-    // asignTableByTableId = (tableId: number | null) => {
-    //     if (!TABLES_IDS.includes(tableId as number)) throw new Error(
-    //         `Error assigning tables. Id: ${tableId} is not contained in the tables register.`
-    //     );
-    //     //asigno mesa
-    //     this.tableId = tableId;
-    //     //ahora estan sentados.
-    //     this.setState(this.crewStatus.SITTED)
+    asignTableByTableId = (tableId: number | null) => {
+        if (!TABLES_IDS.includes(tableId as number)) throw new Error(
+            `Error assigning tables. Id: ${tableId} is not contained in the tables register.`
+        );
+        //asigno mesa
+        this.tableId = tableId;
+        //ahora estan sentados.
+        this.setState(this.crewStatus.SITTED)
 
 
-    // }
+    }
+
+    asignTableCoordinates = (table: Table) => {
+            this.coord = {
+                x: table.x,
+                y: table.y, 
+                xCoord: table.xCoord, 
+                yCoord: table.yCoord
+            };
+
+            this.heros.forEach((hero, i) => {
+                //añadir coordenadas al heroe.
+                let chair = table.chairs[i];
+                let coords = {
+                    x: chair.x,
+                    y: chair.y,
+                    xCoord: chair.xCoord,
+                    yCoord: chair.yCoord
+                }
+                hero.asignCoords( coords );
+            })
+            // table.chairs.forEach( chair => {
+            
+            // })
+    }
 
 
     setState = (state: number) => {

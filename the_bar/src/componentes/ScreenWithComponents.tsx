@@ -216,43 +216,43 @@ const Screen: FC = () => {
     delayManager.delays.CREW_CREATION_DELAY
   );
 
-//   //intervalo para entrar en el bar
-//   useInterval(() => {
-//     if (crewsAtDoor.length === 0) {
-//       // delayManager.stopsEnterDelay();
-//       delayManager.stopDelay("ENTER_DELAY");
-//       return;
-//     }
+  //intervalo para entrar en el bar
+  useInterval(() => {
+    if (crewsAtDoor.length === 0) {
+      delayManager.stopDelay("ENTER_DELAY");
+      return;
+    }
 
-//     let crewToEnter = crewsAtDoor[0];
-//     let freeTables = barGrid.getFreeTablesBySize(crewToEnter?.heroNum);
+    let crewToEnter = crewsAtDoor[0];
+    let freeTables = barGrid.getFreeTablesBySize(crewToEnter?.heroNum);
 
-//     if (freeTables.length === 0 && timesTryingToEnter === 3) {
-//       //No hay mesas y lo intentan 3 veces. El equipo se va.
-//       const crewGone = crewsAtDoor.shift();
-//       setCrewsGone([...crewsGone, crewGone as Crew]);
-//       setCrewsAtDoor([...crewsAtDoor]);
-//     } else if (freeTables.length === 0) {
+    if (freeTables.length === 0 && timesTryingToEnter === 3) {
+      //No hay mesas y lo intentan 3 veces. El equipo se va.
+      const crewGone = crewsAtDoor.shift();
+      setCrewsGone([...crewsGone, crewGone as Crew]);
+      setCrewsAtDoor([...crewsAtDoor]);
+    } else if (freeTables.length === 0) {
 
-//       //no hay mesas. intentos +1
-//       setTimesTryingToEnter(timesTryingToEnter + 1);
+      //no hay mesas. intentos +1
+      setTimesTryingToEnter(timesTryingToEnter + 1);
 
-//     } else if (freeTables.length > 0) {
-//       //hay mesa. el equipo entra
+    } else if (freeTables.length > 0) {
+      //hay mesa. el equipo entra
 
-//       //asigno equipo  mesa
-//       crewToEnter.asignTableByTableId(freeTables[0].tableId);
-//       //asigno mesa en equipo
-//       freeTables[0].occupyTable(crewToEnter);
-//       //Saco el equipo que entra de los grupos en la puerta.
-//       const crewEntering = crewsAtDoor.shift();
-//       //añado el equipo a los equipos de dentro.
-//       setCrewsInside([...crewsInside, crewEntering as Crew]);
-//       //reestructuro los equipos de la puerta con uno menos.
-//       setCrewsAtDoor([...crewsAtDoor]);
-//       // debugger;
-//     }
-//   }, delayManager.delays.ENTER_DELAY);
+      //asigno equipo  mesa
+      //TODO: esta funcion va controlada por un componente
+      // crewToEnter.asignTableByTableId(freeTables[0].tableId); //no meto la id, meto coordenadas
+      crewToEnter.asignTableCoordinates(freeTables[0]);
+      //asigno mesa en equipo
+      freeTables[0].occupyTable(crewToEnter);
+      //Saco el equipo que entra de los grupos en la puerta.
+      const crewEntering = crewsAtDoor.shift();
+      //añado el equipo a los equipos de dentro.
+      setCrewsInside([...crewsInside, crewEntering as Crew]);
+      //reestructuro los equipos de la puerta con uno menos.
+      setCrewsAtDoor([...crewsAtDoor]);
+    }
+  }, delayManager.delays.ENTER_DELAY);
 
 //   //intervalo para creación de misiones.
 //   useInterval(() => {

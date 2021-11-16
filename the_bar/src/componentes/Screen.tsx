@@ -207,12 +207,13 @@ const crewsAtMissionHandler = (crew: Crew) => {
       // delayManager.stopsCreationDelay();
       delayManager.stopDelay("CREW_CREATION_DELAY");
     } else if (crewsAtDoor.length < 5) {
-      setCrewsAtDoor([...crewsAtDoor,
-      create( //crea nuevo grupo en la puerta. Le paso funciones que van en la clase.
-        assignMission,
-        liberateTableFromCrew,
-        sendCrewOnAMission
-      )]);
+      //!eliminado para que no me de problemas cambiandolo todo.
+      // setCrewsAtDoor([...crewsAtDoor,
+      // create( //crea nuevo grupo en la puerta. Le paso funciones que van en la clase.
+      //   assignMission,
+      //   liberateTableFromCrew,
+      //   sendCrewOnAMission
+      // )]);
       totalCrewsCreated.current++;
       //delay random desde el minimo hasta el máximo tiempo de creación
       // delayManager.newCreationDelay();

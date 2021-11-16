@@ -1,5 +1,5 @@
 
-import { IImgAnimation } from '../interfaces';
+import { ICoord, IImgAnimation } from '../interfaces';
 import { IHero, IHeroCreated } from '../interfaces/Hero.Interface';
 import { createRandomStats } from '../utility/hero.utils';
 import { uniqueID } from '../utility/Utility';
@@ -9,6 +9,7 @@ import { uniqueID } from '../utility/Utility';
 export class Hero {
 	isDead: boolean = false;
 	[x: string]: string | number | IImgAnimation | boolean | any;
+    coords: ICoord = {x: 0, y: 0, xCoord: 0, yCoord: 0} //x-y son col-row. xCoord-yCoord son pixeles desplazados.
 	constructor() {
 		let newData = createRandomStats();
 		const keys = Object.keys(newData);
@@ -122,5 +123,11 @@ export class Hero {
 
     //function to load probabilities.
     getProb = () => Math.random();
+
+    asignCoords = (c: ICoord) => {
+        this.coords = {
+            ...c
+        }
+    }
 }
 
