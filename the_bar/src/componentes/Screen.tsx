@@ -12,7 +12,7 @@ import { THEME, CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
-import { createCrew, rand } from "../utility/Utility";
+import { createCrewOld, rand } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
 import { Crew } from "../classes/Crew";
 import { MissionManager } from "../classes/Missions";
@@ -192,7 +192,7 @@ const crewsAtMissionHandler = (crew: Crew) => {
       assignMission: () => IMission,
       liberateTableFromCrew: (tableId: number) => void,
       sendCrewOnAMission: any,
-    ) => createCrew(
+    ) => createCrewOld(
       assignMission,
       liberateTableFromCrew,
       sendCrewOnAMission,

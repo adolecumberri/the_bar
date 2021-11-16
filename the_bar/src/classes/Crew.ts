@@ -1,6 +1,7 @@
 
 import { TABLES_IDS } from "../constants/constants";
 import { IMission, ICrew } from "../interfaces";
+import { ICrewOld } from "../interfaces/Crew.interface";
 import { IHero } from "../interfaces/Hero.Interface";
 import { createRandomHero } from "../utility/hero.utils";
 import { DelayManager } from "./DelayManager";
@@ -21,11 +22,6 @@ export class Crew {
         HEALING: 8,
     }
 
-    // timers = {
-    //     SITTING: 1500,
-    //     SEARCHING_MISION: 1500,
-    //     GOING_OUT: 2000,
-    // }
 
     id: number = 0;
     heroNum: number;
@@ -51,8 +47,8 @@ export class Crew {
             liberateTableFromCrew,
             sendCrewOnAMission,
             delayManager,
-        }: ICrew) {
-        this.heroNum = heroNum;
+        }: ICrewOld) {
+        this.heroNum = heroNum; 
         for (let i = 0; i < heroNum; i++) {
             this.heros.push(createRandomHero());
         }

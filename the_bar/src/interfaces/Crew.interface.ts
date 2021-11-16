@@ -5,12 +5,20 @@ import { DelayManager } from "../classes/DelayManager";
 export interface ICrew { 
     heroNum: number, 
     id: number, 
+    // assignMission: () => IMission ,
+    // liberateTableFromCrew: (tableId: number) => void,
+    // sendCrewOnAMission: any //react setState function.
+    delayManager: DelayManager,
+};
+
+export interface ICrewOld { 
+    heroNum: number, 
+    id: number, 
     assignMission: () => IMission ,
     liberateTableFromCrew: (tableId: number) => void,
     sendCrewOnAMission: any //react setState function.
     delayManager: DelayManager,
 };
-
 // export interface ICrewStatus {
 //     WAITING_TO_ENTER: 1,
 //     ENTERING: 2,

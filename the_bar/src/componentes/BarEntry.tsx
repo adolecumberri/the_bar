@@ -71,9 +71,9 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
 //     return solution;
 //   }, [crewsAtDoor, pixelSize]);
 
-  let crewsInQueue = useCallback(() => {
+  let crewsInQueue = useCallback((crews: Crew[] ) => {
     let solution: any[] = [];
-    crewsAtDoor.forEach((hero, index) => {
+    crews.forEach((hero, index) => {
       let { img, steps } = barImgs.crew;
       if (!img) {
         debugger;
@@ -103,12 +103,12 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
     });
 
     return solution;
-  }, [crewsAtDoor.length, pixelSize]);
+  }, [ pixelSize, height]);
   
   return (
     <div style={container}>
       <span style={{ position: "absolute" }}>{count}</span>
-      {crewsInQueue()}
+      {crewsInQueue(crewsAtDoor)}
     </div>
   );
 };

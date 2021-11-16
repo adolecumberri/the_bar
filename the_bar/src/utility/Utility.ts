@@ -3,6 +3,7 @@ import { Crew } from "../classes/Crew";
 import { DelayManager } from "../classes/DelayManager";
 import { MALE_NAMES, SURNAMES, WOMAN_NAMES } from "../constants";
 import { IMission } from "../interfaces";
+import { createCrewData } from "./crew.utils";
 
 
 export class Counter {
@@ -59,7 +60,7 @@ export function randName(gender: number) {
   ];
 };
 
-export const createCrew = (
+export const createCrewOld = (
   assignMission: () => IMission, 
   liberateTableFromCrew: (tableId: number) => void,
   sendCrewOnAMission: any,
@@ -69,6 +70,15 @@ export const createCrew = (
   let crew = new Crew({ heroNum: rand(4, 2), id, assignMission, liberateTableFromCrew, sendCrewOnAMission, delayManager });
   return crew;
 }
+
+export const createCrew = (
+  delayManager: DelayManager
+) => {
+  let id = uniqueID();
+  let crew = createCrewData({ heroNum: rand(4, 2), id, delayManager });
+  return crew as any;
+}
+
 
 export const uniqueID = () => {
   return Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))

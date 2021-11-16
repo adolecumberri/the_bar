@@ -1,13 +1,13 @@
 
-import { Component } from "react";
 import { TABLES_IDS } from "../constants/constants";
 import { IMission, ICrew } from "../interfaces";
+import { ICrewOld } from "../interfaces/Crew.interface";
 import { IHero } from "../interfaces/Hero.Interface";
 import { createRandomHero } from "../utility/hero.utils";
-import { DelayManager } from "../classes/DelayManager";
+import { DelayManager } from "./DelayManager";
 // import { createHero } from "../utility/Utility";
 
-export class Crew extends Component{
+export class Crew {
     //tipado global para cualquier cosa.
     [x: string]: any;
 
@@ -22,11 +22,6 @@ export class Crew extends Component{
         HEALING: 8,
     }
 
-    // timers = {
-    //     SITTING: 1500,
-    //     SEARCHING_MISION: 1500,
-    //     GOING_OUT: 2000,
-    // }
 
     id: number = 0;
     heroNum: number;
@@ -39,55 +34,33 @@ export class Crew extends Component{
     mission: IMission | null = null;
     hasEntered: boolean = false;
 
-    // assignMission: () => IMission;
-    // liberateTableFromCrew: (tableId: number) => void;
-    // sendCrewOnAMission: any;
     timer: NodeJS.Timeout | number = 0;
     DelayManager: DelayManager;
     constructor(
         { 
             heroNum, 
             id, 
-            // assignMission,
-            // liberateTableFromCrew,
-            // sendCrewOnAMission,
             delayManager,
         }: ICrew) {
-          //  super del React.componentes.
-        super( { 
-            heroNum, 
-            id, 
-            // assignMission,
-            // liberateTableFromCrew,
-            // sendCrewOnAMission,
-            delayManager,
-        });
-
-        //crew los heroes del grupo aleatoriamente
-        this.heroNum = heroNum;
+        this.heroNum = heroNum; 
         for (let i = 0; i < heroNum; i++) {
             this.heros.push(createRandomHero());
         }
-
-        //asigno funciones y variables.
         this.id = id;
-        // this.assignMission = assignMission;
-        // this.liberateTableFromCrew = liberateTableFromCrew;
-        // this.sendCrewOnAMission = sendCrewOnAMission;
         this.DelayManager = delayManager;
     }
 
-    asignTableByTableId = (tableId: number | null) => {
-        if (!TABLES_IDS.includes(tableId as number)) throw new Error(
-            `Error assigning tables. Id: ${tableId} is not contained in the tables register.`
-        );
-        //asigno mesa
-        this.tableId = tableId;
-        //ahora estan sentados.
-        this.setState(this.crewStatus.SITTED)
+    // asignTableByTableId = (tableId: number | null) => {
+    //     if (!TABLES_IDS.includes(tableId as number)) throw new Error(
+    //         `Error assigning tables. Id: ${tableId} is not contained in the tables register.`
+    //     );
+    //     //asigno mesa
+    //     this.tableId = tableId;
+    //     //ahora estan sentados.
+    //     this.setState(this.crewStatus.SITTED)
 
 
-    }
+    // }
 
 
     setState = (state: number) => {
@@ -118,10 +91,10 @@ export class Crew extends Component{
                 this.onMission = false;
                 // console.log(`crew id-${this.id} is now Sitted.`);
 
-                this.wait({
-                    callback: () => this.setState(this.crewStatus.SEARCHING_MISION),
-                    time: this.DelayManager.delays.SITTING
-                });
+                // this.wait({
+                //     callback: () => this.setState(this.crewStatus.SEARCHING_MISION),
+                //     time: this.DelayManager.delays.SITTING
+                // });
 
                 break;
 
@@ -131,18 +104,18 @@ export class Crew extends Component{
                 this.onMission = false;
                 // console.log(`crew id-${this.id} is now Searching Mission.`);
 
-                this.wait({
-                    callback: () => {
-                        let newMission = this.assignMission();
-                        this.mission = newMission;
-                        //liberar mesa y liberar grid.
+                // this.wait({
+                //     callback: () => {
+                //         let newMission = this.assignMission();
+                //         this.mission = newMission;
+                //         //liberar mesa y liberar grid.
 
                         
 
-                        this.setState(this.crewStatus.GOING_OUT);
-                    },
-                    time: this.DelayManager.delays.SEARCHING_MISION
-                });
+                //         this.setState(this.crewStatus.GOING_OUT);
+                //     },
+                //     time: this.DelayManager.delays.SEARCHING_MISION
+                // });
 
                
                 break;
@@ -153,15 +126,15 @@ export class Crew extends Component{
                 this.onMission = true;
 
                 // console.log(`crew id-${this.id} is going out.`);
-                this.liberateTableFromCrew(this.tableId as number);
-                this.wait({
-                    callback: () => {
-                        //CODIGO PARA LIBERAR LAS MESAS.
-                        this.sendCrewOnAMission(this);
-                        // console.log("equipo fuera");
-                    },
-                    time: this.DelayManager.delays.GOING_OUT
-                });
+                // this.liberateTableFromCrew(this.tableId as number);
+                // this.wait({
+                //     callback: () => {
+                //         //CODIGO PARA LIBERAR LAS MESAS.
+                //         this.sendCrewOnAMission(this);
+                //         // console.log("equipo fuera");
+                //     },
+                //     time: this.DelayManager.delays.GOING_OUT
+                // });
                 break;
             case this.crewStatus.IN_A_MISSION:
                 this.areSitted = true;
@@ -180,22 +153,14 @@ export class Crew extends Component{
 
     }
 
-    wait = ({ callback, time }: { callback: any, time: number }) => {
-        clearTimeout(this.timer as number);
-        this.timer = setTimeout(() => {
+    // wait = ({ callback, time }: { callback: any, time: number }) => {
+    //     clearTimeout(this.timer as number);
+    //     this.timer = setTimeout(() => {
 
-            //tras esperar, pasan a estar buscando mision.
-            callback()
-            //tiempo que estaran sentados.
-        }, time);
-    }
-    // asignTable = ({tableId, isOccupied}: Table) =>{
-    //     if(!TABLES_IDS.includes(tableId as number))   throw new Error(
-    //         `Error assigning tables. Id: ${tableId} is not contained in the tables register.`
-    //       );
-    //     this.status = "sitted";
-    //     this.tableId = tableId;
-    //     this.areSitted = true;
+    //         //tras esperar, pasan a estar buscando mision.
+    //         callback()
+    //         //tiempo que estaran sentados.
+    //     }, time);
     // }
-
+  
 }

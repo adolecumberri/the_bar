@@ -186,44 +186,46 @@ const Screen: FC = () => {
 //     return missionSelected;
 //   }, [missionManager.missions_displayed.length, crewsInside.length]);
 
-//   const create = useCallback(
-//     (
-//       assignMission: () => IMission,
-//       liberateTableFromCrew: (tableId: number) => void,
-//       sendCrewOnAMission: any,
-//     ) => createCrew(
-//       assignMission,
-//       liberateTableFromCrew,
-//       sendCrewOnAMission,
-//       delayManager
-//     ),
-//     [assignMission, liberateTableFromCrew, sendCrewOnAMission, delayManager]);
+//!TODO: estas funciones las debe controlar un componente.
+  const create = useCallback(
+    (
+      // assignMission: () => IMission,
+      // liberateTableFromCrew: (tableId: number) => void,
+      // sendCrewOnAMission: any,
+    ) => createCrew(
+      // assignMission,
+      // liberateTableFromCrew,
+      // sendCrewOnAMission,
+      delayManager
+    ),
+    [ delayManager]);
 
-//   //intervalo para añadir equipos a la puerta
-//   useInterval(() => {
-//     //No hay mesass? paro la llegada a la puerta
-//     if (barGrid.getFreeTables().length === 0) {
-//       // delayManager.stopsCreationDelay();
-//       delayManager.stopDelay("CREW_CREATION_DELAY");
-//     } else if (crewsAtDoor.length < 5) {
-//       setCrewsAtDoor([...crewsAtDoor,
-//       create( //crea nuevo grupo en la puerta. Le paso funciones que van en la clase.
-//         assignMission,
-//         liberateTableFromCrew,
-//         sendCrewOnAMission
-//       )]);
-//       totalCrewsCreated.current++;
-//       //delay random desde el minimo hasta el máximo tiempo de creación
-//       // delayManager.newCreationDelay();
-//       delayManager.startDelay("CREW_CREATION_DELAY");
-//     } else if (crewsAtDoor.length === 5) {
-//       // delayManager.stopsCreationDelay();
-//       delayManager.stopDelay("CREW_CREATION_DELAY");
-//     }
-//   },
-//     // !delayManager.stopped ? crewCreationDelay : 0
-//     delayManager.delays.CREW_CREATION_DELAY
-//   );
+  //intervalo para añadir equipos a la puerta
+  useInterval(() => {
+    //No hay mesass? paro la llegada a la puerta
+    if (barGrid.getFreeTables().length === 0) {
+      // delayManager.stopsCreationDelay();
+      delayManager.stopDelay("CREW_CREATION_DELAY");
+    } else if (crewsAtDoor.length < 5) {
+        //! crear equipos puros de dato.
+      // setCrewsAtDoor([...crewsAtDoor,
+      // create( //crea nuevo grupo en la puerta. Le paso funciones que van en la clase.
+      //   assignMission,
+      //   liberateTableFromCrew,
+      //   sendCrewOnAMission
+      // )]);
+      totalCrewsCreated.current++;
+      //delay random desde el minimo hasta el máximo tiempo de creación
+      // delayManager.newCreationDelay();
+      delayManager.startDelay("CREW_CREATION_DELAY");
+    } else if (crewsAtDoor.length === 5) {
+      // delayManager.stopsCreationDelay();
+      delayManager.stopDelay("CREW_CREATION_DELAY");
+    }
+  },
+    // !delayManager.stopped ? crewCreationDelay : 0
+    delayManager.delays.CREW_CREATION_DELAY
+  );
 
 //   //intervalo para entrar en el bar
 //   useInterval(() => {
@@ -303,7 +305,7 @@ const Screen: FC = () => {
           startDelays={delayManager.startDelays}
           areDelaisStopped={areDelaisStopped}
         /> */}
-        {/* <BarEntry crewsAtDoor={crewsAtDoor} /> */}
+        <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar2
           showInToolTip={showInToolTipWithTimer}
           // missionManager={missionManager}

@@ -6,8 +6,6 @@ import { rand } from "../utility/Utility";
 
 class DelayManager {
 
-    
-
     // isStopped: boolean: false;
     setIsStopped: any;
     getIsStopped: any;
