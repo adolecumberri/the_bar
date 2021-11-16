@@ -8,7 +8,7 @@ import {
   IGridHash,
 } from "../interfaces";
 import { IHero } from "../interfaces/Hero.Interface";
-import { Crew } from "./Crew";
+import { Crew } from "./Crew2";
 
 class GridBox {
   // this: IGridBox;

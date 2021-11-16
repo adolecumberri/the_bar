@@ -7,7 +7,7 @@ import { FC, useCallback, useContext } from "react";
 import { ICrew } from "../interfaces";
 import { ImagesContext, loadBoxDimensions, StyleContext } from "../utility";
 import { useRenderCounter } from "../hooks";
-import { Crew } from "../classes/Crew";
+import { Crew } from "../classes/Crew2";
 
 
 interface barProps {

@@ -7,7 +7,7 @@ import { createRandomHero } from "../utility/hero.utils";
 import { DelayManager } from "./DelayManager";
 // import { createHero } from "../utility/Utility";
 
-export class Crew {
+export class CrewOld {
     //tipado global para cualquier cosa.
     [x: string]: any;
 

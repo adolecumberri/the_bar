@@ -14,7 +14,7 @@ import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
 import { createCrewOld, rand } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
-import { Crew } from "../classes/Crew";
+import { Crew } from "../classes/Crew2";
 import { MissionManager } from "../classes/Missions";
 import { DelayManager } from '../classes/DelayManager';
 

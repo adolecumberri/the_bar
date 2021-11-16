@@ -12,9 +12,9 @@ import { THEME, CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
-import { createCrew, rand } from "../utility/Utility";
+import { createCrew, rand, uniqueID } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
-import { Crew } from "../classes/Crew";
+import { Crew } from "../classes/Crew2";
 import { MissionManager } from "../classes/Missions";
 import { DelayManager } from '../classes/DelayManager';
 
@@ -202,25 +202,26 @@ const Screen: FC = () => {
 
   //intervalo para añadir equipos a la puerta
   useInterval(() => {
-    //No hay mesass? paro la llegada a la puerta
+    
     if (barGrid.getFreeTables().length === 0) {
-      // delayManager.stopsCreationDelay();
+      //No hay mesass? paro la llegada a la puerta
       delayManager.stopDelay("CREW_CREATION_DELAY");
+
     } else if (crewsAtDoor.length < 5) {
-        //! crear equipos puros de dato.
-      // setCrewsAtDoor([...crewsAtDoor,
-      // create( //crea nuevo grupo en la puerta. Le paso funciones que van en la clase.
-      //   assignMission,
-      //   liberateTableFromCrew,
-      //   sendCrewOnAMission
-      // )]);
+
+      //creo Crew
+      let id = uniqueID();
+      let newCrew = new Crew({ heroNum: rand(4, 2), id, delayManager });
+      setCrewsAtDoor([...crewsAtDoor, newCrew ]);
+      
       totalCrewsCreated.current++;
       //delay random desde el minimo hasta el máximo tiempo de creación
-      // delayManager.newCreationDelay();
       delayManager.startDelay("CREW_CREATION_DELAY");
+
     } else if (crewsAtDoor.length === 5) {
-      // delayManager.stopsCreationDelay();
+
       delayManager.stopDelay("CREW_CREATION_DELAY");
+
     }
   },
     // !delayManager.stopped ? crewCreationDelay : 0

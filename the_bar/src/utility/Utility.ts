@@ -1,5 +1,6 @@
 
-import { Crew } from "../classes/Crew";
+import { Crew } from "../classes/Crew2";
+import { CrewOld } from "../classes/Crew";
 import { DelayManager } from "../classes/DelayManager";
 import { MALE_NAMES, SURNAMES, WOMAN_NAMES } from "../constants";
 import { IMission } from "../interfaces";
@@ -67,7 +68,7 @@ export const createCrewOld = (
   delayManager: DelayManager
 ) => {
   let id = uniqueID();
-  let crew = new Crew({ heroNum: rand(4, 2), id, assignMission, liberateTableFromCrew, sendCrewOnAMission, delayManager });
+  let crew = new CrewOld({ heroNum: rand(4, 2), id, assignMission, liberateTableFromCrew, sendCrewOnAMission, delayManager });
   return crew;
 }
 
@@ -75,7 +76,7 @@ export const createCrew = (
   delayManager: DelayManager
 ) => {
   let id = uniqueID();
-  let crew = createCrewData({ heroNum: rand(4, 2), id, delayManager });
+  let crew = new Crew({ heroNum: rand(4, 2), id, delayManager });
   return crew as any;
 }
 
