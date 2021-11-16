@@ -25,6 +25,7 @@ export interface IGridChair extends IGridBox {  //TODO: no hace falta
   isOccupied: boolean;
   hero?: any; //todo: interfaz de heroe
   tableId: number;
+  id: number;
   dir: "left" | "top" | "right" | "bottom",
   
 }

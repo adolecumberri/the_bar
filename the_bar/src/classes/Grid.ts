@@ -19,44 +19,12 @@ export class Grid {
     this._initNewGridWithTables();
   }
 
-
   topMargin = 2;
-  //las keys son col-row OR X-Y
-  hashGrid: IGridHash = {};
+  hashGrid: IGridHash = {};//las keys son col-row OR X-Y
   tables: Table[] = [];
-  //cada vez que una funcion quiera triggear un render, ++ a esa variable. y lo controlo fuera.
-  //así el useEffect no checkea un objeto complejo.
-  triggerUpdate: number = 0;  // unused
   tablesInfo = TABLES_LOCATIONS; //constant used to create the tables and chairs;
-  _initNewVoidGrid = ({ rows, cols, t_width, t_height }: IGridConstructor) => {
 
-    const { height, width } = this._loadBoxDimensions()
-    let gridHash: IGridHash = {};
-
-    for (let Y = 0; Y <= rows - 1; Y++) {
-      for (let X = 0; X <= cols - 1; X++) {
-        //variables.
-        let key = `${X}-${Y}`;
-        let gridTypeConfig = GRID_CONFIG.void;
-
-        let gridBox = new Void({
-          key,
-          xCoord: X,
-          yCoord: Y,
-          x: X * width,
-          y: (Y + this.topMargin) * height,
-          width,
-          height,
-          ...gridTypeConfig
-        })
-
-        gridHash[key] = gridBox;
-
-      }
-    }
-    return gridHash;
-  };
-
+  //inicia la grid.
   _initNewGridWithTables = () => {
 
     //Load cell-height and cell-width
@@ -93,7 +61,7 @@ export class Grid {
       this.tables.push(gridBox);
 
       //Creación de sillas.
-      TABLES_LOCATIONS[i].chairs.forEach(({ col, row, dir }) => {
+      TABLES_LOCATIONS[i].chairs.forEach(({id: chairId, col, row, dir }) => {
         X = col;
         Y = row;
 
@@ -110,6 +78,7 @@ export class Grid {
           width,
           height,
           tableId,
+          id: chairId as number,
           dir,
           isOccupied: false,
           ...gridTypeConfig
@@ -177,9 +146,6 @@ export class Grid {
     let height = newHeight / (this.rows + this.topMargin);
     let keys = Object.keys(this.hashGrid);
 
-    // x: X * width,
-    // y: (Y + this.topMargin) * height,
-
     keys.forEach(key => {
       this.hashGrid[key].width = width;
       this.hashGrid[key].height = height;
@@ -187,44 +153,33 @@ export class Grid {
       this.hashGrid[key].y = (this.hashGrid[key].yCoord + this.topMargin) * height
     });
 
-
-
-    // return { width, height }
   }
 
-  highlight = (type: IGRID_VALUES) => {
-    for (let cell in this.hashGrid) {
-      if (this.hashGrid[cell].type === type) {
-        this.hashGrid[cell].color = "#e1e1e1";
-        this.hashGrid[cell].highlighted = true;
-      }
-      // else{
-      //   this.hashGrid[cell].color = this.hashGrid[cell].initialColor as string;
-      //   this.hashGrid[cell].highlighted = false;
-      // }
-    }
-    this.triggerUpdate = this.triggerUpdate + 1; //trigger updates
-  }
+  // highlight = (type: IGRID_VALUES) => {
+  //   for (let cell in this.hashGrid) {
+  //     if (this.hashGrid[cell].type === type) {
+  //       this.hashGrid[cell].color = "#e1e1e1";
+  //       this.hashGrid[cell].highlighted = true;
+  //     }
+  //   }
+  // }
 
-  stopHighlighting = () => {
-    for (let cell in this.hashGrid) {
-      this.hashGrid[cell].color = this.hashGrid[cell].initialColor as string;
-      this.hashGrid[cell].highlighted = false;
-    }
-    this.triggerUpdate = this.triggerUpdate + 1; //trigger updates
-  }
+  // stopHighlighting = () => {
+  //   for (let cell in this.hashGrid) {
+  //     this.hashGrid[cell].color = this.hashGrid[cell].initialColor as string;
+  //     this.hashGrid[cell].highlighted = false;
+  //   }
+  // }
 
   //returns table's hash key and chairs.
   getFreeTables = () => {
     let solution: Table[] = [];
-
 
     if (!this.hashGrid) debugger;
 
     //si no hay hashGrid, devuelve un array vacio
     if (!this.hashGrid) return [];
 
-    // debugger;
     TABLES_LOCATIONS.forEach(({ row, col, chairs }) => {
       let key = `${col}-${row}`;
       if (!(this.hashGrid[key] as Table)) debugger;
@@ -258,10 +213,10 @@ export class Grid {
 
   liberateTableFromCrew = (tableId: number) => {
     //consigo la key de la mesa seleccionada.
-    let tableKey = this.tables.find( t => t.tableId === tableId)?.key as string;
+    let tableKey = this.tables.find(t => t.tableId === tableId)?.key as string;
     //saco la mesa.
     let table = (this.hashGrid[tableKey] as Table);
-    if(!table) debugger;
+    if (!table) debugger;
 
     //desocupar
     table.unOccupyTable();

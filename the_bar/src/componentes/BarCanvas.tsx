@@ -38,7 +38,7 @@ interface IBarCanvasProps {
   executeRenderLoop?: any; //TODO: Experimental
 }
 
-const BarCanvas: FC<IBarCanvasProps> = ({ barGrid: { hashGrid: barGrid, triggerUpdate }, triggerRender }) => {
+const BarCanvas: FC<IBarCanvasProps> = ({ barGrid: { hashGrid: barGrid }, triggerRender }) => {
   const { container, counter } = useStyles();
 
   const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
@@ -51,7 +51,7 @@ const BarCanvas: FC<IBarCanvasProps> = ({ barGrid: { hashGrid: barGrid, triggerU
 
   useEffect(() => {
     _renderLoop();
-  }, [triggerRender])
+  }, [triggerRender]);
 
 
   useEffect(() => {

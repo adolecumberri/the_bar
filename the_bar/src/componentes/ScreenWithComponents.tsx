@@ -36,7 +36,6 @@ const Screen: FC = () => {
     rows: CANVAS_ROWS,
     t_height: canvasHeight * pixelSize,
     t_width: canvasWidth * pixelSize,
-
   }));
 
   //------CREWS.----------
@@ -81,31 +80,31 @@ const Screen: FC = () => {
   // const [intervalFlag, setIntervalFlag] = useState<boolean | null>(true); //TODO: unused
 
 
-//   //set pixelSize
-//   useEffect(() => {
-//     // debugger;
-//     //hay un bug, que windowWidth se lee como 0
-//     let newPixelSize = pixelSizeQuery(!!windowWidth ? windowWidth : window.innerWidth);
-//     if (newPixelSize !== pixelSize) {
-//       setPixelSize(newPixelSize);
-//     }
-//   }, [windowWidth]);
+  //set pixelSize
+  useEffect(() => {
+    // debugger;
+    //hay un bug, que windowWidth se lee como 0
+    let newPixelSize = pixelSizeQuery(!!windowWidth ? windowWidth : window.innerWidth);
+    if (newPixelSize !== pixelSize) {
+      setPixelSize(newPixelSize);
+    }
+  }, [windowWidth]);
 
-//   //set theme state
-//   useEffect(() => {
-//     setThemeState({ ...THEME, pixelSize });
-//   }, [pixelSize]);
+   //set theme state
+  useEffect(() => {
+    setThemeState({ ...THEME, pixelSize });
+  }, [pixelSize]);
 
-//   //grid initializer
-//   useEffect(() => {
-//     let t_width = canvasWidth * pixelSize,
-//       t_height = canvasHeight * pixelSize;
+   //grid initializer
+  useEffect(() => {
+    let t_width = canvasWidth * pixelSize,
+      t_height = canvasHeight * pixelSize;
 
-//     // let grid = new Grid();
-//     barGrid._updateBoxDimensions({ newWidth: t_width, newHeight: t_height });
+    // let grid = new Grid();
+    barGrid._updateBoxDimensions({ newWidth: t_width, newHeight: t_height });
 
-//     // setBarGrid(grid);
-//   }, [pixelSize]);
+    // setBarGrid(grid);
+  }, [pixelSize]);
 
 //   // //when crewsAtDoor changes, re-starts delay used in the interval of creation.
 //   //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
@@ -272,17 +271,17 @@ const Screen: FC = () => {
 //     }
 //   }, delayManager.delays.MISSION_CREATION_DELAY);
 
-
-//   let showInToolTipWithTimer = (value: any) => {
-//     clearTimeout(timer as number);
-//     if (value === undefined) {
-//       timer = setTimeout(() => {
-//         setToolTipContent(value)
-//       }, 1500);
-//     } else {
-//       setToolTipContent(value)
-//     }
-//   }
+//carga el tooltip tras un delay.
+  let showInToolTipWithTimer = (value: any) => {
+    clearTimeout(timer as number);
+    if (value === undefined) {
+      timer = setTimeout(() => {
+        setToolTipContent(value)
+      }, 1500);
+    } else {
+      setToolTipContent(value)
+    }
+  }
 
   return (
     <>
@@ -306,9 +305,9 @@ const Screen: FC = () => {
         /> */}
         {/* <BarEntry crewsAtDoor={crewsAtDoor} /> */}
         <Bar2
-          // showInToolTip={showInToolTipWithTimer}
+          showInToolTip={showInToolTipWithTimer}
           // missionManager={missionManager}
-          // barGrid={barGrid as Grid}
+          barGrid={barGrid as Grid}
         // triggerRender={triggerRender}
         // executeRenderLoop={executeRenderLoop}
         />

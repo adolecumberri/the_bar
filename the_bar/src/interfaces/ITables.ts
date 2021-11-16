@@ -1,5 +1,6 @@
 
 export interface IChair {
+    id?: number,
     col: number,
     row: number,
     dir: "top" | "right" | "left" | "bottom"; 

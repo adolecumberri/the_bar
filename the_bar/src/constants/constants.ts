@@ -61,11 +61,13 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 2,
     chairs: [
       {
+        id: 1,
         col: 1,
         row: 0,
         dir: "left"
       },
       {
+        id: 2,
         col: 3,
         row: 0,
         dir: "right"
@@ -79,16 +81,19 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 3,
     chairs: [
       {
+        id: 3,
         col: 0,
         row: 3,
         dir: "left"
       },
       {
+        id: 4,
         col: 1,
         row: 2,
         dir: "top"
       },
       {
+        id: 5,
         col: 2,
         row: 3,
         dir: "right"
@@ -102,11 +107,13 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 2,
     chairs: [
       {
+        id: 6,
         col: 0,
         row: 5,
         dir: "left"
       },
       {
+        id: 7,
         col: 2,
         row: 5,
         dir: "right"
@@ -120,11 +127,13 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 2,
     chairs: [
       {
+        id: 8,
         col: 4,
         row: 3,
         dir: "top"
       },
       {
+        id: 9,
         col: 4,
         row: 5,
         dir: "bottom"
@@ -138,11 +147,13 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 2,
     chairs: [
       {
+        id: 10,
         col: 6,
         row: 3,
         dir: "top"
       },
       {
+        id: 11,
         col: 6,
         row: 5,
         dir: "bottom"
@@ -156,21 +167,25 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 4,
     chairs: [
       {
+        id: 12,
         col: 9,
         row: 3,
         dir: "top"
       },
       {
+        id: 13,
         col: 8,
         row: 4,
         dir: "left"
       },
       {
+        id: 14,
         col: 9,
         row: 5,
         dir: "bottom"
       },
       {
+        id: 15,
         col: 10,
         row: 4,
         dir: "right"
@@ -184,21 +199,25 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 4,
     chairs: [
       {
+        id: 16,
         col: 13,
         row: 3,
         dir: "top"
       },
       {
+        id: 17,
         col: 12,
         row: 4,
         dir: "left"
       },
       {
+        id: 18,
         col: 13,
         row: 5,
         dir: "bottom"
       },
       {
+        id: 19,
         col: 14,
         row: 4,
         dir: "right"
@@ -212,11 +231,13 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 2,
     chairs: [
       {
+        id: 20,
         col: 15,
         row: 1,
         dir: "top"
       },
       {
+        id: 21,
         col: 15,
         row: 3,
         dir: "bottom"
@@ -230,16 +251,19 @@ const TABLES_LOCATIONS: ITable[] = [
     sites: 3,
     chairs: [
       {
+        id: 22,
         col: 12,
         row: 0,
         dir: "left"
       },
       {
+        id: 23,
         col: 13,
         row: 1,
         dir: "bottom"
       },
       {
+        id: 24,
         col: 14,
         row: 0,
         dir: "right"

@@ -65,7 +65,8 @@ class GridBox {
 
 class Chair extends GridBox {
   isOccupied?: boolean;
-  hero?: IHero;
+  // hero?: IHero;
+  id: number;
   tableId: number;
   dir: "left" | "top" | "right" | "bottom";
   constructor(arg: IGridChair) {
@@ -74,13 +75,16 @@ class Chair extends GridBox {
     this.isOccupied = arg.isOccupied || false;
     this.walkable = true;
     this.tableId = arg.tableId;
-    this.hero = undefined;
+    this.id = arg.id;
+    // this.hero = undefined;
   }
 
-  occupyChair = (hero: any) => {
+  occupyChair = (
+    // hero: any
+    ) => {
     this.walkable = false;
     this.isOccupied = true;
-    this.hero = hero;
+    // this.hero = hero;
   };
 
   releaseChair = () => {
@@ -131,7 +135,9 @@ class Table extends GridBox {
 
     //Al tener la misma longitud, puedo iterar por las sillas  y usar el index para los heroes.
     this.chairs.forEach((chair, i) => {
-      chair.occupyChair(heroes[i]);
+      chair.occupyChair(
+        // heroes[i]
+      );
     });
   }
 
