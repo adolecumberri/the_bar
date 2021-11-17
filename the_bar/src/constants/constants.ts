@@ -1,4 +1,5 @@
 import { IGridConfig, IGRID_TYPES, ITheme, IGRID_VALUES, ICoord } from "../interfaces";
+import { ICrewStatus } from "../interfaces/Crew.interface";
 import { ITable } from "../interfaces/ITables";
 
 const CANVAS_ROWS = 6;
@@ -337,7 +338,17 @@ const MISSION_LOCATION: ICoord[] = [
   },
 ];
 
-const CREW_STATUS = {
+const CREW_STATUS: {
+  WAITING_TO_ENTER: ICrewStatus;
+  SITTING: ICrewStatus;
+  SITTED: ICrewStatus;
+  SEARCHING_MISION: ICrewStatus;
+  GOING_OUT: ICrewStatus;
+  IN_A_MISSION: ICrewStatus;
+  HEALING: ICrewStatus;
+  GONE: ICrewStatus;
+  DEAD: ICrewStatus;
+} = {
   WAITING_TO_ENTER: "WAITING_TO_ENTER",
   SITTING: "SITTING",
   SITTED: "SITTED",

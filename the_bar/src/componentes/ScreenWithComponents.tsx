@@ -8,7 +8,7 @@ import { useWindowSize } from "../hooks";
 import { IMission, IPixelSize } from "../interfaces";
 import { Bar2, ToolTipGlobal } from ".";
 import { StyleContext } from "../utility";
-import { THEME, CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
+import { THEME, CANVAS_COLS, CANVAS_ROWS, CREW_STATUS } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
@@ -17,6 +17,7 @@ import useInterval from "../hooks/useInterval";
 import { Crew } from "../classes/Crew2";
 import { MissionManager } from "../classes/Missions";
 import { DelayManager } from '../classes/DelayManager';
+import { ICrewStatus } from "../interfaces/Crew.interface";
 
 // const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 let timer: NodeJS.Timeout | number = 0;
@@ -44,10 +45,15 @@ const Screen: FC = () => {
 
   // const [intervalsAllowed, setIntervalsAllowed] = useState(true);
 
-  const [crewsGone, setCrewsGone] = useState<Crew[]>([]);
-  const [crewsInside, setCrewsInside] = useState<Crew[]>([]);
-  const [crewsAtDoor, setCrewsAtDoor] = useState<Crew[]>([]);
-  const [crewsAtMission, setCrewsAtMission] = useState<Crew[]>([]);
+  const [crewsAtDoor, setCrewsAtDoor] = useState<Crew[]>([]); //crew status 1
+  const [crewsEntering, setCrewsEntering] = useState<Crew[]>([]); //crew status 2
+  const [crewsInside, setCrewsInside] = useState<Crew[]>([]);  // crew status 3
+  const [crewsSearchingMission, setCrewsSearchingMission] = useState<Crew[]>([]); //crew status 4
+  const [crewsGoingOut, setCrewsGoingOut] = useState<Crew[]>([]);  // crew status 5
+  const [crewsAtMission, setCrewsAtMission] = useState<Crew[]>([]); // crew status 6
+  const [crewsHealing, setCrewsHealing] = useState<Crew[]>([]); // crew status 7
+  const [crewsGone, setCrewsGone] = useState<Crew[]>([]); //crew status 8
+  
   // let {current: timesTryingToEnter} = useRef(0);
   let [timesTryingToEnter, setTimesTryingToEnter] = useState(0);
 
@@ -149,7 +155,7 @@ const Screen: FC = () => {
       solucion.push({id: c.id, status: c.status});
     });
     console.table(solucion);
-  }, 5000);
+  }, 1500);
 
 //   //triggers render.
 //   useEffect(() => {
@@ -235,6 +241,7 @@ const Screen: FC = () => {
     if (freeTables.length === 0 && timesTryingToEnter === 3) {
       //No hay mesas y lo intentan 3 veces. El equipo se va.
       const crewGone = crewsAtDoor.shift();
+      crewGone?.setState(CREW_STATUS.GONE as ICrewStatus); // les coloco el estado "GONE"
       setCrewsGone([...crewsGone, crewGone as Crew]);
       setCrewsAtDoor([...crewsAtDoor]);
     } else if (freeTables.length === 0) {
@@ -253,6 +260,7 @@ const Screen: FC = () => {
       freeTables[0].occupyTable(crewToEnter);
       //Saco el equipo que entra de los grupos en la puerta.
       const crewEntering = crewsAtDoor.shift();
+      crewEntering?.setState(CREW_STATUS.SITTED);
       //añado el equipo a los equipos de dentro.
       setCrewsInside([...crewsInside, crewEntering as Crew]);
       //reestructuro los equipos de la puerta con uno menos.
@@ -307,6 +315,8 @@ const Screen: FC = () => {
           barGrid={barGrid as Grid}
           crewsInside = {crewsInside} 
           setCrewsInside = {setCrewsInside}
+          crewsSearchingMission = {crewsSearchingMission}
+          setCrewsSearchingMission = {setCrewsSearchingMission}
 
         // triggerRender={triggerRender}
         />

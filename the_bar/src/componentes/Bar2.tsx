@@ -40,7 +40,9 @@ interface IBarProps {
   // // showInToolTip: Dispatch<SetStateAction<ReactNode>>,
   showInToolTip: any;
   crewsInside: Crew[];
-  setCrewsInside: React.Dispatch<React.SetStateAction<Crew[]>>
+  setCrewsInside: React.Dispatch<React.SetStateAction<Crew[]>>,
+  crewsSearchingMission: any,
+  setCrewsSearchingMission: any,
 }
 
 const Bar: FC<IBarProps> = ({

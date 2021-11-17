@@ -29,14 +29,14 @@ export class Crew {
     timer: NodeJS.Timeout | number = 0;
     DelayManager: DelayManager;
 
-    coords = {x: 0, y: 0, xCoord: 0, yCoord: 0} //x-y son col-row. xCoord-yCoord son pixeles desplazados.
+    coords = { x: 0, y: 0, xCoord: 0, yCoord: 0 } //x-y son col-row. xCoord-yCoord son pixeles desplazados.
     constructor(
-        { 
-            heroNum, 
-            id, 
+        {
+            heroNum,
+            id,
             delayManager,
         }: ICrew) {
-        this.heroNum = heroNum; 
+        this.heroNum = heroNum;
         for (let i = 0; i < heroNum; i++) {
             this.heros.push(createRandomHero());
         }
@@ -57,24 +57,24 @@ export class Crew {
     }
 
     asignTableCoordinates = (table: Table) => {
-            this.coord = {
-                x: table.x,
-                y: table.y, 
-                xCoord: table.xCoord, 
-                yCoord: table.yCoord
-            };
+        this.coord = {
+            x: table.x,
+            y: table.y,
+            xCoord: table.xCoord,
+            yCoord: table.yCoord
+        };
 
-            this.heros.forEach((hero, i) => {
-                //añadir coordenadas al heroe.
-                let chair = table.chairs[i];
-                let coords = {
-                    x: chair.x,
-                    y: chair.y,
-                    xCoord: chair.xCoord,
-                    yCoord: chair.yCoord
-                }
-                hero.asignCoords( coords );
-            })
+        this.heros.forEach((hero, i) => {
+            //añadir coordenadas al heroe.
+            let chair = table.chairs[i];
+            let coords = {
+                x: chair.x,
+                y: chair.y,
+                xCoord: chair.xCoord,
+                yCoord: chair.yCoord
+            }
+            hero.asignCoords(coords);
+        })
     }
 
 
@@ -99,10 +99,10 @@ export class Crew {
                 this.onMission = false;
                 // console.log(`crew id-${this.id} is now Sitted.`);
 
-                // this.wait({
-                //     callback: () => this.setState(this.crewStatus.SEARCHING_MISION),
-                //     time: this.DelayManager.delays.SITTING
-                // });
+                this.wait({
+                    callback: () => this.setState(this.crewStatus.SEARCHING_MISION),
+                    time: this.DelayManager.delays.SITTING
+                });
 
                 break;
 
@@ -118,14 +118,14 @@ export class Crew {
                 //         this.mission = newMission;
                 //         //liberar mesa y liberar grid.
 
-                        
+
 
                 //         this.setState(this.crewStatus.GOING_OUT);
                 //     },
                 //     time: this.DelayManager.delays.SEARCHING_MISION
                 // });
 
-               
+
                 break;
 
             case "GOING_OUT":
@@ -155,20 +155,26 @@ export class Crew {
                 this.hasEntered = true;
                 this.onMission = false;
                 break;
+
+            case "GONE":
+                this.areSitted = false;
+                this.hasEntered = true;
+                this.onMission = false;
+                break;
         }
 
         this.status = this.crewStatus[status] as ICrewStatus;
 
     }
 
-    // wait = ({ callback, time }: { callback: any, time: number }) => {
-    //     clearTimeout(this.timer as number);
-    //     this.timer = setTimeout(() => {
+    wait = ({ callback, time }: { callback: any, time: number }) => {
+        clearTimeout(this.timer as number);
+        this.timer = setTimeout(() => {
 
-    //         //tras esperar, pasan a estar buscando mision.
-    //         callback()
-    //         //tiempo que estaran sentados.
-    //     }, time);
-    // }
-  
+            //tras esperar, pasan a estar buscando mision.
+            callback()
+            //tiempo que estaran sentados.
+        }, time);
+    }
+
 }
