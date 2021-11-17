@@ -109,10 +109,6 @@ const Screen: FC = () => {
   //when crewsAtDoor changes, re-starts delay used in the interval of creation.
   //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
   useEffect(() => {
-    console.log("entro");
-    console.log(crewsAtDoor.length);
-    console.log(barGrid.getFreeTables().length);
-    console.log(!areDelaisStopped);
     if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0 && !areDelaisStopped) {
       // menos de 5 equipos en puerta Y mesas libres? activo el timer para crear grupos.
       delayManager.startDelay("CREW_CREATION_DELAY"); 
@@ -133,17 +129,17 @@ const Screen: FC = () => {
 
   }, [crewsAtDoor.length, barGrid.getFreeTables().length, areDelaisStopped, !!delayManager.delays.CREW_CREATION_DELAY]);
 
-//   //Mission controller.
-//   useEffect(() => {
-//     if (missionManager.missions_displayed.length >= 7) {
-//       missionManager.stopMissionCreationDelay();
-//     } else {
-//       if (delayManager.delays.MISSION_CREATION_DELAY === 0 && !areDelaisStopped) {
-//         missionManager.restartMissionCreationDelay();
-//       }
-//     }
+  //Mission controller.
+  useEffect(() => {
+    if (missionManager.missions_displayed.length >= 7) {
+      missionManager.stopMissionCreationDelay();
+    } else {
+      if (delayManager.delays.MISSION_CREATION_DELAY === 0 && !areDelaisStopped) {
+        missionManager.restartMissionCreationDelay();
+      }
+    }
 
-//   }, [missionManager.missions_displayed.length, areDelaisStopped])
+  }, [missionManager.missions_displayed.length, areDelaisStopped]);
 
 //   //triggers render.
 //   useEffect(() => {
@@ -193,7 +189,7 @@ const Screen: FC = () => {
 
   //intervalo para añadir equipos a la puerta
   useInterval(() => {
-    console.log("interval", barGrid.getFreeTables().length, crewsAtDoor.length === 5);
+    
     if (barGrid.getFreeTables().length === 0 || crewsAtDoor.length === 5) {
       //No hay mesass? paro la llegada a la puerta
       //TODO: no lanza trigger render. así que si no cambia un estado, realmente no se ve que se para
@@ -254,13 +250,13 @@ const Screen: FC = () => {
     }
   }, delayManager.delays.ENTER_DELAY);
 
-//   //intervalo para creación de misiones.
-//   useInterval(() => {
-//     if (missionManager.missions_displayed.length < missionManager.MAX_NUMBER_OF_MISSIONS_DISPLAYED) {
-//       missionManager.displayMission();
-//       totalMissiosnCreated.current++;
-//     }
-//   }, delayManager.delays.MISSION_CREATION_DELAY);
+  //intervalo para creación de misiones.
+  useInterval(() => {
+    if (missionManager.missions_displayed.length < missionManager.MAX_NUMBER_OF_MISSIONS_DISPLAYED) {
+      missionManager.displayMission();
+      totalMissiosnCreated.current++;
+    }
+  }, delayManager.delays.MISSION_CREATION_DELAY);
 
 //carga el tooltip tras un delay.
   let showInToolTipWithTimer = (value: any) => {
@@ -297,7 +293,7 @@ const Screen: FC = () => {
         <BarEntry crewsAtDoor={crewsAtDoor} />
         <Bar2
           showInToolTip={showInToolTipWithTimer}
-          // missionManager={missionManager}
+          missionManager={missionManager}
           barGrid={barGrid as Grid}
           crewsInside = {crewsInside} 
           setCrewsInside = {setCrewsInside}

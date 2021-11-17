@@ -84,9 +84,6 @@ export class Crew {
                 }
                 hero.asignCoords( coords );
             })
-            // table.chairs.forEach( chair => {
-            
-            // })
     }
 
 
