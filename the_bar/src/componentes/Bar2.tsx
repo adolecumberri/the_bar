@@ -244,13 +244,12 @@ const Bar: FC<IBarProps> = ({
             className=""
             style={{ ...divStyle } as any}
             onMouseOver={() => { showInToolTip(toolTip) }}
-            // onMouseOut={() => { showInToolTip(undefined) }}
+            onMouseOut={() => { showInToolTip(undefined) }}
           >
           </div >
         );
 
         // el propio jsx.element necesita una key en las propiedades.
-        // div.props["key"] = `mission-container-${i}`
         solution.push(div);
       });
 

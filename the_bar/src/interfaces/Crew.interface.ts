@@ -2,19 +2,19 @@ import { IMission } from ".";
 import { DelayManager } from "../classes/DelayManager";
 
 
-export interface ICrew { 
-    heroNum: number, 
-    id: number, 
+export interface ICrew {
+    heroNum: number,
+    id: number,
     // assignMission: () => IMission ,
     // liberateTableFromCrew: (tableId: number) => void,
     // sendCrewOnAMission: any //react setState function.
     delayManager: DelayManager,
 };
 
-export interface ICrewOld { 
-    heroNum: number, 
-    id: number, 
-    assignMission: () => IMission ,
+export interface ICrewOld {
+    heroNum: number,
+    id: number,
+    assignMission: () => IMission,
     liberateTableFromCrew: (tableId: number) => void,
     sendCrewOnAMission: any //react setState function.
     delayManager: DelayManager,
@@ -30,11 +30,26 @@ export interface ICrewOld {
 // }
 
 
-export type ICrewStatus =
-    "WAITING_TO_ENTER" |
-    "ENTERING" |
+export type ICrewStatus = "WAITING_TO_ENTER" |
     "SITTING" |
     "SITTED" |
     "SEARCHING_MISION" |
+    "GOING_OUT" |
     "IN_A_MISSION" |
-    "HEALING";
+    "HEALING" |
+    "GONE" |
+    "DEAD";
+
+
+
+
+
+    // WAITING_TO_ENTER: string;
+    // SITTING: string;
+    // SITTED: string;
+    // SEARCHING_MISION: string;
+    // GOING_OUT: string;
+    // IN_A_MISSION: string;
+    // HEALING: string;
+    // GONE: string;
+    // DEAD: string;

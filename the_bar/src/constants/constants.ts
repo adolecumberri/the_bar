@@ -335,7 +335,19 @@ const MISSION_LOCATION: ICoord[] = [
     x: 1,
     y: 10
   },
-]
+];
+
+const CREW_STATUS = {
+  WAITING_TO_ENTER: "WAITING_TO_ENTER",
+  SITTING: "SITTING",
+  SITTED: "SITTED",
+  SEARCHING_MISION: "SEARCHING_MISION",
+  GOING_OUT: "GOING_OUT",
+  IN_A_MISSION: "IN_A_MISSION",
+  HEALING: "HEALING",
+  GONE: "GONE",
+  DEAD: "DEAD",
+}
 
 //TODO: sustituir esta constante por un objeto funcional.
 // const MISSIONS_INFO = {
@@ -360,4 +372,5 @@ export {
   CANVAS_ROWS,
   CANVAS_COLS,
   MONSTERS_VARIATION,
+  CREW_STATUS,
 };

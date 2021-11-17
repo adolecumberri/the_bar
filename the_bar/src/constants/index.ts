@@ -8,6 +8,7 @@ import {
   THEME,
   TILE_SIZE,
   MONSTERS_VARIATION,
+  CREW_STATUS,
 } from "./constants";
 
 import HERO_STATS from './hero_stats';
@@ -35,4 +36,5 @@ export {
   VARIATION,
   MISSIONS,
   MONSTERS_VARIATION,
+  CREW_STATUS,
 };

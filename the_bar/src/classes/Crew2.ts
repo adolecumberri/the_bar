@@ -1,7 +1,7 @@
 
-import { TABLES_IDS } from "../constants/constants";
+import { TABLES_IDS, CREW_STATUS } from "../constants/constants";
 import { IMission, ICrew } from "../interfaces";
-import { ICrewOld } from "../interfaces/Crew.interface";
+import { ICrewOld, ICrewStatus } from "../interfaces/Crew.interface";
 import { IHero } from "../interfaces/Hero.Interface";
 import { createRandomHero } from "../utility/hero.utils";
 import { DelayManager } from "./DelayManager";
@@ -12,22 +12,13 @@ export class Crew {
     //tipado global para cualquier cosa.
     [x: string]: any;
 
-    crewStatus = {
-        WAITING_TO_ENTER: 1,
-        ENTERING: 2,
-        SITTING: 3,
-        SITTED: 4,
-        SEARCHING_MISION: 5,
-        GOING_OUT: 6,
-        IN_A_MISSION: 7,
-        HEALING: 8,
-    }
+    crewStatus = CREW_STATUS;
 
 
     id: number = 0;
     heroNum: number;
     heros: IHero[] = [];
-    status: number = this.crewStatus.WAITING_TO_ENTER;
+    status: ICrewStatus = this.crewStatus.WAITING_TO_ENTER as ICrewStatus;
     tableId: number | null = null;
     areSitted: boolean = false;
     onMission: boolean = false;
@@ -60,7 +51,7 @@ export class Crew {
         //asigno mesa
         this.tableId = tableId;
         //ahora estan sentados.
-        this.setState(this.crewStatus.SITTED)
+        this.setState(this.crewStatus.SITTED as ICrewStatus)
 
 
     }
@@ -87,29 +78,22 @@ export class Crew {
     }
 
 
-    setState = (state: number) => {
+    setState = (status: ICrewStatus) => {
 
-        switch (state) {
-            case this.crewStatus.WAITING_TO_ENTER:
+        switch (status) {
+            case "WAITING_TO_ENTER":
                 this.areSitted = false;
                 this.hasEntered = false;
                 this.onMission = false;
                 break;
 
-            case this.crewStatus.ENTERING:
-
-                this.areSitted = false;
-                this.hasEntered = false;
-                this.onMission = false;
-                break;
-
-            case this.crewStatus.SITTING:
+            case "SITTING":
                 this.areSitted = false;
                 this.hasEntered = true;
                 this.onMission = false;
                 break;
 
-            case this.crewStatus.SITTED:
+            case "SITTED":
                 this.areSitted = true;
                 this.hasEntered = true;
                 this.onMission = false;
@@ -122,7 +106,7 @@ export class Crew {
 
                 break;
 
-            case this.crewStatus.SEARCHING_MISION:
+            case "SEARCHING_MISION":
                 this.areSitted = true;
                 this.hasEntered = true;
                 this.onMission = false;
@@ -144,7 +128,7 @@ export class Crew {
                
                 break;
 
-            case this.crewStatus.GOING_OUT:
+            case "GOING_OUT":
                 this.areSitted = false;
                 this.hasEntered = true;
                 this.onMission = true;
@@ -160,20 +144,20 @@ export class Crew {
                 //     time: this.DelayManager.delays.GOING_OUT
                 // });
                 break;
-            case this.crewStatus.IN_A_MISSION:
+            case "IN_A_MISSION":
                 this.areSitted = true;
                 this.hasEntered = true;
                 this.onMission = true;
                 break;
 
-            case this.crewStatus.HEALING:
+            case "HEALING":
                 this.areSitted = true;
                 this.hasEntered = true;
                 this.onMission = false;
                 break;
         }
 
-        this.status = state;
+        this.status = this.crewStatus[status] as ICrewStatus;
 
     }
 

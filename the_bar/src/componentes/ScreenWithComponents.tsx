@@ -141,6 +141,16 @@ const Screen: FC = () => {
 
   }, [missionManager.missions_displayed.length, areDelaisStopped]);
 
+
+  useInterval(() => { 
+    console.clear();
+    let solucion:any[] = [];
+    crewsInside.forEach( c => {
+      solucion.push({id: c.id, status: c.status});
+    });
+    console.table(solucion);
+  }, 5000);
+
 //   //triggers render.
 //   useEffect(() => {
 //     console.log("triggers render. IsStopped: " + areDelaisStopped);
