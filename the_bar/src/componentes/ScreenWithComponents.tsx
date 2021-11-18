@@ -148,14 +148,36 @@ const Screen: FC = () => {
   }, [missionManager.missions_displayed.length, areDelaisStopped]);
 
 
+  //voy a checkear los heroes.
   useInterval(() => { 
-    console.clear();
+    // console.clear();
     let solucion:any[] = [];
-    crewsInside.forEach( c => {
+    let crewsInsideCloned = [...crewsInside];
+
+    crewsInsideCloned.forEach( (c,i,o) => {
+      if(c.status === CREW_STATUS.SEARCHING_MISION){
+        console.log("este crew busca mision: "+c.id);
+
+        setTimeout( ( )=> {
+          console.log("estoy en el callback del timeout");
+          let missionSelected = missionManager.getMissionDisplayed();
+          c.setMissionById( missionSelected.id );
+          c.setState(CREW_STATUS.IN_A_MISSION);
+
+        //   .splice(
+        //     Math.floor(rand(this.mission_location_available.length - 1)),
+        //     1
+        // )[0];
+
+       let  crewOnMission = o.splice( i, 1)[0];
+       setCrewsAtMission([...crewsAtMission, crewOnMission]);
+
+        }, 7000);
+      }
       solucion.push({id: c.id, status: c.status});
     });
     console.table(solucion);
-  }, 1500);
+  }, 1500); //
 
 //   //triggers render.
 //   useEffect(() => {
@@ -195,12 +217,13 @@ const Screen: FC = () => {
 //     crewsAtMissions()
 //   }, [barGrid.getFreeTables().length, crewsInside.length]);
 
-//   //funcion pasada al equipo, para asignarles una mision desde el mission Manager
-//   const assignMission = useCallback(() => {
-//     //doy una mision
-//     let missionSelected = missionManager.getMissionDisplayed();
-//     return missionSelected;
-//   }, [missionManager.missions_displayed.length, crewsInside.length]);
+//! creo que esto sobra.
+  //funcion pasada al equipo, para asignarles una mision desde el mission Manager
+  // const assignMission = useCallback(() => {
+  //   //doy una mision
+  //   let missionSelected = missionManager.getMissionDisplayed();
+  //   return missionSelected;
+  // }, [missionManager.missions_displayed.length, crewsInside.length]);
 
 
   //intervalo para añadir equipos a la puerta

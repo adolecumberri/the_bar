@@ -172,8 +172,6 @@ if(selectedMission.fights === undefined) debugger;
         //Reestructuro mission_displayed para repintarla.
         this.missions_displayed = [...this.missions_displayed];
 
-   
-
         return selectedMission;
     }
     

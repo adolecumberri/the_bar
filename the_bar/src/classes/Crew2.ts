@@ -22,7 +22,7 @@ export class Crew {
     tableId: number | null = null;
     areSitted: boolean = false;
     onMission: boolean = false;
-    // missionId: number | null = null;
+    missionId: number | null = null;
     mission: IMission | null = null;
     hasEntered: boolean = false;
 
@@ -165,6 +165,10 @@ export class Crew {
 
         this.status = this.crewStatus[status] as ICrewStatus;
 
+    }
+
+    setMissionById = (id: number) => {
+        this.missionId = id;
     }
 
     wait = ({ callback, time }: { callback: any, time: number }) => {
