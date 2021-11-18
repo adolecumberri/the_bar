@@ -77,3 +77,12 @@ export const createCrewOld = (
 export const uniqueID = () => {
   return Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))
 };
+
+
+export const mergeArraysByProp = (arr1: any[],arr2: any[], prop: string) =>{
+  return arr1.map((item,i) => { 
+    return  item[prop] === arr2[i][prop] &&
+        Object.assign({},item,arr2[i])
+     
+  })
+}

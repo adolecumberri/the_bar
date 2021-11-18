@@ -160,18 +160,20 @@ const Screen: FC = () => {
 
         setTimeout( ( )=> {
           console.log("estoy en el callback del timeout");
-          let missionSelected = missionManager.getMissionDisplayed();
-          c.setMissionById( missionSelected.id );
-          c.setState(CREW_STATUS.IN_A_MISSION);
+          if(missionManager.missions_displayed.length > 0){
+            //hay misiones.
+            let missionSelected = missionManager.getMissionDisplayed(); // saco mision.
+            c.setMission( missionSelected ); // añado la mision al equipo.
+            c.setState(CREW_STATUS.IN_A_MISSION); // state: in a mission.
+            let  crewOnMission = o.splice( i, 1)[0]; //removed element from original array.
 
-        //   .splice(
-        //     Math.floor(rand(this.mission_location_available.length - 1)),
-        //     1
-        // )[0];
-
-       let  crewOnMission = o.splice( i, 1)[0];
-       setCrewsAtMission([...crewsAtMission, crewOnMission]);
-
+            //TODO: corregir los arrays.
+            setCrewsAtMission([...crewsAtMission, crewOnMission]); //added to "crews in a mission" state.
+          }else{
+            //no hay misiones. no pasa nada.
+          }
+          //no tengo claro si esto reestructurará bien el array.
+          setCrewsInside( [...crewsInsideCloned] );
         }, 7000);
       }
       solucion.push({id: c.id, status: c.status});
