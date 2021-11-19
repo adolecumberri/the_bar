@@ -6,6 +6,7 @@ import { IHero } from "../interfaces/Hero.Interface";
 import { createRandomHero } from "../utility/hero.utils";
 import { DelayManager } from "./DelayManager";
 import { Table } from "./GridBoxesTypes";
+import { MissionManager } from "./Missions";
 // import { createHero } from "../utility/Utility";
 
 export class Crew {
@@ -27,13 +28,14 @@ export class Crew {
 
     timer: NodeJS.Timeout | number = 0;
     DelayManager: DelayManager;
-
+    MissionManager: MissionManager;
     coords = { x: 0, y: 0, xCoord: 0, yCoord: 0 } //x-y son col-row. xCoord-yCoord son pixeles desplazados.
     constructor(
         {
             heroNum,
             id,
             delayManager,
+            missionManager
         }: ICrew) {
         this.heroNum = heroNum;
         for (let i = 0; i < heroNum; i++) {
@@ -41,6 +43,7 @@ export class Crew {
         }
         this.id = id;
         this.DelayManager = delayManager;
+        this.MissionManager = missionManager;
     }
 
     asignTableByTableId = (tableId: number | null) => {
@@ -111,6 +114,15 @@ export class Crew {
                 this.onMission = false;
                 // console.log(`crew id-${this.id} is now Searching Mission.`);
 
+
+                this.wait({
+                    callback: () => {
+
+                    },
+                    time: this.DelayManager.delays.SEARCHING_MISION
+                });
+
+
                 // this.wait({
                 //     callback: () => {
                 //         let newMission = this.assignMission();
@@ -144,7 +156,7 @@ export class Crew {
                 // });
                 break;
             case "IN_A_MISSION":
-                this.areSitted = true;
+                this.areSitted = false;
                 this.hasEntered = true;
                 this.onMission = true;
                 break;
@@ -168,6 +180,7 @@ export class Crew {
 
     setMission = (mission: IMission) => {
         this.mission = mission;
+        
     }
 
     wait = ({ callback, time }: { callback: any, time: number }) => {

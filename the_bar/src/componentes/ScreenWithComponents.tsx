@@ -155,7 +155,8 @@ const Screen: FC = () => {
     let crewsInsideCloned = [...crewsInside];
 
     crewsInsideCloned.forEach( (c,i,o) => {
-      if(c.status === CREW_STATUS.SEARCHING_MISION){
+      if(c.status === CREW_STATUS.SEARCHING_MISION && c.mission !== null){
+        console.log("buscan mision y la tienen");
         console.log("este crew busca mision: "+c.id);
 
         setTimeout( ( )=> {
@@ -176,7 +177,7 @@ const Screen: FC = () => {
           setCrewsInside( [...crewsInsideCloned] );
         }, 7000);
       }
-      solucion.push({id: c.id, status: c.status});
+      solucion.push({id: c.id, status: c.status, mission: !!c.mission});
     });
     console.table(solucion);
   }, 1500); //
