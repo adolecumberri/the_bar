@@ -102,13 +102,13 @@ export class Crew {
                 // console.log(`crew id-${this.id} is now Sitted.`);
 
                 this.wait({
-                    callback: () => this.setState(this.crewStatus.SEARCHING_MISION),
+                    callback: () => this.setState(this.crewStatus.SEARCHING_MISSION),
                     time: this.DelayManager.delays.SITTING
                 });
 
                 break;
 
-            case "SEARCHING_MISION":
+            case "SEARCHING_MISSION":
                 this.areSitted = true;
                 this.hasEntered = true;
                 this.onMission = false;
@@ -117,9 +117,11 @@ export class Crew {
 
                 this.wait({
                     callback: () => {
-
+                        let missionSelected = this.MissionManager.getMissionDisplayed(); // saco mision.
+                        this.setMission( missionSelected ); // añado la mision al equipo.
+                        this.setState(CREW_STATUS.IN_A_MISSION); // state: in a mission.
                     },
-                    time: this.DelayManager.delays.SEARCHING_MISION
+                    time: this.DelayManager.delays.SEARCHING_MISSION
                 });
 
 
@@ -133,7 +135,7 @@ export class Crew {
 
                 //         this.setState(this.crewStatus.GOING_OUT);
                 //     },
-                //     time: this.DelayManager.delays.SEARCHING_MISION
+                //     time: this.DelayManager.delays.SEARCHING_MISSION
                 // });
 
 

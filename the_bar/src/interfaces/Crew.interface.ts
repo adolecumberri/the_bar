@@ -26,7 +26,7 @@ export interface ICrewOld {
 //     ENTERING: 2,
 //     SITTING: 3,
 //     SITTED: 4,
-//     SEARCHING_MISION: 5,
+//     SEARCHING_MISSION: 5,
 //     IN_A_MISSION: 6,
 //     HEALING: 7,
 // }
@@ -35,7 +35,7 @@ export interface ICrewOld {
 export type ICrewStatus = "WAITING_TO_ENTER" |
     "SITTING" |
     "SITTED" |
-    "SEARCHING_MISION" |
+    "SEARCHING_MISSION" |
     "GOING_OUT" |
     "IN_A_MISSION" |
     "HEALING" |
@@ -49,7 +49,7 @@ export type ICrewStatus = "WAITING_TO_ENTER" |
     // WAITING_TO_ENTER: string;
     // SITTING: string;
     // SITTED: string;
-    // SEARCHING_MISION: string;
+    // SEARCHING_MISSION: string;
     // GOING_OUT: string;
     // IN_A_MISSION: string;
     // HEALING: string;

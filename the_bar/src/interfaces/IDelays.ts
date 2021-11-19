@@ -8,7 +8,7 @@ export interface IDelays {
     MISSION_CREATION_DELAY: number;
     MISSION_DELAY: number;
     SITTING: number;
-    SEARCHING_MISION: number;
+    SEARCHING_MISSION: number;
     GOING_OUT: number;
     CREW_CREATION_DELAY: number;
 }

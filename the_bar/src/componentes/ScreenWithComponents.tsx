@@ -53,7 +53,7 @@ const Screen: FC = () => {
   const [crewsAtMission, setCrewsAtMission] = useState<Crew[]>([]); // crew status 6
   const [crewsHealing, setCrewsHealing] = useState<Crew[]>([]); // crew status 7
   const [crewsGone, setCrewsGone] = useState<Crew[]>([]); //crew status 8
-  
+
   // let {current: timesTryingToEnter} = useRef(0);
   let [timesTryingToEnter, setTimesTryingToEnter] = useState(0);
 
@@ -96,12 +96,12 @@ const Screen: FC = () => {
     }
   }, [windowWidth]);
 
-   //set theme state
+  //set theme state
   useEffect(() => {
     setThemeState({ ...THEME, pixelSize });
   }, [pixelSize]);
 
-   //grid initializer
+  //grid initializer
   useEffect(() => {
     let t_width = canvasWidth * pixelSize,
       t_height = canvasHeight * pixelSize;
@@ -117,16 +117,16 @@ const Screen: FC = () => {
   useEffect(() => {
     if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0 && !areDelaisStopped) {
       // menos de 5 equipos en puerta Y mesas libres? activo el timer para crear grupos.
-      delayManager.startDelay("CREW_CREATION_DELAY"); 
-    }else {
+      delayManager.startDelay("CREW_CREATION_DELAY");
+    } else {
       delayManager.stopDelay("CREW_CREATION_DELAY");
     }
 
-  
+
     if (crewsAtDoor.length === 0) {
-        //no hay crews en la puerta? apago el timer para entrar. sino ro reinicio.
+      //no hay crews en la puerta? apago el timer para entrar. sino ro reinicio.
       delayManager.stopDelay("ENTER_DELAY");
-    } else {   
+    } else {
       delayManager.startDelay("ENTER_DELAY");
     }
 
@@ -148,79 +148,73 @@ const Screen: FC = () => {
   }, [missionManager.missions_displayed.length, areDelaisStopped]);
 
 
-  //voy a checkear los heroes.
-  useInterval(() => { 
+  // si crew = searching mission y tienen la mision asignada (pasa dentro del propio equipo)
+  // los saco y los mando a una mision.
+  useInterval(() => {
     // console.clear();
-    let solucion:any[] = [];
+    let solucion: any[] = [];
     let crewsInsideCloned = [...crewsInside];
 
-    crewsInsideCloned.forEach( (c,i,o) => {
-      if(c.status === CREW_STATUS.SEARCHING_MISION && c.mission !== null){
-        console.log("buscan mision y la tienen");
-        console.log("este crew busca mision: "+c.id);
+    let initialLength = crewsInsideCloned.length;
 
-        setTimeout( ( )=> {
-          console.log("estoy en el callback del timeout");
-          if(missionManager.missions_displayed.length > 0){
-            //hay misiones.
-            let missionSelected = missionManager.getMissionDisplayed(); // saco mision.
-            c.setMission( missionSelected ); // añado la mision al equipo.
-            c.setState(CREW_STATUS.IN_A_MISSION); // state: in a mission.
-            let  crewOnMission = o.splice( i, 1)[0]; //removed element from original array.
-
-            //TODO: corregir los arrays.
-            setCrewsAtMission([...crewsAtMission, crewOnMission]); //added to "crews in a mission" state.
-          }else{
-            //no hay misiones. no pasa nada.
-          }
-          //no tengo claro si esto reestructurará bien el array.
-          setCrewsInside( [...crewsInsideCloned] );
-        }, 7000);
+    //array inverso para no tener errores substrayendo.
+    for (let i = crewsInsideCloned.length - 1; i >= 0; i--) {
+      let c = crewsInsideCloned[i];
+      if (c.status === CREW_STATUS.IN_A_MISSION && c.mission !== null) {
+        console.log(`equipo ${c.id} - en mision ${c.mission.id}`);
+        let crewInMission = crewsInsideCloned.splice(i, 1)[0]; //elimino el equipo.
+        setCrewsAtMission(crewsAtMission.concat(crewInMission));  // regenero el los equipos en misiones.
       }
-      solucion.push({id: c.id, status: c.status, mission: !!c.mission});
-    });
+      solucion.push({ id: c.id, status: c.status, mission: !!c.mission });
+    }
+
+    if(initialLength !== crewsInsideCloned.length){
+      // he quitado algun equipo de dentro.
+      setCrewsInside([...crewsInsideCloned]);
+    }
+
     console.table(solucion);
   }, 1500); //
 
-//   //triggers render.
-//   useEffect(() => {
-//     console.log("triggers render. IsStopped: " + areDelaisStopped);
-//   }, [areDelaisStopped]);
+  //   //triggers render.
+  //   useEffect(() => {
+  //     console.log("triggers render. IsStopped: " + areDelaisStopped);
+  //   }, [areDelaisStopped]);
 
 
-// const crewsAtMissionHandler = (crew: Crew) => {
-//   // Añado la crew a la lista de crews en missiones.
-//   setCrewsAtMission([...crewsAtMission, crew]);
-//   // Filtro la crew de las que estan dentro.
-//   debugger;
-//   let crewsFiltered =  [...crewsInside.filter(
-//     c => {
-      
-//       return c.id !== crew.id
-//     }
-//   )];
-//   debugger;
-//   setCrewsInside(
-//     crewsFiltered
-//   );
-// }
+  // const crewsAtMissionHandler = (crew: Crew) => {
+  //   // Añado la crew a la lista de crews en missiones.
+  //   setCrewsAtMission([...crewsAtMission, crew]);
+  //   // Filtro la crew de las que estan dentro.
+  //   debugger;
+  //   let crewsFiltered =  [...crewsInside.filter(
+  //     c => {
 
-//   //funcion para Crew, que manda al equipo a la mission.
-//   const sendCrewOnAMission = (crew: Crew) => {
-// //llamo a una funcion que se recompone.
-// // si llamo a esta funcion, se llama a una instanci de la misma con valores obsoletos de los hooks.
-// //No Funciona.
-//     crewsAtMissionHandler(crew);
-  
-//   };
-//   // , [crewsAtMission.length, crewsInside.length]);
+  //       return c.id !== crew.id
+  //     }
+  //   )];
+  //   debugger;
+  //   setCrewsInside(
+  //     crewsFiltered
+  //   );
+  // }
 
-//   const liberateTableFromCrew = useCallback((tableId: number) => {
-//     barGrid.liberateTableFromCrew(tableId);
-//     crewsAtMissions()
-//   }, [barGrid.getFreeTables().length, crewsInside.length]);
+  //   //funcion para Crew, que manda al equipo a la mission.
+  //   const sendCrewOnAMission = (crew: Crew) => {
+  // //llamo a una funcion que se recompone.
+  // // si llamo a esta funcion, se llama a una instanci de la misma con valores obsoletos de los hooks.
+  // //No Funciona.
+  //     crewsAtMissionHandler(crew);
 
-//! creo que esto sobra.
+  //   };
+  //   // , [crewsAtMission.length, crewsInside.length]);
+
+  //   const liberateTableFromCrew = useCallback((tableId: number) => {
+  //     barGrid.liberateTableFromCrew(tableId);
+  //     crewsAtMissions()
+  //   }, [barGrid.getFreeTables().length, crewsInside.length]);
+
+  //! creo que esto sobra.
   //funcion pasada al equipo, para asignarles una mision desde el mission Manager
   // const assignMission = useCallback(() => {
   //   //doy una mision
@@ -231,7 +225,7 @@ const Screen: FC = () => {
 
   //intervalo para añadir equipos a la puerta
   useInterval(() => {
-    
+
     if (barGrid.getFreeTables().length === 0 || crewsAtDoor.length === 5) {
       //No hay mesass? paro la llegada a la puerta
       //TODO: no lanza trigger render. así que si no cambia un estado, realmente no se ve que se para
@@ -242,9 +236,9 @@ const Screen: FC = () => {
       totalCrewsCreated.current++;
       //creo Crew
       let id = uniqueID();
-      let newCrew = new Crew({ heroNum: rand(4, 2), id, delayManager });
-      setCrewsAtDoor([...crewsAtDoor, newCrew ]);
-      
+      let newCrew = new Crew({ heroNum: rand(4, 2), id, delayManager, missionManager });
+      setCrewsAtDoor(crewsAtDoor.concat(newCrew));
+
       //delay random desde el minimo hasta el máximo tiempo de creación
       delayManager.startDelay("CREW_CREATION_DELAY");
 
@@ -268,8 +262,10 @@ const Screen: FC = () => {
       //No hay mesas y lo intentan 3 veces. El equipo se va.
       const crewGone = crewsAtDoor.shift();
       crewGone?.setState(CREW_STATUS.GONE as ICrewStatus); // les coloco el estado "GONE"
-      setCrewsGone([...crewsGone, crewGone as Crew]);
-      setCrewsAtDoor([...crewsAtDoor]);
+      setCrewsGone(crewsGone.concat(crewGone as Crew));
+      //!Prueba.
+      setCrewsAtDoor(crewsAtDoor);
+      // setCrewsAtDoor([...crewsAtDoor]);
     } else if (freeTables.length === 0) {
 
       //no hay mesas. intentos +1
@@ -302,7 +298,7 @@ const Screen: FC = () => {
     }
   }, delayManager.delays.MISSION_CREATION_DELAY);
 
-//carga el tooltip tras un delay.
+  //carga el tooltip tras un delay.
   let showInToolTipWithTimer = (value: any) => {
     clearTimeout(timer as number);
     if (value === undefined) {
@@ -339,10 +335,10 @@ const Screen: FC = () => {
           showInToolTip={showInToolTipWithTimer}
           missionManager={missionManager}
           barGrid={barGrid as Grid}
-          crewsInside = {crewsInside} 
-          setCrewsInside = {setCrewsInside}
-          crewsSearchingMission = {crewsSearchingMission}
-          setCrewsSearchingMission = {setCrewsSearchingMission}
+          crewsInside={crewsInside}
+          setCrewsInside={setCrewsInside}
+          crewsSearchingMission={crewsSearchingMission}
+          setCrewsSearchingMission={setCrewsSearchingMission}
 
         // triggerRender={triggerRender}
         />

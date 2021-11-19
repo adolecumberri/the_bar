@@ -16,7 +16,7 @@ export class CrewOld {
         ENTERING: 2,
         SITTING: 3,
         SITTED: 4,
-        SEARCHING_MISION: 5,
+        SEARCHING_MISSION: 5,
         GOING_OUT: 6,
         IN_A_MISSION: 7,
         HEALING: 8,
@@ -101,13 +101,13 @@ export class CrewOld {
                 // console.log(`crew id-${this.id} is now Sitted.`);
 
                 this.wait({
-                    callback: () => this.setState(this.crewStatus.SEARCHING_MISION),
+                    callback: () => this.setState(this.crewStatus.SEARCHING_MISSION),
                     time: this.DelayManager.delays.SITTING
                 });
 
                 break;
 
-            case this.crewStatus.SEARCHING_MISION:
+            case this.crewStatus.SEARCHING_MISSION:
                 this.areSitted = true;
                 this.hasEntered = true;
                 this.onMission = false;
@@ -123,7 +123,7 @@ export class CrewOld {
 
                         this.setState(this.crewStatus.GOING_OUT);
                     },
-                    time: this.DelayManager.delays.SEARCHING_MISION
+                    time: this.DelayManager.delays.SEARCHING_MISSION
                 });
 
                

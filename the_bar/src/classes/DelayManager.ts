@@ -22,7 +22,7 @@ class DelayManager {
         MISSION_CREATION_DELAY: 500,
         MISSION_DELAY: 500,
         SITTING: 1500,
-        SEARCHING_MISION: 1500,
+        SEARCHING_MISSION: 1500,
         GOING_OUT: 2000,
     }
 
