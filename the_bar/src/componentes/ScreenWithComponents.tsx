@@ -115,7 +115,12 @@ const Screen: FC = () => {
   //when crewsAtDoor changes, re-starts delay used in the interval of creation.
   //when crewsAtDoor chages, re-start or stops delay used to check if a crew enters.
   useEffect(() => {
-    if (crewsAtDoor.length < 5 && barGrid.getFreeTables().length > 0 && !areDelaisStopped) {
+    if (
+        crewsAtDoor.length < 5 && 
+        barGrid.getFreeTables().length > 0 && 
+        totalCrewsCreated.current < 20 && 
+        !areDelaisStopped
+      ) {
       // menos de 5 equipos en puerta Y mesas libres? activo el timer para crear grupos.
       delayManager.startDelay("CREW_CREATION_DELAY");
     } else {
@@ -153,24 +158,27 @@ const Screen: FC = () => {
   useInterval(() => {
     // console.clear();
     let solucion: any[] = [];
-    let crewsInsideCloned = [...crewsInside];
 
-    let initialLength = crewsInsideCloned.length;
-
+    let initialLength = crewsInside.length;
+    let solution = [];
     //array inverso para no tener errores substrayendo.
-    for (let i = crewsInsideCloned.length - 1; i >= 0; i--) {
-      let c = crewsInsideCloned[i];
+    for (let i = crewsInside.length - 1; i >= 0; i--) {
+      let c = crewsInside[i];
       if (c.status === CREW_STATUS.IN_A_MISSION && c.mission !== null) {
         console.log(`equipo ${c.id} - en mision ${c.mission.id}`);
-        let crewInMission = crewsInsideCloned.splice(i, 1)[0]; //elimino el equipo.
-        setCrewsAtMission(crewsAtMission.concat(crewInMission));  // regenero el los equipos en misiones.
+        let crewInMission = crewsInside.splice(i, 1)[0]; //elimino el equipo.
+        solution.push(crewInMission);  // regenero el los equipos en misiones.
       }
       solucion.push({ id: c.id, status: c.status, mission: !!c.mission });
     }
 
-    if(initialLength !== crewsInsideCloned.length){
+    if(initialLength !== crewsInside.length){
       // he quitado algun equipo de dentro.
-      setCrewsInside([...crewsInsideCloned]);
+      setCrewsInside([...crewsInside]);
+      setCrewsAtMission(crewsAtMission.concat(solution));
+      console.log("Crew metido en la lista de misiones.", crewsInside.length, crewsAtMission.length);
+    }else{
+      console.log("length !==. No cambio nada.", crewsInside.length, crewsAtMission.length);
     }
 
     console.table(solucion);

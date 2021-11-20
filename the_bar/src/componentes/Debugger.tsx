@@ -68,6 +68,7 @@ const Debugger: FC<IDebugger> = ({
   totalCrewsGone,
   totalMissiosnCreated,
   totalCrewsCreated,
+  crewsAtMission,
   stopDelays,
   startDelays,
   areDelaisStopped
@@ -118,6 +119,7 @@ const Debugger: FC<IDebugger> = ({
       crewsInside: {crewsInside} <br />
       crewsAtDoor: {crewsInQueue} <br />
       crewsGone: {crewsGone} <br />
+      crewsAtMission: {crewsAtMission} <br />
       missionsDisplayed: {missionsDisplayed} <br />
 
       totalCrewsGone: {totalCrewsGone}<br />
