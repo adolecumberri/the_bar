@@ -8,7 +8,7 @@ import { useWindowSize } from "../hooks";
 import { IMission, IPixelSize } from "../interfaces";
 import { Bar2, ToolTipGlobal } from ".";
 import { StyleContext } from "../utility";
-import { THEME, CANVAS_COLS, CANVAS_ROWS, CREW_STATUS } from "../constants/constants";
+import { THEME, CANVAS_COLS, CANVAS_ROWS, CREW_STATUS, MAX_CREWS_TO_CREATE } from "../constants/constants";
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
@@ -118,7 +118,7 @@ const Screen: FC = () => {
     if (
         crewsAtDoor.length < 5 && 
         barGrid.getFreeTables().length > 0 && 
-        totalCrewsCreated.current < 20 && 
+        totalCrewsCreated.current < MAX_CREWS_TO_CREATE && 
         !areDelaisStopped
       ) {
       // menos de 5 equipos en puerta Y mesas libres? activo el timer para crear grupos.
@@ -155,9 +155,10 @@ const Screen: FC = () => {
 
   // si crew = searching mission y tienen la mision asignada (pasa dentro del propio equipo)
   // los saco y los mando a una mision.
+//TODO: borrar consoles.
   useInterval(() => {
     // console.clear();
-    let solucion: any[] = [];
+    // let solucion: any[] = [];
 
     let initialLength = crewsInside.length;
     let solution = [];
@@ -169,19 +170,19 @@ const Screen: FC = () => {
         let crewInMission = crewsInside.splice(i, 1)[0]; //elimino el equipo.
         solution.push(crewInMission);  // regenero el los equipos en misiones.
       }
-      solucion.push({ id: c.id, status: c.status, mission: !!c.mission });
+      // solucion.push({ id: c.id, status: c.status, mission: !!c.mission });
     }
 
     if(initialLength !== crewsInside.length){
       // he quitado algun equipo de dentro.
       setCrewsInside([...crewsInside]);
       setCrewsAtMission(crewsAtMission.concat(solution));
-      console.log("Crew metido en la lista de misiones.", crewsInside.length, crewsAtMission.length);
+      // console.log("Crew metido en la lista de misiones.", crewsInside.length, crewsAtMission.length);
     }else{
-      console.log("length !==. No cambio nada.", crewsInside.length, crewsAtMission.length);
+      // console.log("length !==. No cambio nada.", crewsInside.length, crewsAtMission.length);
     }
 
-    console.table(solucion);
+    // console.table(solucion);
   }, 1500); //
 
   //   //triggers render.

@@ -360,6 +360,8 @@ const CREW_STATUS: {
   DEAD: "DEAD",
 }
 
+let MAX_CREWS_TO_CREATE = 20;
+
 //TODO: sustituir esta constante por un objeto funcional.
 // const MISSIONS_INFO = {
 //   current_grade_allowed: 0,
@@ -384,4 +386,5 @@ export {
   CANVAS_COLS,
   MONSTERS_VARIATION,
   CREW_STATUS,
+  MAX_CREWS_TO_CREATE,
 };

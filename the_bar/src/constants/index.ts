@@ -9,6 +9,7 @@ import {
   TILE_SIZE,
   MONSTERS_VARIATION,
   CREW_STATUS,
+  MAX_CREWS_TO_CREATE
 } from "./constants";
 
 import HERO_STATS from './hero_stats';
@@ -37,4 +38,5 @@ export {
   MISSIONS,
   MONSTERS_VARIATION,
   CREW_STATUS,
+  MAX_CREWS_TO_CREATE,
 };
