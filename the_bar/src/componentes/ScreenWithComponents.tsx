@@ -6,7 +6,7 @@ import { FC, useEffect, useState, useContext, useCallback, useReducer, ReactNode
 import { useWindowSize } from "../hooks";
 
 import { IMission, IPixelSize } from "../interfaces";
-import { Bar2, ToolTipGlobal } from ".";
+import { Bar2, MissionDisplayer, ToolTipGlobal } from ".";
 import { StyleContext } from "../utility";
 import { THEME, CANVAS_COLS, CANVAS_ROWS, CREW_STATUS, MAX_CREWS_TO_CREATE } from "../constants/constants";
 import BarEntry from "./BarEntry";
@@ -118,7 +118,7 @@ const Screen: FC = () => {
     if (
         crewsAtDoor.length < 5 && 
         barGrid.getFreeTables().length > 0 && 
-        totalCrewsCreated.current < MAX_CREWS_TO_CREATE && 
+        totalCrewsCreated.current <= MAX_CREWS_TO_CREATE && 
         !areDelaisStopped
       ) {
       // menos de 5 equipos en puerta Y mesas libres? activo el timer para crear grupos.
@@ -351,6 +351,8 @@ const Screen: FC = () => {
 
         // triggerRender={triggerRender}
         />
+
+        <MissionDisplayer/>
 
         <ToolTipGlobal hidden={toolTipContent === undefined}> {toolTipContent} </ToolTipGlobal>
       </StyleContext.Provider>

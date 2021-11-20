@@ -7,6 +7,7 @@ import Screen from './Screen';
 import BarEntry from './BarEntry';
 import ToolTip from './ToolTip';
 import ToolTipGlobal from './ToolTipGlobal';
+import MissionDisplayer from './MissionDisplayer';
 export {
     Bar, // version de clases.
     Bar2, // version de componentes.
@@ -15,5 +16,6 @@ export {
     Screen,
     BarEntry,
     ToolTip,
-    ToolTipGlobal
+    ToolTipGlobal,
+    MissionDisplayer
 }

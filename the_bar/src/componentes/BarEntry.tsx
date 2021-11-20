@@ -8,6 +8,7 @@ import { ICrew } from "../interfaces";
 import { ImagesContext, loadBoxDimensions, StyleContext } from "../utility";
 import { useRenderCounter } from "../hooks";
 import { Crew } from "../classes/Crew2";
+import { CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
 
 
 interface barProps {
@@ -20,8 +21,8 @@ const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
   const barImgs = useContext(ImagesContext);
   const [count] = useRenderCounter();
   const { height, width } = loadBoxDimensions({
-    rows: 6,
-    cols: 16,
+    rows: CANVAS_ROWS,
+    cols: CANVAS_COLS,
     t_width: canvasWidth * pixelSize,
     t_height: canvasHeight * pixelSize,
     topMargin: 2,
