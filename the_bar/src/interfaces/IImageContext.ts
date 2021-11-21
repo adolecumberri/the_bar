@@ -21,17 +21,17 @@ export interface IImgAnimation {
 
 export interface IImageContext {
   // 'barTile': IImgAnimation;
-  'archer': IImgAnimation;
-  'ninja': IImgAnimation;
-  'berserker': IImgAnimation;
-  'deffender': IImgAnimation;
-  'fencer': IImgAnimation;
-  'paladin': IImgAnimation;
-  'sniper': IImgAnimation;
-  'soldier': IImgAnimation;
-  'thieve': IImgAnimation;
-  // 'generalCrew': IImgAnimation;
-  'crew': IImgAnimation;
-  [X: number]: IImgAnimation;
+  // 'archer': IImgAnimation;
+  // 'ninja': IImgAnimation;
+  // 'berserker': IImgAnimation;
+  // 'deffender': IImgAnimation;
+  // 'fencer': IImgAnimation;
+  // 'paladin': IImgAnimation;
+  // 'sniper': IImgAnimation;
+  // 'soldier': IImgAnimation;
+  // 'thieve': IImgAnimation;
+  // // 'generalCrew': IImgAnimation;
+  // 'crew': IImgAnimation;
+  [X: number | string]: IImgAnimation;
 
 }//TODO: borrar barBackground. unused

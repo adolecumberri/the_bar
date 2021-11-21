@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/styles";
 import { ITheme } from "../interfaces";
 import { Table } from "../classes/GridBoxesTypes";
 import { CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
-import { ImagesContext, loadBoxDimensions, StyleContext } from "../utility";
+import { CrewContext, loadBoxDimensions, StyleContext } from "../utility";
 import { Crew } from "../classes/Crew2";
 import { Monster } from "../classes/Monster";
 
@@ -28,7 +28,7 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
   //
   const { } = useStyles();
   const { pixelSize, canvasHeight, canvasWidth, height, width } = useContext(StyleContext);
-  const barImgs = useContext(ImagesContext);
+  const barImgs = useContext(CrewContext);
   let { img, steps, xSize } = barImgs.crew;
 
   let container = {
@@ -80,7 +80,6 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
             overflow: "hidden",
             height: "100%",
           }}>
-            {console.log(img)}
             <img
               key={`img-${id}`}
               alt={`${name}`}

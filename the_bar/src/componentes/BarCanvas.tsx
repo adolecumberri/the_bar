@@ -17,7 +17,7 @@ import { THEME } from "../constants/constants";
 import { IAnyBox, IGridHash, ITheme } from "../interfaces";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants/constants";
 import { useRenderCounter } from "../hooks";
-import { StyleContext, ImagesContext } from "../utility";
+import { StyleContext } from "../utility";
 import { Grid } from "../classes/Grid";
 
 const useStyles = makeStyles((tema: ITheme) => {

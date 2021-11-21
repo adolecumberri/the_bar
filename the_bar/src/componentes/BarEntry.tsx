@@ -5,7 +5,7 @@ import { FC, useCallback, useContext } from "react";
 //Material UI
 
 import { ICrew } from "../interfaces";
-import { ImagesContext, loadBoxDimensions, StyleContext } from "../utility";
+import { CrewContext, loadBoxDimensions, StyleContext } from "../utility";
 import { useRenderCounter } from "../hooks";
 import { Crew } from "../classes/Crew2";
 import { CANVAS_COLS, CANVAS_ROWS } from "../constants/constants";
@@ -18,7 +18,7 @@ interface barProps {
 const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
   const { pixelSize, canvasHeight, canvasWidth, height, width } = useContext(StyleContext);
 
-  const barImgs = useContext(ImagesContext);
+  const barImgs = useContext(CrewContext);
   const [count] = useRenderCounter();
 
   let container = {

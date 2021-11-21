@@ -342,11 +342,10 @@ const Bar: FC<IBarProps> = ({
   const _drawHeros = () => {
     let solution: JSX.Element[] = [];
 
-
-
     crewsInside.forEach(crew => {
 
       crew.heros.forEach(hero => {
+
         //el grid que esta bajo la imagen del hero.
         let correspondantGrid = barGrid[`${hero.coords.xCoord}-${hero.coords.yCoord}`];
         let divStyle = {
@@ -361,6 +360,7 @@ const Bar: FC<IBarProps> = ({
 
         //silla ocupada
         if (!hero) debugger;
+        
         let toolTip = loadHeroTooltip(hero);
         solution.push((<div key={`hero-${hero.id}`}>
           <div

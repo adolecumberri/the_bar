@@ -4,7 +4,7 @@ import MONSTERS from "../constants/monsters";
 import { MONSTERS_VARIATION } from '../constants';
 import { IMonterRawStats } from "../interfaces/IMonster";
 import { IImageContext } from "../interfaces";
-import { defaultImageContext } from "./context";
+import { defaultMonsterContext } from ".";
 
 const createStatsVariation = (d: IMonterRawStats) => {
     // console.log({data});
@@ -32,7 +32,7 @@ const createStatsVariation = (d: IMonterRawStats) => {
         evasion: newEvasion <= 0 ? 0 : newEvasion >= 1 ? 1 : newEvasion,
         hp: Math.floor(rand(d.hp * max, d.hp * min)),
         reg: Math.floor(rand(d.reg * max, d.reg * min) * 1000) / 1000,
-        img: defaultImageContext[ d.id as keyof IImageContext ] //aqui se cargan las imagenes
+        img: defaultMonsterContext[ d.id  as keyof IImageContext] //aqui se cargan las imagenes
     } as IMonterRawStats;
 }
 

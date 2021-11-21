@@ -2,7 +2,7 @@ import { Archer, Berserker, Defender, Fencer, Ninja, Paladin, Sniper, Soldier, T
 import { VARIATION, HERO_STATS } from "../constants";
 import { IHeroCreated, IImageContext } from "../interfaces";
 import { IHero, IHeroStats } from "../interfaces/Hero.Interface";
-import { defaultImageContext } from "./context";
+import { defaultHeroContext } from ".";
 import { rand, randName } from "./Utility";
 
 
@@ -99,7 +99,7 @@ export const createRandomStats = () => {
     randHero["att_interval"] = Math.round(randHero['att_interval']);
 
     // añado imagen
-    randHero.img = defaultImageContext[(randHero.className.toLocaleLowerCase() as keyof IImageContext)];
+    randHero.img = defaultHeroContext[(randHero.className.toLocaleLowerCase() as keyof IImageContext)];
 
     // debugger;
     //console.log(`Random Hero: \n ${JSON.stringify(randHero.name)}`);
