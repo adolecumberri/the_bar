@@ -59,7 +59,7 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
         }
       >
         <div style={{
-          maxWidth: xSize * pixelSize - 1,
+          maxWidth: xSize ?  xSize * pixelSize - 1 : "none",
           overflow: "hidden",
           height: "100%",
         }}>
@@ -77,22 +77,29 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
         <span></span>
         <div
         style={{display: "flex"}}>
-        {(mission?.fights[0].monsters as Monster[]).map(({ img: {visualTransform, img}, id, name }) =>
+          {/* Monsters displayer. */}
+        {(mission?.fights[0].monsters as Monster[]).map(({ img: {
+          img, 
+          sprite,
+           xSpriteSize, 
+           xSize
+          }, id, name }) =>
+       <> {console.log(sprite, xSpriteSize, xSize)}
           <div style={{
-            maxWidth: xSize * pixelSize - 1,
+            maxWidth: xSpriteSize ? xSpriteSize * pixelSize - 1 : "none",
             overflow: "hidden",
             height: "100%",
           }}>
             <img
               key={`img-${id}`}
               alt={`${name}`}
-              src={(img as HTMLImageElement).src}
+              src={(sprite ? sprite : img as HTMLImageElement).src}
               style={{
                 height: "100%",
-                transform: visualTransform ? visualTransform : "none"
+                animation: sprite ? `iddle-right 1s steps(${steps}) infinite` : "none",
               }}
             />
-          </div>
+          </div> </>
         )}
 
         </div>
