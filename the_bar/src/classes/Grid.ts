@@ -19,7 +19,9 @@ export class Grid {
     this._initNewGridWithTables();
   }
 
-  topMargin = 2;
+  topMargin = 0;
+  //marginBetweenTotalHeightAndCurrentFloorHeight
+  cellsInWall = 2 //! cell in wall countr in the bar proportion
   hashGrid: IGridHash = {};//las keys son col-row OR X-Y
   tables: Table[] = [];
   tablesInfo = TABLES_LOCATIONS; //constant used to create the tables and chairs;
@@ -28,7 +30,8 @@ export class Grid {
   _initNewGridWithTables = () => {
 
     //Load cell-height and cell-width
-    const { height, width } = this._loadBoxDimensions()
+    const { height, width } = this._loadBoxDimensions();
+    console.log({height})
     let gridHash: IGridHash = {};
 
     //following Tables_locations scheme
@@ -74,7 +77,7 @@ export class Grid {
           xCoord: X,
           yCoord: Y,
           x: X * width,
-          y: (Y + this.topMargin) * height,
+          y: Y * height,
           width,
           height,
           tableId,
@@ -118,13 +121,19 @@ export class Grid {
   };
 
   _loadBoxDimensions = () => {
-    if (this.t_width % this.cols || this.t_height % (this.rows + this.topMargin))
+    if (this.t_width % this.cols || this.t_height % (this.rows + this.cellsInWall))
       throw new Error(
-        "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
+        `Error creating game grid: 
+        Please ensure that the desired column and row counts divide evenly into the total width and height of the level!
+        ${this.t_width} / ${this.cols} = ${this.t_width/this.cols}.
+        ${this.t_width} % ${this.cols} = ${this.t_width%this.cols}.
+        ${this.t_height} / ${this.rows} = ${this.t_height/this.rows}.
+        ${this.t_height} % ${this.rows} = ${this.t_height%this.rows}.
+        `
       );
 
     let width = this.t_width / this.cols;
-    let height = this.t_height / (this.rows + this.topMargin);
+    let height = this.t_height / (this.rows + this.cellsInWall);
 
     return { width, height }
   }
@@ -133,7 +142,7 @@ export class Grid {
     newWidth: number;
     newHeight: number;
   }) => {
-    if (newWidth % this.cols || newHeight % (this.rows + this.topMargin))
+    if (newWidth % this.cols || newHeight % (this.rows + this.cellsInWall))
       throw new Error(
         "Error creating game grid: Please ensure that the desired column and row counts divide evenly into the total width and height of the level!"
       );
@@ -143,7 +152,7 @@ export class Grid {
 
 
     let width = newWidth / this.cols;
-    let height = newHeight / (this.rows + this.topMargin);
+    let height = newHeight / (this.rows + this.cellsInWall);
     let keys = Object.keys(this.hashGrid);
 
     keys.forEach(key => {

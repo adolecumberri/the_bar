@@ -36,7 +36,6 @@ const useStyles = makeStyles(() => {
 
 interface IBarProps {
   barGrid: Grid;
-  missionManager: MissionManager;
   // // showInToolTip: Dispatch<SetStateAction<ReactNode>>,
   showInToolTip: any;
   crewsInside: Crew[];
@@ -45,16 +44,15 @@ interface IBarProps {
   setCrewsSearchingMission: any,
 }
 
-const Bar: FC<IBarProps> = ({
+const BarFloor: FC<IBarProps> = ({
   barGrid: { hashGrid: barGrid },
-  missionManager: { missions_displayed },
   showInToolTip,
   crewsInside,
   // triggerRender,
 }) => {
   const { container, counter } = useStyles();
 
-  const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+  const { pixelSize, canvasHeight, canvasWidth, height } = useContext(StyleContext);
 
   const [count] = useRenderCounter();
 
@@ -180,86 +178,6 @@ const Bar: FC<IBarProps> = ({
     </>
     , []);
 
-  const loadMissionTooltip = useCallback((m: IMission) =>
-    <>
-      <div>
-        <div
-          key={`tooltip-${m.id}`}
-          style={{ fontWeight: 700, marginBottom: `${4 * pixelSize}px` }}>
-          {m.title}
-        </div>
-        <div>
-          {m.details}
-        </div>
-        <div>
-          {m.fights.map(f => {
-            let solution = <div
-              style={{ display: "flex", justifyContent: "space-between" }}
-            >
-              {(f.monsters as Monster[]).map(({ img: { img }, id, name }) =>
-                <img
-                  key={`img-${id}`}
-                  alt={`${name}`}
-                  src={(img as HTMLImageElement).src}
-                  style={{
-                    height: "100%",
-                    // position: "absolute",
-                    // animation: `iddle-${thisChair.dir} 1s steps(${hero.img.steps}) infinite`,
-                    // transform: thisChair.dir === "right" ? 'scaleX(-1)' : undefined,
-                  }}
-                  // onMouseOver={() => { showInToolTip(toolTip) }}
-                  // onMouseOut={() => { showInToolTip(undefined) }}
-                />)}
-            </div>
-            return solution;
-          })
-          }
-        </div>
-      </div>
-    </>
-    , [pixelSize, showInToolTip]);
-
-  const _drawMissions = useCallback(
-    () => {
-      let solution: JSX.Element[] = [];
-
-      missions_displayed.forEach((m, i) => {
-        let toolTip = loadMissionTooltip(m);
-
-        let divStyle = {
-          boxSizing: "border-box",
-          MozBoxSizing: "border-box",
-          WebkitBoxSizing: "border-box",
-          position: "absolute",
-          width: `${TILE_SIZE * pixelSize}px`,
-          height: `${TILE_SIZE * pixelSize}px`,
-          top: `${(TILE_SIZE * pixelSize) * (m.location?.x as number)}px`, // Math.floor(rand(1))
-          left: `${(TILE_SIZE * pixelSize) * (m.location?.y as number)}px`, // Math.floor(rand(10, 5))
-          backgroundColor: "gold",
-          border: "1px solid #bbbbbb",
-          imageRendering: "pixelated",
-        };
-
-        let div = (
-          <div
-            key={`mission-${i}`}
-            className=""
-            style={{ ...divStyle } as any}
-            onMouseOver={() => { showInToolTip(toolTip) }}
-            onMouseOut={() => { showInToolTip(undefined) }}
-          >
-          </div >
-        );
-
-        // el propio jsx.element necesita una key en las propiedades.
-        solution.push(div);
-      });
-
-      return solution;
-    }
-    , [missions_displayed.length, pixelSize, showInToolTip]);
-
-
 
   /* recursively draw each grid object */
   const _drawGrid = () => {
@@ -273,6 +191,7 @@ const Bar: FC<IBarProps> = ({
         height: barGrid[coord].height,
         top: barGrid[coord].y,
         left: barGrid[coord].x,
+        boxSizing: "border-box",
         border: "1px solid #bbbbbb",
         imageRendering: "pixelated",
       };
@@ -402,16 +321,15 @@ const Bar: FC<IBarProps> = ({
     <>
       <div
         key="canvas-div"
-        id="canvas"
+        id="barFloor"
         className={container}
         style={{
           width: `${canvasWidth * pixelSize}px`,
-          height: `${canvasHeight * pixelSize}px`,
+          height: `${height * 6 }px`,
           position: "relative",
         }}
       >
         <span className={counter}>{count}</span>
-        {_drawMissions()}
         {_drawGrid()}
         {_drawHeros()}
       </div>
@@ -419,4 +337,4 @@ const Bar: FC<IBarProps> = ({
   );
 };
 
-export default Bar;
+export default BarFloor;

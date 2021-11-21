@@ -39,8 +39,8 @@ body {
     align-items: center;
 }
 
-#canvas {
-    background-image: url("sprites/barbg2.png");
+#barFloor {
+    background-image: url("sprites/barFloor.png");
     background-repeat: no-repeat;
     background-size: contain;
     image-rendering: pixelated;

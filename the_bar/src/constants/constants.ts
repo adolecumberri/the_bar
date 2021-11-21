@@ -7,7 +7,7 @@ const CANVAS_COLS = 16;
 
 const TILE_SIZE = 20;
 const CANVAS_WIDTH = 320;
-const CANVAS_HEIGHT = 160;
+const CANVAS_HEIGHT = 160; // 40 son del muro. total = 160.
 // entre el tamaño son
 // 40 x 20
 
@@ -18,7 +18,7 @@ const THEME: ITheme = {
   pixelSize: 2,
   canvasWidth: 320,
   canvasHeight: 160,
-  height: CANVAS_HEIGHT,
+  height: CANVAS_HEIGHT, //esta altura ahce referencia al bar floor.
   width: CANVAS_WIDTH,
 };
 

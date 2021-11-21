@@ -54,6 +54,7 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
             borderBottom: "1px solid black",
             backgroundColor: "beige",
             display: "flex",
+            justifyContent: "space-between"
           }
         }
       >
@@ -74,6 +75,8 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
           />
         </div>
         <span></span>
+        <div
+        style={{display: "flex"}}>
         {(mission?.fights[0].monsters as Monster[]).map(({ img: {visualTransform, img}, id, name }) =>
           <div style={{
             maxWidth: xSize * pixelSize - 1,
@@ -90,9 +93,10 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
               }}
             />
           </div>
-        )
-        }
+        )}
 
+        </div>
+       
 
 
       </div>

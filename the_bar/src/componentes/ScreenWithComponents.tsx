@@ -18,12 +18,13 @@ import { Crew } from "../classes/Crew2";
 import { MissionManager } from "../classes/Missions";
 import { DelayManager } from '../classes/DelayManager';
 import { ICrewStatus } from "../interfaces/Crew.interface";
+import BarWall from "./BarWall";
 
 // const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 let timer: NodeJS.Timeout | number = 0;
 const Screen: FC = () => {
 
-  const { canvasHeight, canvasWidth } = useContext(StyleContext);
+  const { canvasHeight, canvasWidth, height: heightContext } = useContext(StyleContext);
 
   const [windowWidth] = useWindowSize();
 
@@ -104,7 +105,7 @@ const Screen: FC = () => {
 
     // let grid = new Grid();
     barGrid._updateBoxDimensions({ newWidth: t_width, newHeight: t_height });
-
+console.log("height Before", heightContext, canvasHeight, pixelSize);
     const { height, width } = loadBoxDimensions({
       rows: CANVAS_ROWS,
       cols: CANVAS_COLS,
@@ -112,7 +113,7 @@ const Screen: FC = () => {
       t_height: canvasHeight * pixelSize,
       topMargin: 2,
     });
-
+    console.log("height after", height);
     //actualizo el tema.
     setThemeState({ ...THEME, pixelSize, height, width  });
     // setBarGrid(grid);
@@ -347,9 +348,13 @@ const Screen: FC = () => {
           areDelaisStopped={areDelaisStopped}
         />
         <BarEntry crewsAtDoor={crewsAtDoor} />
+        <div style={{display:"flex", flexDirection: "column"}}>
+        <BarWall 
+            showInToolTip={showInToolTipWithTimer}
+            missionManager={missionManager}
+        />
         <Bar2
           showInToolTip={showInToolTipWithTimer}
-          missionManager={missionManager}
           barGrid={barGrid as Grid}
           crewsInside={crewsInside}
           setCrewsInside={setCrewsInside}
@@ -358,6 +363,8 @@ const Screen: FC = () => {
 
         // triggerRender={triggerRender}
         />
+        </div>
+      
 
         <MissionDisplayer
           crewsAtMission = {crewsAtMission}
