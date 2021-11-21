@@ -15,6 +15,7 @@ export interface IImgAnimation {
   ySize: number;
   steps: number;
   sheetType: 'vertical' | 'horizontal';
+  visualTransform?: string;
 }
 
 

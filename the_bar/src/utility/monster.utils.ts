@@ -32,7 +32,7 @@ const createStatsVariation = (d: IMonterRawStats) => {
         evasion: newEvasion <= 0 ? 0 : newEvasion >= 1 ? 1 : newEvasion,
         hp: Math.floor(rand(d.hp * max, d.hp * min)),
         reg: Math.floor(rand(d.reg * max, d.reg * min) * 1000) / 1000,
-        img: defaultImageContext[ d.id as keyof IImageContext ]
+        img: defaultImageContext[ d.id as keyof IImageContext ] //aqui se cargan las imagenes
     } as IMonterRawStats;
 }
 

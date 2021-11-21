@@ -15,7 +15,7 @@ const MONSTERS: { [x: string]: IMonterRawStats } = {
         dmg: 4,
         evasion: 0.02,
         hp: 74,
-        reg: 0.44
+        reg: 0.44,
     },
     "53": {
         name: 'birdo +',

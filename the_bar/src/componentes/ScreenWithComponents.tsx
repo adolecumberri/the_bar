@@ -12,7 +12,7 @@ import { THEME, CANVAS_COLS, CANVAS_ROWS, CREW_STATUS, MAX_CREWS_TO_CREATE } fro
 import BarEntry from "./BarEntry";
 import { Grid } from "../classes/Grid";
 import Debugger from "./Debugger";
-import { rand, uniqueID } from "../utility/Utility";
+import { loadBoxDimensions, rand, uniqueID } from "../utility/Utility";
 import useInterval from "../hooks/useInterval";
 import { Crew } from "../classes/Crew2";
 import { MissionManager } from "../classes/Missions";
@@ -97,10 +97,6 @@ const Screen: FC = () => {
   }, [windowWidth]);
 
   //set theme state
-  useEffect(() => {
-    setThemeState({ ...THEME, pixelSize });
-  }, [pixelSize]);
-
   //grid initializer
   useEffect(() => {
     let t_width = canvasWidth * pixelSize,
@@ -109,7 +105,18 @@ const Screen: FC = () => {
     // let grid = new Grid();
     barGrid._updateBoxDimensions({ newWidth: t_width, newHeight: t_height });
 
+    const { height, width } = loadBoxDimensions({
+      rows: CANVAS_ROWS,
+      cols: CANVAS_COLS,
+      t_width: canvasWidth * pixelSize,
+      t_height: canvasHeight * pixelSize,
+      topMargin: 2,
+    });
+
+    //actualizo el tema.
+    setThemeState({ ...THEME, pixelSize, height, width  });
     // setBarGrid(grid);
+
   }, [pixelSize]);
 
   //when crewsAtDoor changes, re-starts delay used in the interval of creation.
@@ -118,7 +125,7 @@ const Screen: FC = () => {
     if (
         crewsAtDoor.length < 5 && 
         barGrid.getFreeTables().length > 0 && 
-        totalCrewsCreated.current <= MAX_CREWS_TO_CREATE && 
+        totalCrewsCreated.current < MAX_CREWS_TO_CREATE && 
         !areDelaisStopped
       ) {
       // menos de 5 equipos en puerta Y mesas libres? activo el timer para crear grupos.
@@ -352,7 +359,9 @@ const Screen: FC = () => {
         // triggerRender={triggerRender}
         />
 
-        <MissionDisplayer/>
+        <MissionDisplayer
+          crewsAtMission = {crewsAtMission}
+        />
 
         <ToolTipGlobal hidden={toolTipContent === undefined}> {toolTipContent} </ToolTipGlobal>
       </StyleContext.Provider>
@@ -363,11 +372,11 @@ const Screen: FC = () => {
 const pixelSizeQuery: (a: number) => IPixelSize = (windowWidth: number) => {
   let solution: IPixelSize = 1;
   if (windowWidth >= 1920) {
-    solution = 4;
-  } else if (windowWidth >= 1280) {
     solution = 3;
-  } else if (windowWidth >= 980) {
+  } else if (windowWidth >= 1280) {
     solution = 2;
+  } else if (windowWidth >= 980) {
+    solution = 1;
   } else if (windowWidth <= 650) {
     solution = 1;
   }

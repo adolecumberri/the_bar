@@ -9,6 +9,8 @@ import { uniqueID } from '../utility/Utility';
 
 export class Monster {
 	isDead: boolean = false;
+    monsterId: number;
+    id: number;
 	[x: string]: string | number | IImgAnimation | boolean | any;
 	constructor(id: number | string) {
 		let newData = createMonsterStatsById(typeof id === "number" ? ""+id : id);
@@ -20,6 +22,7 @@ export class Monster {
 
 		this.curr_att_interval = newData.att_interval;
 		this.currentHp = newData.hp;
+        this.monsterId = id as number;
 		this.id = uniqueID();
 	}
 

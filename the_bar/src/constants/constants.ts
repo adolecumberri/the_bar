@@ -18,6 +18,8 @@ const THEME: ITheme = {
   pixelSize: 2,
   canvasWidth: 320,
   canvasHeight: 160,
+  height: CANVAS_HEIGHT,
+  width: CANVAS_WIDTH,
 };
 
 const GRID_TYPES: IGRID_TYPES = {

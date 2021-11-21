@@ -200,6 +200,7 @@ export let defaultImageContext: IImageContext = {
     ySize: 98,
     steps: 1,
     sheetType: 'horizontal',
+    visualTransform: 'scale(1.8) translate(0px, -13px)',
   },
   53: {
     name: "birdo+",

@@ -16,21 +16,14 @@ interface barProps {
 }
 
 const BarEntry: FC<barProps> = ({ crewsAtDoor }) => {
-  const { pixelSize, canvasHeight, canvasWidth } = useContext(StyleContext);
+  const { pixelSize, canvasHeight, canvasWidth, height, width } = useContext(StyleContext);
 
   const barImgs = useContext(ImagesContext);
   const [count] = useRenderCounter();
-  const { height, width } = loadBoxDimensions({
-    rows: CANVAS_ROWS,
-    cols: CANVAS_COLS,
-    t_width: canvasWidth * pixelSize,
-    t_height: canvasHeight * pixelSize,
-    topMargin: 2,
-  });
 
   let container = {
     height: canvasHeight * pixelSize - height * 3,
-    width: width,
+    width: width ,
     border: "1px solid black",
     marginTop: height * 3,
   };

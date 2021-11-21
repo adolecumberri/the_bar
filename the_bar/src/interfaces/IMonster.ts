@@ -39,4 +39,5 @@ export interface IMonterRawStats {
     hp: number;
     reg: number;
     img?: IImgAnimation;
+    
 }

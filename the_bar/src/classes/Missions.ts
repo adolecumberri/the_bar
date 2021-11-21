@@ -52,7 +52,7 @@ class MissionManager {
 
         // this.mission_creation_delay = DelayManager.delays.MISSION_APPEARING_DELAY;
         // this.default_mission_creation_delay = DelayManager.delays.MISSION_APPEARING_DELAY;
-    
+
         // //delay para hacer las missiones. (lo que tarda en hacerse)
         // this.mission_delay = DelayManager.delays.MISSION_DELAY;
 
@@ -75,9 +75,9 @@ class MissionManager {
     updateMISSIONSAllowed = () => {
         // debugger;
         this.missions_allowed = [];
-        for(let i = 0; i <= this.current_mission_grade_allowed; i++){
+        for (let i = 0; i <= this.current_mission_grade_allowed; i++) {
             let grade = `grade${i}` as keyof typeof MissionManager;
-            this.missions_allowed.push(...this[grade] as any );
+            this.missions_allowed.push(...this[grade] as any);
         }
 
         // let grade = `grade${this.current_mission_grade_allowed}` as keyof typeof MissionManager;
@@ -88,7 +88,7 @@ class MissionManager {
     //genera una mision para desplegar.
     displayMission = () => {
         // "controlo error, que en realidad no funciona" porque no salta
-        if(this.missions_displayed.length > this.MAX_NUMBER_OF_MISSIONS_DISPLAYED) new Error( `not more than ${this.MAX_NUMBER_OF_MISSIONS_DISPLAYED} missions displayed at the same time allowed`);
+        if (this.missions_displayed.length > this.MAX_NUMBER_OF_MISSIONS_DISPLAYED) new Error(`not more than ${this.MAX_NUMBER_OF_MISSIONS_DISPLAYED} missions displayed at the same time allowed`);
         //Uso spread operator para duplicar el objeto. Sino todas la localizaciones comparten referencia.
         let selectedMission = { ...this.missions_allowed[rand(this.missions_allowed.length - 1)] };
 
@@ -97,9 +97,9 @@ class MissionManager {
         selectedMission.missionNumber = this.totalMissionsDisplayed++;
         this.addLocationToMission(selectedMission);
 
-        if(selectedMission.location === undefined) debugger;
-// debugger;
-if(selectedMission.fights === undefined) debugger;
+        if (selectedMission.location === undefined) debugger;
+        // debugger;
+        if (selectedMission.fights === undefined) debugger;
         let a = selectedMission.fights.map(f => {
             return {
                 exp: f.exp,
@@ -133,7 +133,7 @@ if(selectedMission.fights === undefined) debugger;
             1
         )[0];
 
-        if(!locationSelected) debugger;
+        if (!locationSelected) debugger;
 
         // let locationSelected = this.mission_location_available.shift() as ICoord;
         this.mission_location_used.push(locationSelected);
@@ -141,14 +141,14 @@ if(selectedMission.fights === undefined) debugger;
     }
 
     removeLocationFromMission = (mission: IMission) => {
-        if(!mission.location) debugger;
+        if (!mission.location) debugger;
 
         // meto la localizacion en el bar como "disponible"
         this.mission_location_available.push(mission.location as any as ICoord);
 
         // elimino la localizacion en el bar como "usada"
-        this.mission_location_used = [...this.mission_location_used.filter( (m) => m.id !== mission.location?.id )]
-        
+        this.mission_location_used = [...this.mission_location_used.filter((m) => m.id !== mission.location?.id)]
+
         // elimino la localizacion. Se van a hacerla.
         mission.location = undefined;
     }
@@ -161,10 +161,10 @@ if(selectedMission.fights === undefined) debugger;
             1
         )[0];
 
-        if(!selectedMission) debugger;
-        if(!selectedMission.location) debugger;
-        
-        if(selectedMission.location === undefined) debugger;
+        if (!selectedMission) debugger;
+        if (!selectedMission.location) debugger;
+
+        if (selectedMission.location === undefined) debugger;
 
         //elimino Location de la mission.
         this.removeLocationFromMission(selectedMission);
@@ -174,7 +174,7 @@ if(selectedMission.fights === undefined) debugger;
 
         return selectedMission;
     }
-    
+
 
 }
 
