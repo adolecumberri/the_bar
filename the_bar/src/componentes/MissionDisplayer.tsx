@@ -19,6 +19,10 @@ const useStyles = makeStyles((Theme: ITheme) => ({
 
 interface IMissionDisplayer {
   crewsAtMission: Crew[],
+  missionsExecuting: any[],
+  setMissionsExecuting: React.Dispatch<React.SetStateAction<any[]>>,
+  setCrewsAtMission:  React.Dispatch<React.SetStateAction<Crew[]>>,
+
 }
 
 const MissionDisplayer: FC<IMissionDisplayer> = ({
@@ -35,7 +39,6 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
     height: canvasHeight * pixelSize, //- height * 3
     width: width * 5,
     border: "1px solid black",
-    // marginTop: height ,
     marginLeft: width,
     overflowX: "hidden",
   };
@@ -84,7 +87,7 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
            xSpriteSize, 
            xSize
           }, id, name }) =>
-       <> {console.log(sprite, xSpriteSize, xSize)}
+       <> 
           <div style={{
             maxWidth: xSpriteSize ? xSpriteSize * pixelSize - 1 : "none",
             overflow: "hidden",

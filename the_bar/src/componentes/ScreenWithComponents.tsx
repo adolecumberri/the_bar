@@ -55,6 +55,8 @@ const Screen: FC = () => {
   const [crewsHealing, setCrewsHealing] = useState<Crew[]>([]); // crew status 7
   const [crewsGone, setCrewsGone] = useState<Crew[]>([]); //crew status 8
 
+  const [missionsExecuting, setMissionsExecuting] = useState<any[]>([])
+
   // let {current: timesTryingToEnter} = useRef(0);
   let [timesTryingToEnter, setTimesTryingToEnter] = useState(0);
 
@@ -105,7 +107,7 @@ const Screen: FC = () => {
 
     // let grid = new Grid();
     barGrid._updateBoxDimensions({ newWidth: t_width, newHeight: t_height });
-console.log("height Before", heightContext, canvasHeight, pixelSize);
+    
     const { height, width } = loadBoxDimensions({
       rows: CANVAS_ROWS,
       cols: CANVAS_COLS,
@@ -113,7 +115,7 @@ console.log("height Before", heightContext, canvasHeight, pixelSize);
       t_height: canvasHeight * pixelSize,
       topMargin: 2,
     });
-    console.log("height after", height);
+    
     //actualizo el tema.
     setThemeState({ ...THEME, pixelSize, height, width  });
     // setBarGrid(grid);
@@ -164,7 +166,7 @@ console.log("height Before", heightContext, canvasHeight, pixelSize);
   // si crew = searching mission y tienen la mision asignada (pasa dentro del propio equipo)
   // los saco y los mando a una mision.
 //TODO: borrar consoles.
-  useInterval(() => {
+  useInterval(() => { 
     // console.clear();
     // let solucion: any[] = [];
 
@@ -184,6 +186,7 @@ console.log("height Before", heightContext, canvasHeight, pixelSize);
     if(initialLength !== crewsInside.length){
       // he quitado algun equipo de dentro.
       setCrewsInside([...crewsInside]);
+
       setCrewsAtMission(crewsAtMission.concat(solution));
       // console.log("Crew metido en la lista de misiones.", crewsInside.length, crewsAtMission.length);
     }else{
@@ -368,6 +371,9 @@ console.log("height Before", heightContext, canvasHeight, pixelSize);
 
         <MissionDisplayer
           crewsAtMission = {crewsAtMission}
+          setCrewsAtMission = {setCrewsAtMission}
+            setMissionsExecuting = {setMissionsExecuting}
+            missionsExecuting = {missionsExecuting}
         />
 
         <ToolTipGlobal hidden={toolTipContent === undefined}> {toolTipContent} </ToolTipGlobal>

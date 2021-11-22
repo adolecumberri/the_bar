@@ -362,7 +362,7 @@ const CREW_STATUS: {
   DEAD: "DEAD",
 }
 
-let MAX_CREWS_TO_CREATE = 20;
+let MAX_CREWS_TO_CREATE = 2;
 
 //TODO: sustituir esta constante por un objeto funcional.
 // const MISSIONS_INFO = {

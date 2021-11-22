@@ -39,11 +39,18 @@ body {
     align-items: center;
 }
 
+.wallPaper {
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+}
+
+#barWall {
+  background-image: url("sprites/barWall.png");
+}
 #barFloor {
     background-image: url("sprites/barFloor.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    image-rendering: pixelated;
+  
 }
 
 

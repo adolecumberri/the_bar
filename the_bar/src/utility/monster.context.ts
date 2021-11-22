@@ -18,6 +18,10 @@ let urlsToLoad = [
     name: "59",
     src: require("../monsters/img/59.png").default,
   },
+  {
+    name: "59sprite",
+    src: require("../monsters/sprites/59.png").default,
+  },
   
 ];
 
@@ -37,9 +41,9 @@ export let defaultMonsterContext: IImageContext = {
     name: "birdo",
     animationDir: "right",
     img: imgs[52],
-    sprite: imgs['52sprite'],
     xSize: 98,
     ySize: 98,
+    sprite: imgs['52sprite'],
     xSpriteSize: 20,
     ySpriteSize: 20,
     steps: 4,
@@ -60,8 +64,11 @@ export let defaultMonsterContext: IImageContext = {
     animationDir: "right",
     img: imgs[59],
     xSize: 98,
-    ySize: 98,
-    steps: 1,
+    ySize: 98, 
+    sprite: imgs['59sprite'],
+    xSpriteSize: 20,
+    ySpriteSize: 20,
+    steps: 4,
     sheetType: 'horizontal',
   }
 };

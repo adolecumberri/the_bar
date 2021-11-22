@@ -134,7 +134,7 @@ import {
         <div
           key="canvas-div"
           id="barWall"
-          className={container}
+          className={`${container} wallPaper`}
           style={{
             width: `${canvasWidth * pixelSize}px`,
             height: `${width * 2}px`,

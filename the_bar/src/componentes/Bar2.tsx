@@ -322,7 +322,7 @@ const BarFloor: FC<IBarProps> = ({
       <div
         key="canvas-div"
         id="barFloor"
-        className={container}
+        className={`${container} wallPaper`}
         style={{
           width: `${canvasWidth * pixelSize}px`,
           height: `${height * 6 }px`,

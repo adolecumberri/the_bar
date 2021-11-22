@@ -31,7 +31,7 @@ export class Grid {
 
     //Load cell-height and cell-width
     const { height, width } = this._loadBoxDimensions();
-    console.log({height})
+    
     let gridHash: IGridHash = {};
 
     //following Tables_locations scheme
