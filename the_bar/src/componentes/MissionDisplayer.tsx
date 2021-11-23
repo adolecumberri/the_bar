@@ -19,9 +19,9 @@ const useStyles = makeStyles((Theme: ITheme) => ({
 
 interface IMissionDisplayer {
   crewsAtMission: Crew[],
-  missionsExecuting: any[],
-  setMissionsExecuting: React.Dispatch<React.SetStateAction<any[]>>,
-  setCrewsAtMission:  React.Dispatch<React.SetStateAction<Crew[]>>,
+  missionsExecuting: any[], //!unused
+  setMissionsExecuting: React.Dispatch<React.SetStateAction<any[]>>, //!unused
+  setCrewsAtMission:  React.Dispatch<React.SetStateAction<Crew[]>>, //!unused
 
 }
 
@@ -34,6 +34,12 @@ const MissionDisplayer: FC<IMissionDisplayer> = ({
   const { pixelSize, canvasHeight, canvasWidth, height, width } = useContext(StyleContext);
   const barImgs = useContext(CrewContext);
   let { img, steps, xSize } = barImgs.crew;
+
+  //!unused
+  // useEffect( () => { 
+
+  // }, [crewsAtMission])
+
 
   let container = {
     height: canvasHeight * pixelSize, //- height * 3

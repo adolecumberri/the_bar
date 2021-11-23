@@ -166,7 +166,7 @@ const Screen: FC = () => {
   // si crew = searching mission y tienen la mision asignada (pasa dentro del propio equipo)
   // los saco y los mando a una mision.
 //TODO: borrar consoles.
-  useInterval(() => { 
+  useInterval( async() => { 
     // console.clear();
     // let solucion: any[] = [];
 
@@ -186,6 +186,13 @@ const Screen: FC = () => {
     if(initialLength !== crewsInside.length){
       // he quitado algun equipo de dentro.
       setCrewsInside([...crewsInside]);
+
+      //
+      solution.forEach( crew => {
+
+        let a = missionManager.executeMission(crew);
+        console.log(a);
+      })
 
       setCrewsAtMission(crewsAtMission.concat(solution));
       // console.log("Crew metido en la lista de misiones.", crewsInside.length, crewsAtMission.length);

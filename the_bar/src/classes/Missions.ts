@@ -3,6 +3,7 @@ import { MISSION_LOCATION } from "../constants/constants";
 import MONSTERS from "../constants/monsters";
 import { ICoord, IMission } from "../interfaces";
 import { rand, uniqueID } from "../utility/Utility";
+import { Crew } from "./Crew2";
 import { DelayManager } from "./DelayManager";
 import { Monster } from "./Monster";
 
@@ -175,6 +176,18 @@ class MissionManager {
         return selectedMission;
     }
 
+
+    executeMission = async ( crew : Crew) => {
+            if(crew.mission === null || crew.onMission === false) 
+            new Error(
+                `El equipo No tiene Misión asignada o no esta "onMission".esto no debería ser así.
+                ${!!crew.mission} - ${crew.onMission}`
+            );
+
+
+            
+
+    }
 
 }
 
